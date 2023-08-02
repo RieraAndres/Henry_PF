@@ -1,0 +1,14 @@
+.cardContainer {
+  background-color: #c8e6ca;
+  padding: 3%;
+  height: 100%;
+  align-items: center;
+}
+  
+  .cardImage {
+    margin-top: 5%;
+    width: 80%;
+    height: 80%;
+    border-radius: 5%;
+    border: 3px solid #ffffff;
+  }
