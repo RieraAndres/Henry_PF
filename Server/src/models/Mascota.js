@@ -39,4 +39,4 @@ module.exports = sequelize.define('Mascota', {
 	{
 		freezeTableName: true
 	}
-})
+});
