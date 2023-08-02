@@ -2,7 +2,7 @@ import Card from "../Card/Card"
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import styles from '../Cards/Cards.module.css'
-function cards(/*{mascotas}*/) { //traigo las mascotas por props desde Home
+function CardsComponent(/*{mascotas}*/) { //traigo las mascotas por props desde Home
   
   const mascotas = [
     {name:"Pepito",img:"https://humanidades.com/wp-content/uploads/2017/02/perro-1-e1561678907722.jpg"},
@@ -27,4 +27,4 @@ return (
        );
 }
 
-export default cards;
+export default CardsComponent;

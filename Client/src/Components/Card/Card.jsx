@@ -1,4 +1,3 @@
-import React from 'react';
 import Card from 'react-bootstrap/Card';
 import styles from '../Card/Card.module.css'; // Importa los estilos del archivo CSS externo
 
