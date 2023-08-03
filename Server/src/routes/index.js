@@ -9,7 +9,7 @@ const routerPets = require('./routesPets')
 // const {} = require('./routesDonations')
 // const {} = require('./routesAdoptions')
 
-routes.use('/mascotas', routerPets)  // Model : Mascota
+routes.use('/mascotas', routerPets)  // Model : mascota
 // routes.use('/usuario', /*rutaUser*/)      // Model : User
 // routes.use('/donacion', /*rutaDonacion*/) // Model : Donacion
 // routes.use('/Adopcion', /*rutaAdopcion*/) // Model : Adopcion

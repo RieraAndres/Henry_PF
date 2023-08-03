@@ -1,9 +1,9 @@
 const getAllPets = require('./getAllPets')
 
 const getIdPet = async(id) => {
-    const responseId = await getAllPets(id)
+    const dataId = await getAllPets(id)
     if(id){
-        const idPet = responseId.find((pet) => pet.id === id )
+        const idPet = dataId.find((pet) => pet.id === id )
         return idPet
     }
 }

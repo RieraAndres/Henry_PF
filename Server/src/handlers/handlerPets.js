@@ -17,7 +17,7 @@ const handlerPostPet = async(req, res) => {
     try {
         const createPet = postPet(name, gender, age, image, email, numberPhone);
         if( !name || !gender || !age || !image || !email || !numberPhone ){
-            return res.status(404).send('Ingrese todos los campos requeridos')
+            return res.status(404).send('Ingrese todos los campos')
         } else{
             return res.status(201).json(createPet)
         }
