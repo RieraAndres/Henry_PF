@@ -1,0 +1,73 @@
+/* Estilos para el formulario de inicio de sesión */
+.loginForm {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #C8E6CA;
+  }
+  
+  .loginForm h3 {
+    margin-top: 5%;
+    margin-bottom: 10%;
+  }
+  
+  .loginForm label {
+    margin-bottom: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alineamos los elementos a la izquierda */
+    margin-left: 10px;
+  }
+  
+  .loginForm input[type="text"],
+  .loginForm input[type="password"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos para los botones de inicio de sesión y crear cuenta */
+  .loginForm button {
+    padding: 15px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background-color: #FFCBCB;
+    margin-top: 20px;
+    align-items: center;
+    width: 40%;
+    font-size:15px;
+    margin-right: 5%;
+    margin-left: 5%;
+  }
+  
+  /* Estilos responsivos */
+    @media (max-width: 768px) {
+        /* Cuando el ancho de la pantalla es menor o igual a 768px */
+        .loginForm button {
+        width: 100%; /* Los botones ocuparán todo el ancho disponible */
+        margin-right: 0; /* Elimina el margen derecho */
+        margin-left: 0; /* Elimina el margen izquierdo */
+        }
+  }
+
+  /* Estilos para el área de inicio de sesión social */
+  .socialLogin {
+    margin-top: 20px;
+  }
+  
+  .socialLogin a {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  /* Ajusta el tamaño de las imágenes según sea necesario */
+  .socialLogin img {
+    width: 50px;
+    height: 50px;
+  }
