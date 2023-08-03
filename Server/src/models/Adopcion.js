@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize) => {
-	sequelize.define('Adoption', {
+	sequelize.define('Adopcion', {
 		id: {
 			type: DataTypes.UUID,
 			allowNull: false,
@@ -25,8 +25,5 @@ module.exports = (sequelize) => {
 			allowNull: false,
 			defaultValue: 'pendiente',
 		},
-		{
-			freezeTableName: true
-		}
 	});
 };
