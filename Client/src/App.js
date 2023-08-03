@@ -15,7 +15,7 @@ import axios from "axios";
 function App() {
   return (
     <div className="App">
-      <h1 className="Titulo">PATITAS SIN HOGAR</h1>
+      {/* <h1 className="Titulo">PATITAS SIN HOGAR</h1> */}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/inicio" element={<Inicio />} />
