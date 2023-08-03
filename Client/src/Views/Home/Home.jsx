@@ -1,7 +1,14 @@
+import NavBar from "../../Components/NavBar/NavBar";
+import CardsComponents from "../../Components/Cards/cards";
+import Footer from "../../Components/Footer/Footer";
+
+
 function Home () {
     return(
         <div>
-            <p>Estas en Home</p>
+            <NavBar/>
+            <CardsComponents/>
+            <Footer/>
         </div>
     )
 }

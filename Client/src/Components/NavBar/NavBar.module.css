@@ -2,8 +2,16 @@
     width: 20px;
 }
 
-
-
+.fijo {
+    width: 100%;
+    min-width: 100%; 
+    position: fixed;
+    background-color: #FFFDF6;
+    height: 10%;
+    margin-top: 3%;
+    z-index: 9999;
+    
+}
 
 
 

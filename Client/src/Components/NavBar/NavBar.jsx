@@ -5,14 +5,15 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
 import Logo from "../../Assets/Logo/logo_PF.png"
 import Menu from '../../Assets/Menu/menu_desplegable.png'
 import SearchBar from '../SearchBar/SearchBar'
+
+
 function NavBar() { 
   return (
         <Navbar variant="light" bg="#FFFDF6" >
-            <Container>
+            <Container className={styles.fijo}> 
                 <Row>
                     <Col><Navbar.Brand href="/inicio"><img src={Logo} alt="" style={{width :'50px'}}></img></Navbar.Brand></Col>
                 </Row>
