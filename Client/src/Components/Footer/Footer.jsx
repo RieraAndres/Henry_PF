@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <Navbar className={styles.footerContainer}>
       <Container className={styles.container} >
-        <Navbar.Brand href=" ">
+        <Navbar.Brand href="/inicio">
           <Image
             className={styles.imagen}
             src="https://media.discordapp.net/attachments/1133816321407205511/1135650208680788111/logo_PF_4_1.png?width=467&height=467"
@@ -19,10 +19,10 @@ const Footer = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
         <Nav className={`${styles.letras} flex-column`}>
-              <Nav.Link href=" ">INICIO</Nav.Link>
-              <Nav.Link href=" ">¿Como adopto?</Nav.Link>
-              <Nav.Link href=" ">Dona</Nav.Link>
-              <Nav.Link href=" ">Requisitos</Nav.Link>
+              <Nav.Link href="/inicio">INICIO</Nav.Link>
+              <Nav.Link href="/info">¿Como adopto?</Nav.Link>
+              <Nav.Link href="/donations">Dona</Nav.Link>
+              <Nav.Link href="/profile">Perfil</Nav.Link>
             </Nav>
         </Navbar.Collapse>
       </Container>
