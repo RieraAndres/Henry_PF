@@ -1,7 +1,10 @@
+import FormAdopt from "../../Components/FormAdopt/FormAdopt";
+
 function DarAdopt () {
     return(
         <div>
-            <p>Estas en DarAdopt</p>
+            {/* <p>Estas en DarAdopts</p> */}
+            <FormAdopt></FormAdopt>
         </div>
     )
 }

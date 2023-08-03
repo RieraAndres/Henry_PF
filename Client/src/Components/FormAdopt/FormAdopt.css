@@ -1,0 +1,206 @@
+.createGame {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: white;
+  color: #000000;
+}
+
+
+.createGameContainer {
+  width: 90%;
+  max-width: 400px;
+  background-color: plum;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5%;
+  padding: 20px;
+  margin: 20px; /* Agrega margen en todos los lados del contenedor */
+}
+
+.petCard {
+  width: 50%; /* Ajustar el ancho según lo que necesites */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Alinear el contenido al centro */
+  margin-top: 20px; /* Ajustar el margen según lo que necesites */
+}
+
+.petImage {
+  width: 100%; /* Ajustar el ancho de la imagen según lo que necesites */
+  height: 300px; /* Ajustar la altura de la imagen según lo que necesites */
+  background-color: #f0f0f0; /* Estilos para el div de la imagen de la mascota */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* Añadir bordes redondeados para que se vea como una carta */
+  border-radius: 10px;
+  overflow: hidden; /* Evitar que la imagen se desborde */
+}
+
+.petInfo {
+  padding: 20px; /* Ajustar el padding según lo que necesites */
+  text-align: center;
+}
+
+.petOptions {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin-top: 10px;
+}
+
+/* Estilos para cada opción */
+.petOption {
+  padding: 10px;
+  /* border: 2px solid #000000;
+  border-radius: 5px; */
+  margin: 0 5px; /* Añadir margen entre las opciones */
+}
+
+.selectOptions {
+  width: 30%;
+  min-width: 150px;
+  padding: 10px 16px;
+  background-color: #c8ffd456;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.optionsAllCGD {
+  color: rgb(89, 89, 89);
+  background-color: #5b8fb9;
+}
+
+@media screen and (max-width: 768px) {
+  #CreateGame {
+    flex-direction: column;
+  }
+  .createGameContainer,
+  .petCard {
+    width: 100%;
+  }
+}
+
+.titleCG {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+#CreateGame {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Alinear los elementos arriba */
+  width: 80%; /* Ajustar el ancho */
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 40%; /* Ajusta el ancho del label al 100% */
+  padding-right: 50px; /* Reduce el padding derecho para obtener más espacio */
+  /* margin-bottom: 5px; Añade un poco de espacio inferior al label */
+}
+
+.input {
+  height: 44px;
+  width: 100%; /* Cambia el ancho a 100% */
+  max-width: 400px; /* Agrega un ancho máximo para evitar que se estiren demasiado */
+  font-size: 20px;
+  font-weight: 400;
+  color: black;
+  background-color: #ffffff;
+  background-size: 14px;
+  border-radius: 15px;
+  border: none;
+  text-indent: 10px;
+}
+
+
+/* Cambiar el color del placeholder a negro */
+.input::placeholder {
+  color: #000000;
+  text-align: center; /* Centrar el texto del placeholder */
+}
+
+#dateCG { 
+  text-indent: 20%;
+  color: #808080; /* Color de texto en el campo date */
+}
+
+#dateCG::-webkit-datetime-edit-text {
+  color: #808080;
+}
+
+#dateCG::-webkit-datetime-edit-month-field {
+  color: #808080;
+}
+
+#descriptionCG {
+  height: 60px; /* Establecemos una altura inicial */
+  resize: none; /* Evitamos que el usuario redimensione manualmente */
+  overflow-y: hidden; /* Ocultamos el desbordamiento vertical */
+  font-size: 20px;
+  font-weight: 400;
+  color: black;
+  background-color: #ffffff; /* Cambia el color de fondo a blanco */
+  background-size: 14px;
+  border-radius: 15px;
+  border: none;
+  text-indent: 10px;
+}
+
+.sectionInputCG {
+  display: inline-block;
+  margin: 10px 0;
+}
+
+
+
+/* .createBtn {
+  font-family: "Tilt Neon", cursive;
+  font-size: 30px;
+  padding: 10px 0;
+  margin-top: 50px;
+  width: 200px;
+  appearance: none;
+  background: linear-gradient(
+    0deg,
+    rgba(34, 193, 195, 1) 0%,
+    rgba(253, 187, 45, 1) 100%
+  );
+  color: #ffffff;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 25px rgba(140, 255, 0, 0.5);
+  transition: all 1s;
+} */
+
+/* .createBtn:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(253, 29, 29, 1) 50%,
+    rgba(252, 176, 69, 1) 100%
+  );
+  color: #000000;
+  transform: scale(1.2);
+} */
+
+
