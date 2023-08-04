@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Para redireccionar a la ruta de inicio después del inicio de sesión
 import RegisterForm from "../RegisterForm/RegisterForm";
+import { Link } from "react-router-dom";
+
 import styles from "./LoginForm.module.css";
 
 
@@ -10,29 +12,26 @@ function LoginForm() {
   function validate(user) {
     let errors = {};
     if (!user.username) {
-      errors.username = "Enter your username";
+      errors.username = "Ingresa tu nombre de usuario";
     }
-    if (user.username.length < 3 || user.username.length > 20) {
-      errors.username = "Username must be 3 to 20 characters";
+    else if (user.username.length < 3 || user.username.length > 20) {
+      errors.username = "El nombre de usuario debe tener entre 3 y 20 caracteres";
     }
-    if (!/^[a-zA-Z0-9_]+$/.test(user.username)) {
-      errors.username = "Username can only contain letters, numbers, and underscores";
+    else if (!/^[a-zA-Z0-9]+$/.test(user.username)) {
+      errors.username = "El nombre de usuario solo puede contener letras y números";
     }
+
+
     if (!/\d/.test(user.password)) {
-      errors.password = "Password must contain a number";
+      errors.password = "Ingresa una contraseña válida";
     }
-    if (user.password.length < 6 || user.password.length > 15) {
-      errors.password = "Password must be 6 to 15 characters";
+    else if (user.password.length < 6 || user.password.length > 15) {
+      errors.password = "La contraseña debe tener entre 6 y 15 caracteres";
     }
-    if (!user.password) {
-      errors.password = "Enter a password";
+    else if (!user.password) {
+      errors.password = "Ingresa una contraseña válida";
     }
     return errors;
-  }
-
-  const [showRegisterForm, setShowRegisterForm] = useState(false);
-  function handleCreateAccountClick() {
-    setShowRegisterForm(true);
   }
 
   const [user, setUser] = useState({
@@ -78,10 +77,6 @@ function handleSubmit(e) {
 
   return (
     <div>
-      {showRegisterForm ? (
-        <RegisterForm />
-      ) : (
-        // Mostrar el formulario de inicio de sesión si showRegisterForm es falso
         <form className={styles.loginForm}>
         <h3>INICIAR SESIÓN</h3>
         <div className="mb-3">
@@ -116,9 +111,9 @@ function handleSubmit(e) {
           <button type="submit" onClick={handleSubmit} >
             Iniciar Sesión
           </button>
-          <button type="button" onClick={handleCreateAccountClick}>
-            Crear una cuenta
-          </button>
+          <Link to="/registro">
+              <button type="button">Crear una cuenta</button>
+          </Link>
         </div>
         <div className={styles.socialLogin}>
         <p>O inicia sesión con:</p>
@@ -128,7 +123,6 @@ function handleSubmit(e) {
         </div>
       </div>
       </form>
-      )}
     </div>
   );
 };

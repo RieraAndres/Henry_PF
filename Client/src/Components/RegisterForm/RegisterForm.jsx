@@ -11,41 +11,42 @@ function RegisterForm() {
 
     // Validaciones para el formulario de registro
     if (!user.nombre) {
-      errors.nombre = "Enter your first name";
+      errors.nombre = "Ingresa tu nombre";
     }
 
     if (!user.apellido) {
-      errors.apellido = "Enter your last name";
+      errors.apellido = "Ingresa tu apellido";
     }
 
     if (!user.email) {
-      errors.email = "Enter your email";
+      errors.email = "Ingresa tu correo electrónico";
     } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email)) {
-      errors.email = "Invalid email";
+      errors.email = "Correo electrónico inválido";
     }
 
     if (!user.fechaNacimiento) {
-      errors.fechaNacimiento = "Enter your date of birth";
+      errors.fechaNacimiento = "Ingresa tu fecha de nacimiento";
     }
 
     if (!user.username) {
-      errors.username = "Enter your username";
-    } else if (!/^[a-zA-Z0-9_]+$/.test(user.username)) {
-      errors.username = "Username can only contain letters, numbers, and underscores";
+      errors.username = "Ingresa tu nombre de usuario";
+    } else if (!/^[a-zA-Z0-9]+$/.test(user.username)) {
+      errors.username = "El nombre de usuario solo puede contener letras y números";
     }
 
+
     if (!user.password) {
-      errors.password = "Enter a password";
+      errors.password = "Ingresa una contraseña";
     } else if (!/\d/.test(user.password)) {
-      errors.password = "Password must contain a number";
+      errors.password = "La contraseña debe contener al menos un número";
     } else if (user.password.length < 6 || user.password.length > 15) {
-      errors.password = "Password must be 6 to 15 characters";
+      errors.password = "La contraseña debe tener entre 6 y 15 caracteres";
     }
 
     if (!user.confirmPassword) {
-      errors.confirmPassword = "Confirm your password";
+      errors.confirmPassword = "Confirma tu contraseña";
     } else if (user.password !== user.confirmPassword) {
-      errors.confirmPassword = "Passwords do not match";
+      errors.confirmPassword = "Las contraseñas no coinciden";
     }
 
     return errors;
