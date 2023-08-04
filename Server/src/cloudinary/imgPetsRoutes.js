@@ -2,13 +2,16 @@ const express = require('express');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 const { Mascota } = require('../models/Mascota.js');
+const {
+	CLOUD_NAME, API_KEY, API_SECRET,
+} = process.env;
 
 const router = express.Router();
 
 cloudinary.config({ 
-  cloud_name: 'dtovejlec', 
-  api_key: '582933171526299', 
-  api_secret: '0gBAnaDh7JYXe6STHuo8lsNgyYI' 
+  cloud_name: CLOUD_NAME, 
+  api_key: API_KEY, 
+  api_secret: API_SECRET
 });
 
 // Gestionar carga de archivos con multer
@@ -23,7 +26,7 @@ router.post('/api/pets/upload', upload.single('image'), async (req, res) => {  /
 
 		const result = await cloudinary.uploader.upload(req.file.path);
 
-		const pet = await Pet.create({ imageUrl: result.secure_url });
+		const pet = await Mascota.create({ imageUrl: result.secure_url });
 
 		return res.status(201).json(pet);
 	} catch(error) {
@@ -33,7 +36,7 @@ router.post('/api/pets/upload', upload.single('image'), async (req, res) => {  /
 
 router.get('/api/pets', async (req, res) => {  //Ruta que trae todas las imágenes de las mascotas
 	try {
-		const pets = await Pet.findAll();
+		const pets = await Mascota.findAll();
 		return res.json(pets);
 	} catch(error) {
 		return res.status(500).json({ error: 'Error al obtener todas las imágenes de mascotas' })
