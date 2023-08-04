@@ -2,13 +2,18 @@
     width: 20px;
 }
 
+.columna {
+    margin-right: 125px;
+}
+
 .fijo {
     width: 100%;
-    min-width: 92%; 
+    min-width: 100%; 
     position: fixed;
     background-color: #FFFDF6;
     height: 10%;
     margin-top: 3%;
+    margin-right: 125px;
     z-index: 9999;
     
 }

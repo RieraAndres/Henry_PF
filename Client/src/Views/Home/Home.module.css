@@ -1,0 +1,7 @@
+.fondo {
+    background-image: url("C:\Users\User\Desktop\CURSO HENRY\only patitas.png"),url("C:\Users\User\Desktop\CURSO HENRY\only patitas.png");
+    background-repeat: repeat-y, repeat-y;
+    background-position-x: left, right;
+    
+}
+

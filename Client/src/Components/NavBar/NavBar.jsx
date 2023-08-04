@@ -21,12 +21,12 @@ function NavBar() {
                     <Col><SearchBar/></Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col className={styles.columna}>
                         <Navbar.Toggle aria-controls="navbar-dark-example" />
                         <Navbar.Collapse id="navbar-dark-example">
-                        <Nav>
+                        <Nav className={styles.boton}>
                             <NavDropdown
-                            title={<img src={Menu} className={styles.menu}></img>}
+                            title={<img src={Menu} className={styles.menu} ></img>}
                             menuVariant="light"
                             >
                             <NavDropdown.Item href="/perfil">Perfil</NavDropdown.Item>
