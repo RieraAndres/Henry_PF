@@ -20,7 +20,7 @@ const Footer = () => {
         <Navbar.Collapse id="basic-navbar-nav">
         <Nav className={`${styles.letras} flex-column`}>
               <Nav.Link href="/inicio">INICIO</Nav.Link>
-              <Nav.Link href="/info">¿Como adopto?</Nav.Link>
+              <Nav.Link href="/info">¿Cómo adopto?</Nav.Link>
               <Nav.Link href="/donations">Dona</Nav.Link>
               <Nav.Link href="/profile">Perfil</Nav.Link>
             </Nav>
