@@ -13,10 +13,10 @@ const handlerAllPets = async(req, res) => {
 }
 
 const handlerPostPet = async(req, res) => {
-    const { name, gender, age, image, email, numberPhone } = req.body
+    const { name, gender, age, imageUrl, email, numberPhone } = req.body
     try {
-        const createPet = postPet(name, gender, age, image, email, numberPhone);
-        if( !name || !gender || !age || !image || !email || !numberPhone ){
+        const createPet = postPet(name, gender, age, imageUrl, email, numberPhone);
+        if( !name || !gender || !age || !imageUrl || !email || !numberPhone ){
             return res.status(404).send('Ingrese todos los campos')
         } else{
             return res.status(201).json(createPet)
