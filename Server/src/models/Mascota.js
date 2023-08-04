@@ -26,19 +26,20 @@ module.exports = (sequelize) => {
 			type: DataTypes.ENUM('hembra', 'macho'),
 			allowNull: false,
 		},
+		imageUrl: { // Nuevo atributo para la URL de la imagen
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 		description: {
 			type: DataTypes.TEXT,
 		},
 		healthCondition: {
 			type: DataTypes.TEXT,
 			allowNull: false,
-		},	
+		},
 		status: {
 			type: DataTypes.ENUM('disponible', 'solicitado', 'adoptado'),
 			allowNull: false,
 		},
-		{
-			freezeTableName: true
-		}
 	});
 }

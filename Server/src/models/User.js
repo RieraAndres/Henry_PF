@@ -1,13 +1,11 @@
-{ DataTypes } = require('sequelize');
-{ v4: uuidv4 } = require('uuid');
-const { hashPassword, comparePassword } = require('../passwordUtils/passwordUtils.js');
+const { DataTypes } = require('sequelize');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize) => {
-	const User = sequelize.define('User', {
+	sequelize.define('User', {
 		id: {
 			type: DataTypes.UUID,
 			primaryKey: true,
-			defaultValue: DataTypes.UUIDV4,
 		},
 		name: {
 			type: DataTypes.STRING,
@@ -33,8 +31,8 @@ module.exports = (sequelize) => {
 			allowNull: false,
 			unique: true,
 		},
-		password: { 
-			type: DataTypes.STRING,
+		password: {   // Usar funciones para hashear o encriptar, y también para verificar 
+			type: DataTypes.STRING,   // librería bcrypt
 			allowNull: false,
 		},
 		numberPhone: {
@@ -48,25 +46,5 @@ module.exports = (sequelize) => {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false,
 		},
-		{
-			freezeTableName: true
-		}});
-
-		// Esto hashea las contraseñas antes de que genere el registro o actualizar la contraseña
-		User.beforeCreate(async (user) => {
-			if(user.changed('password')) {
-				user.password = await hashPassword(user.password);
-			}
-		});
-
-		User.beforeUpdate(async (user) => {
-			if(user.changed('password')) {
-				user.password = await hashPassword(user.password);
-			}
-		});
-		// Verificación de contraseña
-		User.prototype.verifyPassword = async (password) => {
-			return await comparePassword(password, this.password);
-		};
-	return User;
-};
+	});
+}

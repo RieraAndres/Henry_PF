@@ -22,8 +22,5 @@ module.exports = (sequelize) => {
 		description: {
 			type: DataTypes.TEXT,
 		},
-		{
-			freezeTableName: true
-		}
 	});
-}	
+}
