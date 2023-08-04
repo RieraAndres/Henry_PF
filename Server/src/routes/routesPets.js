@@ -1,12 +1,11 @@
 const { Router } = require('express');
 const routerPets = Router();
 
-const { handlerAllPets, handlerPostPet, handlerNamePet, handlerIdPet} = require('../handlers/handlerPets')
+const { handlerAllPets, handlerPostPet, handlerIdPet} = require('../handlers/handlerPets')
 
-routerPets.get('/', handlerAllPets) //trae todos
-routerPets.get('name', handlerNamePet) //por name
-routerPets.get('/:id', handlerIdPet) //por id
-routerPets.post('/',handlerPostPet) //post de la mascota
+routerPets.get('/', handlerAllPets) //trae todos los pets y por nombre segun condicional //OK pero unicamente por modelo mascota
+routerPets.get('/:id', handlerIdPet) //trae todas las mascotas por id
+routerPets.post('/',handlerPostPet) //post de los pets //OK pero unicamente por modelo mascota
 
 
 module.exports = routerPets;
