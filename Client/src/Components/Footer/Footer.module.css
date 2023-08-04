@@ -1,6 +1,5 @@
 .footerContainer {
   background-color: #eeb3e7;
-  position: sticky;
   bottom: 0;
   width: 100%;
   padding: 20px 0;
@@ -8,6 +7,7 @@
   justify-content: center; 
   align-items: center; 
   flex-wrap: wrap !important;
+  margin-top: 5%;
 }
 .centrado{
   justify-content: center;
