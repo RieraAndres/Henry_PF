@@ -5,8 +5,7 @@ const morgan = require('morgan');
 const routes = require('./routes/index');
 const imgPetsRoutes = require('./cloudinary/imgPetsRoutes.js');
 
-// require('./db.js'); //conexion con la DB
-
+require('./db.js'); //conexion con la DB
 
 const server = express();
 
