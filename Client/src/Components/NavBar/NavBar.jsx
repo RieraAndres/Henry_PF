@@ -32,7 +32,7 @@ function NavBar() {
                             <NavDropdown.Item href="/perfil">Perfil</NavDropdown.Item>
                             <NavDropdown.Item href="/about">About</NavDropdown.Item>
                             <NavDropdown.Item href="/donations">Donaciones</NavDropdown.Item>
-                            <NavDropdown.Item href="/info">¿Como adoptar?</NavDropdown.Item>
+                            <NavDropdown.Item href="/info">¿Cómo adoptar?</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                         </Navbar.Collapse>
