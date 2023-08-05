@@ -1,6 +1,5 @@
 .fondo {
-    background-image: url("C:\Users\User\Desktop\Henry_PF\Client\src\Assets\Fondos\only patitas.png"),url("C:\Users\User\Desktop\Henry_PF\Client\src\Assets\Fondos\only patitas.png");
-    background-repeat: repeat-y, repeat-y;
+    background-image: url("../../Assets/Fondos/only\ patitas.png");
     background-position-x: left, right;
     
 }
