@@ -1,3 +1,4 @@
+/* Estilos generales */
 .createDog {
   display: flex;
   justify-content: center;
@@ -8,33 +9,133 @@
   color: #000000;
 }
 
-/* Estilo del botón Atrás */
-.goHome {
-  font-family: "Tilt Neon", cursive;
-  font-size: 24px;
-  padding: 10px 20px;
-  margin-right: 10px;
-  background-color: rgb(252, 208, 200);
-  color: #000000;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.createDogContainer {
-  width: 90%;
-  max-width: 400px;
-  background-color: #EEB3E7;
+.titleCG {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+/* Estilos para el formulario */
+.createDogContainer {
+  position: relative; /* Agregamos position: relative para que el error sea relativo a este contenedor */
+  width: 100%;
+  background-color: #eeb3e7;
+  display: flex; /* Utilizamos Flexbox para mostrar los campos y errores en una línea */
+  flex-wrap: wrap; /* Hacemos que los elementos se ajusten a la línea si no hay suficiente espacio */
+  justify-content: center; /* Centramos horizontalmente los elementos */
+  align-items: center; /* Centramos verticalmente los elementos */
   border-radius: 5%;
-  padding: 20px;
+  padding: 30px;
   margin: 20px;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sectionInputCG {
+  display: inline-block;
+  margin: 10px 0;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  padding-right: 50px;
+  text-indent: 25px;
+}
+
+.input {
+  height: 45px;
+  width: 21em;
+  max-width: 400px;
+  font-size: 15px;
+  font-weight: 400;
+  color: black;
+  background-color: #ffffff;
+  border-radius: 15px;
+  border: none;
+  text-indent: 6px;
+  
+}
+.formGroup{
+  height: 45px;
+  width: 7em;
+  /* max-width: 400px; */
+  font-size: 15px;
+  /* font-weight: 400; */
+  color: black;
+  background-color: #ffffff;
+  border-radius: 15px;
+  border: none;
+  text-indent: 6px;
+  margin: 2px;
+}
+/* Estilos para los inputs cuando están enfocados */
+.input:focus::placeholder {
+  color: #000000;
+  text-align: center;
+  font-size: 16px;
+  color: transparent;
+}
+
+
+textarea {
+  height: 80px;
+  width: 20em;
+  max-width: 400px;
+  font-size: 15px;
+  font-weight: 400;
+  color: black;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: none;
+  text-indent: 6px;
+}
+
+textarea:focus::placeholder {
+  color: #000000;
+  text-align: center;
+  font-size: 16px;
+  color: transparent;
+}
+
+.customDateInput {
+  text-align: center;
+}
+
+/* Estilos para los botones */
+.createBtn {
+  font-family: "Tilt Neon", cursive;
+  font-size: 20px;
+  padding: 12px 24px;
+  width: 100%;
+  max-width: 400px;
+  background-color: #ff69b4;
+  color: #ffffff;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 2px 25px rgba(140, 255, 0, 0.5);
+  transition: all 0.3s;
+  margin-top: 20px;
+}
+
+.createBtn.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.createBtn:hover {
+  background-color: #ff1493;
+  transform: scale(1.1);
+}
+
+/* Estilos para la tarjeta de mascota */
 .petCard {
   width: 50%;
   display: flex;
@@ -86,65 +187,7 @@
   background-color: #5b8fb9;
 }
 
-@media screen and (max-width: 768px) {
-  #createDog {
-    flex-direction: column;
-  }
-  .createDogContainer,
-  .petCard {
-    width: 100%;
-  }
-}
-
-.titleCG {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 20px;
-}
-
-#createDog {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 80%;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.label {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 40%;
-  padding-right: 50px;
-}
-
-.input {
-  height: 44px;
-  width: 100%;
-  max-width: 400px;
-  font-size: 20px;
-  font-weight: 400;
-  color: black;
-  background-color: #ffffff;
-  background-size: 14px;
-  border-radius: 15px;
-  border: none;
-  text-indent: 10px;
-}
-
-/* Cambiar el color del placeholder a negro */
-.input::placeholder {
-  color: #000000;
-  text-align: center;
-}
-
+/* Estilos específicos para los campos de fecha */
 #dateCG,
 #releaseDateCG {
   text-align: center;
@@ -157,100 +200,76 @@
   color: #808080;
 }
 
-#descriptionCG {
-  height: 60px;
-  resize: none;
-  overflow-y: hidden;
-  font-size: 20px;
-  font-weight: 400;
-  color: black;
-  background-color: #ffffff;
-  border-radius: 15px;
-  border: none;
-  text-indent: 10px;
-}
-
-.sectionInputCG {
-  display: inline-block;
-  margin: 10px 0;
-}
-
-.createBtn {
-  font-family: "Tilt Neon", cursive;
-  font-size: 20px;
-  padding: 12px 24px;
-  width: 100%;
-  max-width: 400px;
-  background-color: #ff69b4;
-  color: #ffffff;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  box-shadow: 0 2px 25px rgba(140, 255, 0, 0.5);
-  transition: all 0.3s;
-  margin-top: 20px;
-}
-
-/* Estilo del botón cuando está deshabilitado */
-.createBtn.disabled {
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-.createBtn:hover {
-  background-color: #ff1493;
-  transform: scale(1.1);
-}
-
-/* Estilo del botón cuando se activa el efecto hover */
-.createBtn.hover {
-  background: linear-gradient(
-    90deg,
-    rgba(131, 58, 180, 1) 0%,
-    rgba(253, 29, 29, 1) 50%,
-    rgba(252, 176, 69, 1) 100%
-  );
+/* Estilos específicos para los errores */
+.errorTextEmail {
+  position: absolute;
   color: #000000;
-  transform: scale(1.2);
+  background-color: #eeb3e7;
+  /* font-size: 14px; */
+  padding: 8px;
+  border-radius: 5px;
+  white-space: nowrap;
+  top: 50%; /* Colocamos el mensaje de error en la mitad vertical del campo de email */
+  right: 100%; /* Lo colocamos a la derecha del campo de email */
+  transform: translateY(-238%); /* Lo desplazamos hacia arriba la mitad de su altura */
+  margin-right: 10px; /* Añadimos un espacio entre el campo de email y el mensaje de error */
 }
 
-/* Nuevos estilos para colocar los divs uno al lado del otro */
-.container {
+
+/* Estilos para los errores */
+.emailError {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  align-items: center;
+  position: relative;
 }
 
-@media screen and (max-width: 768px) {
-  .createDogContainer {
-    width: 90%; /* Cambiamos el ancho del contenedor principal */
-    margin: 0; /* Eliminamos el margen para aprovechar todo el ancho disponible */
+.sectionInputCG label[for="email"] {
+  display: flex;
+  align-items: center;
+}
+/* Estilos para el mensaje de error del campo de email */
+.emailError {
+  flex: 1;
+  margin-left: 10px;
+  position: relative; /* Aseguramos que el mensaje de error del campo de email esté en el flujo normal del documento */
+}
+
+/* .sectionInputCG input[name="email"] {
+  margin-right: 10px;
+} */
+
+/* Estilos para hacer responsive el mensaje de error */
+@media screen and (max-width: 600px) {
+  .emailError {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .petCard {
-    width: 90%; /* El div de la mascota también ocupará todo el ancho */
-    margin-top: 20px;
-  }
-
-  .container {
-    flex-direction: column; /* Cambiamos la dirección del flexbox para que sean uno debajo del otro */
-  }
-
-  .titleCG {
-    margin-bottom: 10px; /* Reducimos el margen inferior del título */
-  }
-
-  .form {
-    order: 2; /* Cambiamos el orden del formulario para que aparezca después en el orden visual */
-  }
-
-  .petCard {
-    order: 1; /* Cambiamos el orden de la tarjeta para que aparezca primero en el orden visual */
-  }
-
-  .label {
-    width: 100%; /* Los labels ocuparán todo el ancho disponible */
-    padding-right: 0; /* Eliminamos el padding derecho */
-    margin-bottom: 5px; /* Agregamos un margen inferior para separar los campos */
+  .errorTextEmail {
+    position: static;
+    margin-top: 5px;
+    margin-left: 0;
   }
 }
+ 
+  .errorTextEmail:before, .errorTextEmail:after {
+  border-bottom: 20px solid transparent;
+  border-top: 20px solid transparent;
+  top:-1px;
+  content: " ";
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;   
+  }
+  .errorTextEmail:after {
+  border-left: 16px solid red;
+  right: -15px;
+  z-index: 2;
+  }
+  
+ .errorTextEmail:before {
+  border-left: 16px solid red;
+  right: -16px;
+  z-index: 1;
+  }

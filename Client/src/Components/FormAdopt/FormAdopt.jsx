@@ -1,77 +1,172 @@
-import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../FormAdopt/FormAdopt.module.css";
 
-
-
 const FormAdopt = () => {
-  const petImage =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ9fXdpJB0hPO4koiUiXLJHsRKnAhyH7jrBQ&usqp=CAU";
-  const petName = "Nombre de la mascota";
-
-  // Estado para manejar el formulario y las validaciones
   const [formData, setFormData] = useState({
     name: "",
     telefono: "",
     email: "",
-    releaseDate: "",
-    description: ""
+    fechaNacimiento: "",
+    descripcion: "",
   });
 
-  // Estado para manejar el formulario enviado y las validaciones
+  const [errors, setErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  // Validar el formulario
-  const validateForm = () => {
-    const { name, telefono, email, releaseDate, description } = formData;
-    const nameRegex = /^[a-zA-Z\s]+$/;
-    const telefonoRegex = /^[0-9]+$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const nameRegex = /^[a-zA-Z\s]+$/;
+  const telefonoRegex = /^[0-9]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    return (
-      nameRegex.test(name) &&
-      telefonoRegex.test(telefono) &&
-      emailRegex.test(email) &&
-      releaseDate !== "" &&
-      description.length >= 10
-    );
+  useEffect(() => {
+    setIsFormValid(Object.keys(errors).length === 0);
+  }, [errors]);
+
+  const [day, setDay] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+
+  useEffect(() => {
+    // Actualizar el valor de fechaNacimiento en el estado del formulario
+    if (day && month && year) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        fechaNacimiento: `${year}-${month.toString().padStart(2, "0")}-${day
+          .toString()
+          .padStart(2, "0")}`,
+      }));
+    }
+  }, [day, month, year]);
+
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+  const months = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+  const years = Array.from(
+    { length: new Date().getFullYear() - 1904 },
+    (_, i) => i + 1905
+  );
+  // Función para calcular la edad
+  const calcularEdad = (fechaNacimiento) => {
+    const fechaNacimientoDate = new Date(fechaNacimiento);
+    const today = new Date();
+    let age = today.getFullYear() - fechaNacimientoDate.getFullYear();
+    const monthDiff = today.getMonth() - fechaNacimientoDate.getMonth();
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < fechaNacimientoDate.getDate())
+    ) {
+      age--;
+    }
+    return age;
   };
 
-  // Manejar cambios en los campos del formulario
+  // Función para validar la fecha de nacimiento
+  const validarFechaNacimiento = (fechaNacimiento) => {
+    if (!fechaNacimiento) {
+      return "Por favor, ingrese una fecha de nacimiento";
+    }
+
+    const fechaRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!fechaRegex.test(fechaNacimiento)) {
+      return "El formato de fecha no es válido";
+    }
+
+    const age = calcularEdad(fechaNacimiento);
+    if (age < 21) {
+      return "Debe tener al menos 21 años para adoptar";
+    }
+
+    // if (age >= 100) {
+    //   return "La edad máxima permitida es de 99 años";
+    // }
+
+    return "";
+  };
+
+  const validateForm = () => {
+    const { name, telefono, email, descripcion, fechaNacimiento } = formData;
+
+    const newErrors = {};
+
+    if (!name) {
+      newErrors.name = "El nombre es obligatorio";
+    } else if (!nameRegex.test(name)) {
+      newErrors.name = "El nombre no es válido";
+    }
+
+    if (!telefono) {
+      newErrors.telefono = "Por favor, ingrese número de teléfono";
+    } else if (!telefonoRegex.test(telefono)) {
+      newErrors.telefono = "El teléfono debe ser un número";
+    }
+
+    if (!email) {
+      newErrors.email = "Por favor, ingrese un email válido";
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = "Ingrese un email válido";
+    }
+
+    // Validar fecha de nacimiento
+    const fechaNacimientoError = validarFechaNacimiento(fechaNacimiento);
+    if (fechaNacimientoError) {
+      newErrors.fechaNacimiento = fechaNacimientoError;
+    }
+
+    if (!descripcion || descripcion.length < 10) {
+      newErrors.descripcion =
+        "Por favor, ingrese una descripción con al menos 10 caracteres";
+    }
+
+    setErrors(newErrors);
+    setIsFormValid(Object.keys(newErrors).length === 0);
+
+    // Devolvemos la validez del formulario actual
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    setFormSubmitted(false); // Añade esta línea para habilitar el botón nuevamente al cambiar un campo
+
+    // Validar campo de fecha al cambiar su valor
+    if (name === "fechaNacimiento") {
+      const errorMessage = validarFechaNacimiento(value);
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
+    }
   };
 
-  // Manejar el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí puedes agregar lógica para enviar los datos del formulario
-    // Por ejemplo, hacer una llamada a una API para procesar la adopción.
-    setFormSubmitted(true); // Marcar el formulario como enviado
-  };
 
-  const isFormValid = validateForm();
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      setFormSubmitted(true);
+    }
+  };
 
   return (
     <div className={styles.createDog}>
-      <div className={styles.titleCG}>
-        <Link to={"/home"}>
-          <button id="btnHomeCG" className={styles.goHome}>
-            {" "}
-            Atrás{" "}
-          </button>
-        </Link>
-        <h1 className={styles.tituloCG}> Formulario Adopción </h1>
-      </div>
       <div className={styles.container}>
         <div className={styles.createDogContainer}>
-          {/* Form Create */}
           <form className={styles.form} onSubmit={handleSubmit}>
             {/* Name */}
             <div className={styles.sectionInputCG}>
               <label className={styles.label} htmlFor="name">
-                {/* Nombre Completo */}
+                {/* Nombre Completo: */}
               </label>
               <input
                 type="text"
@@ -83,104 +178,163 @@ const FormAdopt = () => {
                 value={formData.name}
                 onChange={handleChange}
               />
-              {/* <div>
-                <p>{error.name}</p>
-                </div> */}
+              {errors.name && (
+                <p className={styles.errorText}>{errors.name}</p>
+              )}
             </div>
-  
+
             {/* Telefono */}
             <div className={styles.sectionInputCG}>
               <label className={styles.label} htmlFor="telefono">
-                {/* Teléfono */}
+                {/* Teléfono: */}
               </label>
               <input
                 type="text"
                 className={styles.input}
                 name="telefono"
+                required
                 autoComplete="off"
                 placeholder="Teléfono"
                 value={formData.telefono}
                 onChange={handleChange}
               />
+              {errors.telefono && (
+                <p className={styles.errorText}>{errors.telefono}</p>
+              )}
             </div>
-  
+
             {/* Email */}
             <div className={styles.sectionInputCG}>
               <label className={styles.label} htmlFor="email">
-                {/* Email */}
+                {/* Email: */}
               </label>
               <input
-                type="text"
+                type="email"
                 className={styles.input}
                 name="email"
                 required
                 autoComplete="off"
-                placeholder="Email"
+                placeholder="Ingrese un email válido"
                 value={formData.email}
                 onChange={handleChange}
               />
+              <div>
+                {errors.email && (
+                  <span className={styles.errorText}>{errors.email}</span>
+                  // <span className={styles.errorTextEmail}>{errors.email}</span>
+                )}
+              </div>
             </div>
-  
-            {/* ReleaseDate */}
+
+            {/* Fecha de Nacimiento */}
             <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="releaseDate">
-                {/* Fecha de Adopción */}
+              <label className={styles.label} htmlFor="fechaNacimiento">
+                Fecha de Nacimiento:
               </label>
-              <input
-                type="date"
-                name="releaseDate"
-                id="dateCG"
-                className={styles.input}
-                required
-                autoComplete="off"
-                value={formData.releaseDate}
-                onChange={handleChange}
-              />
+              <div className={styles.customDateInput}>
+                {/* <input
+        type="date"
+        name="fechaNacimiento"
+        id="fecha"
+        min="1905-01-01" max="2023-08-05"
+        className={`${styles.input} ${styles.centerDate}`}
+        required
+        autoComplete="off"
+        value={formData.fechaNacimiento}
+        onChange={handleChange}
+        onBlur={(e) => {
+          const { name, value } = e.target;
+          const errorMessage = validarFechaNacimiento(value);
+          setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
+        }}
+      /> */}
+                <div>
+                  <label></label>
+                  <select
+                    className={styles.formGroup}
+                    value={day}
+                    onChange={(e) => setDay(e.target.value)}
+                  >
+                    {days.map((d) => (
+                      <option key={d} value={d}>
+                        {d}
+                      </option>
+                    ))}
+                  </select>
+
+                  <label></label>
+                  <select
+                    className={styles.formGroup}
+                    value={month}
+                    onChange={(e) => setMonth(e.target.value)}
+                  >
+                    {months.map((m, i) => (
+                      <option key={m} value={i + 1}>
+                        {m}
+                      </option>
+                    ))}
+                  </select>
+
+                  <label></label>
+                  <select
+                    className={styles.formGroup}
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
+                  >
+                    {years.map((y) => (
+                      <option key={y} value={y}>
+                        {y}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {errors.fechaNacimiento && (
+                  <p className={styles.errorText}>{errors.fechaNacimiento}</p>
+                )}
+              </div>
             </div>
-  
-            {/* Description */}
+
+            {/* Descripcion */}
             <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="description">
-                {/* Razones para adoptar */}
+              <label className={styles.label} htmlFor="descripcion">
+                Razones para adoptar:
               </label>
               <textarea
-                name="description"
-                id="descriptionCG"
+                name="descripcion"
+                id="descripcionCG"
+                rows="4"
+                style={{ resize: "none" }} // Bloquear el estiramiento del textarea
                 minLength="10"
                 maxLength="300"
-                className={styles.input}
+                //className={styles.input}
                 required
                 autoComplete="off"
                 placeholder="¿Por qué quieres adoptar?"
-                value={formData.description}
+                value={formData.descripcion}
                 onChange={handleChange}
               ></textarea>
+              {errors.descripcion && (
+                <p className={styles.errorText}>{errors.descripcion}</p>
+              )}
             </div>
-  
-            {/* Botón de envío */}
+
+            {/* Botón submit */}
             <button
               type="submit"
-              className={`${styles.createBtn} ${isFormValid ? "" : styles.disabled}`}
-              disabled={!isFormValid}
+              className={`${styles.createBtn} ${
+                formSubmitted && !isFormValid ? styles.disabled : ""
+              }`}
+              disabled={formSubmitted && !isFormValid}
             >
               Enviar formulario
             </button>
+
+            {/* Mostrar un mensaje de éxito después de enviar el formulario */}
+            {formSubmitted && <p>Formulario enviado con éxito.</p>}
           </form>
-          {/* Mostrar un mensaje de éxito después de enviar el formulario */}
-          {formSubmitted && <p>Formulario enviado con éxito.</p>}
-        </div>
-        {/* Div para la carta de la mascota */}
-        <div className={styles.petCard}>
-          <div className={styles.petInfo}>
-            <h2>{petName}</h2>
-            <div className={styles.petImage} style={{ backgroundImage: `url(${petImage})` }}></div>
-            <div className={styles.petOptions}>
-              <div className={styles.petOption}>Adulto</div>
-              <div className={styles.petOption}>Macho</div>
-            </div>
-          </div>
         </div>
       </div>
+      <div class="arrowRight"></div>
     </div>
   );
 };
