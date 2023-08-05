@@ -85,7 +85,8 @@
 /* Estilos para la alerta de datos incorrectos */
 .alert {
   font-size: 20px;
-  background-color: rgb(251, 166, 166);
   border: none;
-  width: 20%;
+  padding: 10px 20px;
+  border-radius: 100px;
+  color: #fff;
 }

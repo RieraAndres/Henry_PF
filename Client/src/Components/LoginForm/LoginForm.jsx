@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Para redireccionar a la ruta de inicio después del inicio de sesión
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import styles from "./LoginForm.module.css";
@@ -64,21 +64,30 @@ function LoginForm() {
   //   navigate("/inicio"); // redireccionamos a la ruta de inicio después del inicio de sesión.
   // };
 
-  
-function handleSubmit(e) {
-  e.preventDefault();
-  const formErrors = validate(user);
-  setErrors(formErrors);
-  if (Object.keys(formErrors).length === 0) {
-    navigate("/inicio"); // redireccionamos a la ruta de inicio después del inicio de sesión.
-  } else {
-    setShowAlert(true); // Mostramos la alerta si hay errores en el formulario
+  function handleSubmit(e) {
+    e.preventDefault();
+    const formErrors = validate(user);
+    setErrors(formErrors);
+    if (Object.keys(formErrors).length === 0) {
+      navigate("/inicio");
+    } else {
+      setShowAlert(true);
+    }
   }
-}
+
+  useEffect(() => {
+    let timer;
+    if (showAlert) {
+      timer = setTimeout(() => {
+        setShowAlert(false);
+      }, 3000); // Ocultar la alerta después de 3 segundos (3000 milisegundos)
+    }
+    return () => clearTimeout(timer);
+  }, [showAlert]);
 
   return (
     <div>
-      {showAlert && ( // Renderizamos la alerta si showAlert es true
+       {showAlert && (
         <div className={` ${styles.alert} alert alert-warning`} role="alert">
           Datos incorrectos
         </div>
