@@ -1,9 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { clearAux, getPetDetail } from "../../Redux/Actions";
+
+
 import NavBar from '../../Components/NavBar/NavBar'
 import Footer from '../../Components/Footer/Footer'
-
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -14,18 +17,16 @@ import Button from 'react-bootstrap/Button';
 function Detail() {
     const { id } = useParams();
     const dispatch = useDispatch();
-    // const mascota = useSelector((state) => state.auxState);
+    const mascota = useSelector((state) => state.auxState);
     
+    useEffect(() => {
+        dispatch(getPetDetail(id));//al montar traigo la info de la receta en auxState
+        return () => {
+          dispatch(clearAux());//al desmontar limpio el estado
+        };
+      }, [dispatch, id]);
 
-    const mascota = { //sacar al conectar la BD
-        name: "Pepito",
-        age: "Adulto",
-        size: "Grande",
-        gender: 'Macho',
-        location: 'San Isidro, Buenos Aires',
-        description: "Pepito es un perro muy tranquilo, amigable con los niños y muy guardian. Tiene alreder de 5 años, tiene todas tus vacunas",
-        imgUrl: 'https://static2.aastatic.com.ar/files/variants/1200/dd52b98f032049cf9f5680fda17ba80d.jpg'
-    }
+ console.log(mascota);
 
     return (
         <div>
