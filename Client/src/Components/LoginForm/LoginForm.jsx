@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Para redireccionar a la ruta de inicio después del inicio de sesión
-import RegisterForm from "../RegisterForm/RegisterForm";
 import { Link } from "react-router-dom";
 
 import styles from "./LoginForm.module.css";
@@ -11,38 +10,40 @@ function LoginForm() {
 
   function validate(user) {
     let errors = {};
-    if (!user.username) {
-      errors.username = "Ingresa tu nombre de usuario";
+    if (!user.userName) {
+      errors.userName = "Ingresa tu nombre de usuario";
     }
-    else if (user.username.length < 3 || user.username.length > 20) {
-      errors.username = "El nombre de usuario debe tener entre 3 y 20 caracteres";
+    if (user.userName.length < 3 || user.userName.length > 20) {
+      errors.userName = "El nombre de usuario debe tener entre 3 y 20 caracteres";
     }
-    else if (!/^[a-zA-Z0-9]+$/.test(user.username)) {
-      errors.username = "El nombre de usuario solo puede contener letras y números";
+    if (!/^[a-zA-Z0-9]+$/.test(user.userName)) {
+      errors.userName = "El nombre de usuario solo puede contener letras y números";
     }
 
 
     if (!/\d/.test(user.password)) {
       errors.password = "Ingresa una contraseña válida";
     }
-    else if (user.password.length < 6 || user.password.length > 15) {
+    if (user.password.length < 6 || user.password.length > 15) {
       errors.password = "La contraseña debe tener entre 6 y 15 caracteres";
     }
-    else if (!user.password) {
+    if (!user.password) {
       errors.password = "Ingresa una contraseña válida";
     }
     return errors;
   }
 
   const [user, setUser] = useState({
-    username: "",
+    userName: "",
     password: "",
   });
 
   const [errors, setErrors] = useState({
-    username: " ",
+    userName: " ",
     password: " ",
   });
+
+  const [showAlert, setShowAlert] = useState(false); // Estado para mostrar la alerta
 
   function handleChange(e) {
     e.preventDefault();
@@ -71,27 +72,32 @@ function handleSubmit(e) {
   if (Object.keys(formErrors).length === 0) {
     navigate("/inicio"); // redireccionamos a la ruta de inicio después del inicio de sesión.
   } else {
-    alert("Datos incorrectos");
+    setShowAlert(true); // Mostramos la alerta si hay errores en el formulario
   }
 }
 
   return (
     <div>
+      {showAlert && ( // Renderizamos la alerta si showAlert es true
+        <div className={` ${styles.alert} alert alert-warning`} role="alert">
+          Datos incorrectos
+        </div>
+      )}
         <form className={styles.loginForm}>
         <h3>INICIAR SESIÓN</h3>
         <div className="mb-3">
-          <label htmlFor="username" className="form-label">
+          <label htmlFor="userName" className="form-label">
             Nombre de usuario
           </label>
           <input
             type="text"
-            className={`form-control ${errors.username ? styles.errorInput : ""}`}
-            id="username"
-            name="username"
-            value={user.username}
+            className={`form-control ${errors.userName ? styles.errorInput : ""}`}
+            id="userName"
+            name="userName"
+            value={user.userName}
             onChange={handleChange}
           />
-          {errors.username && <p className={styles.errorMsg}>{errors.username}</p>}
+          {errors.userName && <p className={styles.errorMsg}>{errors.userName}</p>}
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
@@ -108,7 +114,7 @@ function handleSubmit(e) {
           {errors.password && <p className={styles.errorMsg}>{errors.password}</p>}
         </div>
         <div>
-          <button type="submit" onClick={handleSubmit} >
+          <button type="submit" onClick={handleSubmit}  >
             Iniciar Sesión
           </button>
           <Link to="/registro">
@@ -116,13 +122,13 @@ function handleSubmit(e) {
           </Link>
         </div>
         <div className={styles.socialLogin}>
-        <p>O inicia sesión con:</p>
+        <p>O inicia sesión con</p>
         <div>
             <a href=""> <img src="https://img.freepik.com/iconos-gratis/google_318-258888.jpg" alt="googleLogo" /> </a>
             <a href=""> <img src= "https://img.freepik.com/iconos-gratis/facebook_318-157463.jpg" alt="facebookLogo" /> </a>
         </div>
       </div>
-      </form>
+      </form> 
     </div>
   );
 };

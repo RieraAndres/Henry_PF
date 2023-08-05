@@ -1,0 +1,27 @@
+/* Estilos para pantallas más grandes */
+.loginContainer {
+  background: url("../../Assets/Backgrounds/BackgroundLogin.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2%;
+}
+
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  /* Cuando el ancho de la pantalla es menor o igual a 768px */
+  .loginContainer {
+    background: url("../../Assets/Backgrounds/BackgroundLoginResp.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+  }
+}
