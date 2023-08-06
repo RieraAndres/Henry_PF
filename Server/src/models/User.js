@@ -6,9 +6,15 @@ module.exports = (sequelize) => {
 	const User = sequelize.define('User', {
 		id: {
 			type: DataTypes.UUID,
+			defaultValue: DataTypes.UUIDV4,
+			unique: true,
 			primaryKey: true,
 		},
 		name: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		lastName: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
@@ -41,12 +47,13 @@ module.exports = (sequelize) => {
 		},
 		typeUser: {
 			type: DataTypes.ENUM('Adopter', 'Admin'),
-			allowNull: false,
+			defaultValue: 'Adopter',
+			allowNull: true,
 		},
-		donante: {
+		/*donante: {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false,
-		},
+		},*/
 	});
 
 	User.beforeCreate(async function(user) {  // Antes de guardar un nuevo registro o actualizar la contraseña, hasheamos la contraseña
