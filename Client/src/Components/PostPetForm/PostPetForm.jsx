@@ -12,9 +12,9 @@ const PostPetForm = () => {
     imageUrl: "",
   });
 
-  const [especieOptions] = useState(["Perro", "Gato"]);
-  const [generoOptions] = useState(["Macho", "Hembra"]);
-  const [tamañoOptions] = useState(["Pequeño", "Mediano", "Grande"]);
+  const [especieOptions] = useState(["Dog", "Cat"]);
+  const [generoOptions] = useState(["macho", "hembra"]);
+  const [tamañoOptions] = useState(["Grande", "Mediano", "Chico"]);
 
   const [especieSelect, setEspecieSelect] = useState([]);
   const [generoSelect, setGeneroSelect] = useState([]);
@@ -90,7 +90,7 @@ const PostPetForm = () => {
 
     return Object.keys(newErrors).length === 0;
   };
-
+  
   const validateField = (fieldName, value) => {
     switch (fieldName) {
       case "name":
@@ -238,7 +238,7 @@ const PostPetForm = () => {
               {errors.name && <p className={styles.errorText}>{errors.name}</p>}
             </div>
 
-            <div className="platformList">
+            <div>
               <label className="label">Especies *</label>
               <select
                 className="selectOptions"
@@ -303,7 +303,7 @@ const PostPetForm = () => {
               )}
             </div>
 
-            <div className="platformList">
+            <div>
               <div className="sectionInputCG">
                 <label className="label">Tamaño *</label>
                 <select
