@@ -9,39 +9,43 @@ import Logo from "../../Assets/Logo/logo_PF.png"
 import Menu from '../../Assets/Menu/menu_desplegable.png'
 import SearchBar from '../SearchBar/SearchBar'
 
+import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function NavBar() { 
-  return (
+    const location = useLocation()
+    return (
         <Navbar variant="light" bg="#FFFDF6" >
-            <Container className={styles.fijo}> 
+            <Container>
                 <Row>
                     <Col><Navbar.Brand href="/inicio"><img src={Logo} alt="" style={{width :'50px'}}></img></Navbar.Brand></Col>
                 </Row>
                 <Row>
-                    <Col><SearchBar/></Col>
+                    <Col>
+                        {location.pathname === "/home" ? <SearchBar/> : <Link to="/home"><button>Atras</button></Link>}
+                    </Col>
                 </Row>
                 <Row>
-                    <Col className={styles.columna}>
+                    <Col>
                         <Navbar.Toggle aria-controls="navbar-dark-example" />
                         <Navbar.Collapse id="navbar-dark-example">
-                        <Nav className={styles.boton}>
-                            <NavDropdown
-                            title={<img src={Menu} className={styles.menu} ></img>}
-                            menuVariant="light"
-                            >
-                            <NavDropdown.Item href="/perfil">Perfil</NavDropdown.Item>
-                            <NavDropdown.Item href="/about">About</NavDropdown.Item>
-                            <NavDropdown.Item href="/donations">Donaciones</NavDropdown.Item>
-                            <NavDropdown.Item href="/info">¿Cómo adoptar?</NavDropdown.Item>
-                            </NavDropdown>
-                        </Nav>
+                            <Nav>
+                                <NavDropdown
+                                    title={<img src={Menu} className={styles.menu}></img>}
+                                    menuVariant="light"
+                                >
+                                    <NavDropdown.Item href="/perfil">Perfil</NavDropdown.Item>
+                                    <NavDropdown.Item href="/about">About</NavDropdown.Item>
+                                    <NavDropdown.Item href="/donations">Donaciones</NavDropdown.Item>
+                                    <NavDropdown.Item href="/info">¿Como adoptar?</NavDropdown.Item>
+                                </NavDropdown>
+                            </Nav>
                         </Navbar.Collapse>
                     </Col>
                 </Row>
             </Container>
-    </Navbar>
-    
-  );
+        </Navbar>
+    );
 }
 
 export default NavBar;
