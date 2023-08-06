@@ -10,6 +10,7 @@ import Profile from "./Views/Profile/Profile";
 import Donaciones from "./Views/Donaciones/Donaciones";
 import DarAdopt from "./Views/DarAdopt/DarAdopt";
 import ErrorPage from "./Views/ErrorPage/ErrorPage";
+import Registro from "./Views/Registro/Registro";
 import axios from "axios";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <h1 className="Titulo">PATITAS SIN HOGAR</h1>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
         <Route path="/inicio" element={<Inicio />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />

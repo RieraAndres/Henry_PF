@@ -4,7 +4,8 @@
     margin: 0 auto;
     padding: 20px;
     border-radius: 30px;
-    background-color: #C8E6CA;
+    background-color: rgba(200, 230, 202, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .registerForm h3 {
@@ -44,10 +45,27 @@
   @media (max-width: 768px) {
     /* Cuando el ancho de la pantalla es menor o igual a 768px */
     .registerForm button {
-      width: 100%; /* Los botones ocuparán todo el ancho disponible */
+      width: 80%; /* Los botones ocuparán todo el ancho disponible */
       margin-right: 0; /* Elimina el margen derecho */
       margin-left: 0; /* Elimina el margen izquierdo */
     }
+
+    .registerForm {
+      max-width: 280px;
+      padding: 10px;
+      border-radius: 30px;
+      background-color: rgba(200, 230, 202, 0.8);
+    }
+
+    .registerForm input[type="text"],
+    .registerForm input[type="password"],
+    .registerForm input[type="email"] {
+      padding: 5px;
+      border-radius: 50px;
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
   }
   
   /* Estilos para los mensajes de error */

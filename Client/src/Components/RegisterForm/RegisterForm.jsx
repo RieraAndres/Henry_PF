@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Para redireccionar a la ruta de inicio después del registro
+import { useNavigate } from "react-router-dom"; // Para readdressar a la ruta de inicio después del registro
 
 import styles from "./RegisterForm.module.css";
 
@@ -10,57 +10,58 @@ function RegisterForm() {
     let errors = {};
 
     // Validaciones para el formulario de registro
-    if (!user.nombre) {
-      errors.nombre = "Enter your first name";
+    if (!user.name) {
+      errors.name = "Ingresa tu nombre";
     }
 
-    if (!user.apellido) {
-      errors.apellido = "Enter your last name";
+    if (!user.lastName) {
+      errors.lastName = "Ingresa tu apellido";
     }
 
     if (!user.email) {
-      errors.email = "Enter your email";
+      errors.email = "Ingresa tu correo electrónico";
     } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email)) {
-      errors.email = "Invalid email";
+      errors.email = "Correo electrónico inválido";
     }
 
-    if (!user.fechaNacimiento) {
-      errors.fechaNacimiento = "Enter your date of birth";
+    if (!user.birthdate) {
+      errors.birthdate = "Ingresa tu fecha de nacimiento";
     }
 
-    if (!user.username) {
-      errors.username = "Enter your username";
-    } else if (!/^[a-zA-Z0-9_]+$/.test(user.username)) {
-      errors.username = "Username can only contain letters, numbers, and underscores";
+    if (!user.userName) {
+      errors.userName = "Ingresa tu nombre de usuario";
+    } else if (!/^[a-zA-Z0-9]+$/.test(user.userName)) {
+      errors.userName = "El nombre de usuario solo puede contener letras y números";
     }
+
 
     if (!user.password) {
-      errors.password = "Enter a password";
+      errors.password = "Ingresa una contraseña";
     } else if (!/\d/.test(user.password)) {
-      errors.password = "Password must contain a number";
+      errors.password = "La contraseña debe contener al menos un número";
     } else if (user.password.length < 6 || user.password.length > 15) {
-      errors.password = "Password must be 6 to 15 characters";
+      errors.password = "La contraseña debe tener entre 6 y 15 caracteres";
     }
 
     if (!user.confirmPassword) {
-      errors.confirmPassword = "Confirm your password";
+      errors.confirmPassword = "Confirma tu contraseña";
     } else if (user.password !== user.confirmPassword) {
-      errors.confirmPassword = "Passwords do not match";
+      errors.confirmPassword = "Las contraseñas no coinciden";
     }
 
     return errors;
   }
 
   const [user, setUser] = useState({
-    nombre: "",
-    apellido: "",
+    name: "",
+    lastName: "",
     email: "",
-    fechaNacimiento: "",
-    username: "",
+    birthdate: "",
+    userName: "",
     password: "",
     confirmPassword: "",
-    telefono: "",
-    direccion: "",
+    numberPhone: "",
+    address: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -83,7 +84,7 @@ function RegisterForm() {
     e.preventDefault();
     const formErrors = validate(user);
     if (Object.keys(formErrors).length === 0) {
-      navigate("/inicio"); // Redireccionamos a la ruta de login después del registro.
+      navigate("/inicio"); // Readdressamos a la ruta de login después del registro.
     } else {
       setErrors(formErrors);
     }
@@ -94,40 +95,40 @@ function RegisterForm() {
       <form>
         <h3>REGISTRARSE</h3>
         <div className="mb-3">
-          <label htmlFor="nombre" className="form-label">
+          <label htmlFor="name" className="form-label">
             Nombre
           </label>
           <input
             type="text"
-            className={`form-control ${errors.nombre ? styles.errorInput : ""}`}
-            id="nombre"
-            name="nombre"
-            value={user.nombre}
+            className={`form-control ${errors.name ? styles.errorInput : ""}`}
+            id="name"
+            name="name"
+            value={user.name}
             onChange={handleChange}
           />
-          {errors.nombre && <p className={styles.errorMsg}>{errors.nombre}</p>}
+          {errors.name && <p className={styles.errorMsg}>{errors.name}</p>}
         </div>
 
-        {/* Campo Apellido */}
+        {/* Campo lastName */}
         <div className="mb-3">
-          <label htmlFor="apellido" className="form-label">
+          <label htmlFor="lastName" className="form-label">
             Apellido
           </label>
           <input
             type="text"
-            className={`form-control ${errors.apellido ? styles.errorInput : ""}`}
-            id="apellido"
-            name="apellido"
-            value={user.apellido}
+            className={`form-control ${errors.lastName ? styles.errorInput : ""}`}
+            id="lastName"
+            name="lastName"
+            value={user.lastName}
             onChange={handleChange}
           />
-          {errors.apellido && <p className={styles.errorMsg}>{errors.apellido}</p>}
+          {errors.lastName && <p className={styles.errorMsg}>{errors.lastName}</p>}
         </div>
 
-        {/* Campo Email */}
+        {/* Campo email */}
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
-            Email
+            E-mail
           </label>
           <input
             type="email"
@@ -140,69 +141,69 @@ function RegisterForm() {
           {errors.email && <p className={styles.errorMsg}>{errors.email}</p>}
         </div>
 
-         {/* Campo Username */}
+         {/* Campo userName */}
          <div className="mb-3">
-          <label htmlFor="username" className="form-label">
+          <label htmlFor="userName" className="form-label">
             Nombre de usuario
           </label>
           <input
             type="text"
-            className={`form-control ${errors.username ? styles.errorInput : ""}`}
-            id="username"
-            name="username"
-            value={user.username}
+            className={`form-control ${errors.userName ? styles.errorInput : ""}`}
+            id="userName"
+            name="userName"
+            value={user.userName}
             onChange={handleChange}
           />
-          {errors.username && <p className={styles.errorMsg}>{errors.username}</p>}
+          {errors.userName && <p className={styles.errorMsg}>{errors.userName}</p>}
         </div>    
 
         {/* Campo Fecha de Nacimiento */}
         <div className="mb-3">
-          <label htmlFor="fechaNacimiento" className="form-label">
+          <label htmlFor="birthdate" className="form-label">
             Fecha de Nacimiento
           </label>
           <input
             type="text"
-            className={`form-control ${errors.fechaNacimiento ? styles.errorInput : ""}`}
-            id="fechaNacimiento"
-            name="fechaNacimiento"
+            className={`form-control ${errors.birthdate ? styles.errorInput : ""}`}
+            id="birthdate"
+            name="birthdate"
             placeholder=" Año/mes/día"
-            value={user.fechaNacimiento}
+            value={user.birthdate}
             onChange={handleChange}
           />
-          {errors.fechaNacimiento && <p className={styles.errorMsg}>{errors.fechaNacimiento}</p>}
+          {errors.birthdate && <p className={styles.errorMsg}>{errors.birthdate}</p>}
         </div>
 
         {/* Campo Teléfono */}
         <div className="mb-3">
-          <label htmlFor="telefono" className="form-label">
+          <label htmlFor="numberPhone" className="form-label">
             Teléfono
           </label>
           <input
             type="text"
-            className={`form-control ${errors.telefono ? styles.errorInput : ""}`}
-            id="telefono"
-            name="telefono"
-            value={user.telefono}
+            className={`form-control ${errors.numberPhone ? styles.errorInput : ""}`}
+            id="numberPhone"
+            name="numberPhone"
+            value={user.numberPhone}
             onChange={handleChange}
           />
-          {errors.telefono && <p className={styles.errorMsg}>{errors.telefono}</p>}
+          {errors.numberPhone && <p className={styles.errorMsg}>{errors.numberPhone}</p>}
         </div>
 
         {/* Campo Dirección */}
         <div className="mb-3">
-          <label htmlFor="direccion" className="form-label">
+          <label htmlFor="address" className="form-label">
             Dirección
           </label>
           <input
             type="text"
-            className={`form-control ${errors.direccion ? styles.errorInput : ""}`}
-            id="direccion"
-            name="direccion"
-            value={user.direccion}
+            className={`form-control ${errors.address ? styles.errorInput : ""}`}
+            id="address"
+            name="address"
+            value={user.address}
             onChange={handleChange}
           />
-          {errors.direccion && <p className={styles.errorMsg}>{errors.direccion}</p>}
+          {errors.address && <p className={styles.errorMsg}>{errors.address}</p>}
         </div>
 
         {/* Campo Contraseña */}
