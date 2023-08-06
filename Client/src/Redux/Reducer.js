@@ -29,7 +29,7 @@ export default function rootReducer(state = initialState, action) {
     case CLEAR_AUX_STATE: //limpio auxState al hacer unmount de un componente
       return {
         ...state,
-        auxState: null,
+        auxState: [], // cambié el null a [], para que se vacíe el estado en vez de establecerse en null, eso provocaba el error del detail
       };
 
     default:
