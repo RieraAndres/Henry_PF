@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 
 function NavBar() { 
     const location = useLocation()
-    console.log(location.pathname);
     return (
         <Navbar variant="light" bg="#FFFDF6" >
             <Container>
