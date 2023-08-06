@@ -29,7 +29,7 @@ export default function rootReducer(state = initialState, action) {
     case CLEAR_AUX_STATE: //limpio auxState al hacer unmount de un componente
       return {
         ...state,
-        auxState: null,
+        auxState: [], // el estado debe setearse como vacío y no como null, porque eso provoca que se rompa el detail 
       };
 
     default:

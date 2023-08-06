@@ -35,7 +35,7 @@ function Detail() {
                 <Row>
                     <Col md={5} style={{ textAlign: 'left', marginLeft: '5%' }} className={styles.ColIzq}>
                         <div className={styles.contenido} style={{ marginTop: '10%' }}>
-                            <h1>{mascota.name.toUpperCase()}</h1>
+                            <h1>{mascota.name/*.toUpperCase()*/}</h1>
                             <h4>EDAD:  {mascota.age}</h4>
                             <h4>GENERO:  {mascota.gender}</h4>
                             <h4>UBICACION: {mascota.location} <Link to={`https://www.google.com/maps/place/${mascota.location}`}><img src={GoolgeMaps} alt="Google Maps" style={{width:'25px'}}/></Link></h4>
@@ -47,7 +47,7 @@ function Detail() {
                     <Col md={5} className={styles.colDer}>
                         <div className={styles.imgContainer}>
                             <div className={styles.imageWrapper}>
-                                <img src={mascota.imgUrl} alt={mascota.name} className={styles.image} />
+                                <img src={mascota.imageUrl} alt={mascota.name} className={styles.image} />
                             </div>
                         </div>
                         <div style={{ marginTop: '5%' }}>

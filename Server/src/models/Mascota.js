@@ -5,9 +5,9 @@ module.exports = (sequelize) => {
 	sequelize.define('Mascota', {
 		id: {
 			type: DataTypes.UUID,
-			primaryKey: true,
 			defaultValue: DataTypes.UUIDV4,
-			unique: true
+			primaryKey: true,
+			unique: true,
 		},
 		name: {
 			type: DataTypes.STRING,
@@ -43,13 +43,14 @@ module.exports = (sequelize) => {
 		description: {
 			type: DataTypes.TEXT,
 		},
+		status: {  //Añadí status nuevamente(Marcos), ya que es necesario para el "borrado lógico"(desactivación de una mascota cuando es adoptada) va de la mano con ruta DELETE
+		 	type: DataTypes.BOOLEAN, 
+		 	allowNull: true,
+		 	defaultValue: true,
+		}
 		// healthCondition: {
 		// 	type: DataTypes.TEXT,
 		// 	allowNull: true,
-		// },
-		// status: {
-		// 	type: DataTypes.ENUM('disponible', 'solicitado', 'adoptado'),
-		// 	allowNull: true,
-		// },
+		//},	
 	});
 }
