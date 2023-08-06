@@ -23,7 +23,7 @@ function NavBar() {
                 </Row>
                 <Row>
                     <Col>
-                        {location.pathname === "/home" ? <SearchBar/> : <Link to="/home"><button>Atras</button></Link>}
+                        {location.pathname === "/home" ? <SearchBar/> : <Link to="/home"><button>HOME</button></Link>}
                     </Col>
                 </Row>
                 <Row>
