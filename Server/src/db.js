@@ -41,7 +41,7 @@ Adopcion.belongsTo(Mascota, { foreignKey: 'mascota_id', as: 'mascota' });
 Donacion.belongsTo(User, { foreignKey: 'donante_id', as: 'donante' });
 
 Mascota.hasOne(Adopcion, { foreignKey: 'mascota_id', as: 'adopcion' });
-Mascota.belongsTo(User, {foreignKey: 'user_id', as: 'user'})
+Mascota.belongsTo(User, {foreignKey: 'user_id'})
 
 module.exports = {
 	...sequelize.models,
