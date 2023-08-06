@@ -15,7 +15,6 @@ function Home () {
         dispatch(getPets());
     }, [dispatch]);
 
-    console.log(petsCopy)
     return(
 
         <div className={styles.fondo}> 

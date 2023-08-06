@@ -4,7 +4,6 @@ import Row from 'react-bootstrap/Row';
 import styles from '../Cards/cards.module.css'
 function CardsComponent({mascotas}) {
   
-
 return (
     <div className={styles.CardsContainer}>
       <Row  xs={1} md={3} className="g-4">
