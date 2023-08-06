@@ -33,17 +33,6 @@ const handlerAllPets = async(req, res) => {
     }
 }
 
-
-const handlerSortAndFilter = async(req,res) => {
-    const { age } = req.query
-    try {
-        const allPets = await getAllPets(age)
-        
-    } catch (error) {
-        
-    }
-}
-
 const handlerPostPet = async(req, res) => {
     const { name, gender, age, imageUrl,specie, size, location, description, email, numberPhone } = req.body
     try {
