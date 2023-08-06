@@ -2,7 +2,6 @@ const getAllPets = require('../controllers/crudPets/getAllPets')
 const postPet = require('../controllers/crudPets/postPet')
 const getNamePet = require('../controllers/crudPets/getNamePet')
 const getIdPet = require('../controllers/crudPets/getIdPet')
-const filterGender = require('../controllers/crudFilter/filterGender')
 
 const handlerAllPets = async(req, res) => {
     try {
@@ -30,17 +29,6 @@ const handlerAllPets = async(req, res) => {
     }
 }
 
-
-const handlerSortAndFilter = async(req,res) => {
-    const { age } = req.query
-    try {
-        const allPets = await getAllPets(age)
-        
-    } catch (error) {
-        
-    }
-}
-
 const handlerPostPet = async(req, res) => {
     const { name, gender, age, imageUrl,specie, size, location, description, email, numberPhone } = req.body
     try {
@@ -64,4 +52,4 @@ const handlerIdPet = async(req, res) => {
  }
 }
 
-module.exports = {handlerAllPets, handlerPostPet, handlerIdPet, handlerSortAndFilter}
+module.exports = {handlerAllPets, handlerPostPet, handlerIdPet}
