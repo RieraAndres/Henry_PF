@@ -3,12 +3,12 @@ import { NavLink } from "react-router-dom";
 
 
 function CardComponent({ mascota }) { //traigo mascota desde Cards 
-  const { name, imgUrl ,id} = mascota; //destructuro datos a renderizar en la Card
+  const { name, imageUrl ,id} = mascota; //destructuro datos a renderizar en la Card
   return (
       <NavLink to={`${id}`} style={{textDecoration: 'none'}}>
         <div className={styles.card}>
           <div className={styles.divCard}>
-            <img src={imgUrl} alt=''></img>
+            <img src={imageUrl} alt=''></img>
             <h1>{name}</h1>
           </div>
         </div>
