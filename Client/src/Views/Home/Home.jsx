@@ -12,7 +12,6 @@ function Home () {
     const dispatch = useDispatch()
     const petsCopy = useSelector((state) => state.petsCopy);
     
-   
     useEffect(() => { //al cargar la pagina home traigo las mascotas 
         dispatch(getPets());
     }, [dispatch]);
@@ -42,7 +41,7 @@ function Home () {
 
         <div className={styles.fondo}> 
             <NavBar/>
-            <FiltersComponent/>
+            <FiltersComponent setCurrentPage={setCurrentPage} setActivePage={setActivePage}/>
             <CardsComponents mascotas={currentCards}/>
             <div className={styles.pagination}>
                 {hasPrevPage && (
