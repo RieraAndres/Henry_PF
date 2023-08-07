@@ -5,7 +5,7 @@
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    background-color: white;
+    background-color: transparent;
     color: #000000;
   }
   
@@ -211,7 +211,7 @@
     white-space: nowrap;
     top: 50%; /* Colocamos el mensaje de error en la mitad vertical del campo de email */
     right: 100%; /* Lo colocamos a la derecha del campo de email */
-    transform: translateY(-238%); /* Lo desplazamos hacia arriba la mitad de su altura */
+    transform: translateY(300%); /* Lo desplazamos hacia arriba la mitad de su altura */
     margin-right: 10px; /* Añadimos un espacio entre el campo de email y el mensaje de error */
   }
   
@@ -302,4 +302,12 @@
     color: green;
     margin-top: 10px;
   }
+  
+  .errorText {
+    color: red;
+    font-size: 14px;
+    max-width: 80%;
+    margin: 0 0 center;
+  }
+
   

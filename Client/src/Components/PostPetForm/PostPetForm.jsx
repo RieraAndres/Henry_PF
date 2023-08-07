@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../Components/PostPetForm/PostPetForm.module.css";
+import { useDispatch } from "react-redux";
+import { postPet } from "../../Redux/Actions";
 
 const PostPetForm = () => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     name: "",
     numberPhone: "",
@@ -85,12 +89,25 @@ const PostPetForm = () => {
     //   }
     // }
 
+    // Validar campos de los selects
+    if (especieSelect.length === 0) {
+      newErrors.specie = "Por favor, seleccione una especie";
+    }
+
+    if (generoSelect.length === 0) {
+      newErrors.gender = "Por favor, seleccione un género";
+    }
+
+    if (tamañoSelect.length === 0) {
+      newErrors.size = "Por favor, seleccione un tamaño";
+    }
+
     setErrors(newErrors);
     setIsFormValid(Object.keys(newErrors).length === 0);
 
     return Object.keys(newErrors).length === 0;
   };
-  
+
   const validateField = (fieldName, value) => {
     switch (fieldName) {
       case "name":
@@ -99,7 +116,8 @@ const PostPetForm = () => {
         break;
       case "numberPhone":
         if (!value) return "Por favor, ingrese número de teléfono";
-        if (!numberPhoneRegex.test(value)) return "El teléfono debe ser un número";
+        if (!numberPhoneRegex.test(value))
+          return "El teléfono debe ser un número";
         break;
       case "email":
         if (!value) return "Por favor, ingrese un email válido";
@@ -120,6 +138,7 @@ const PostPetForm = () => {
 
     if (especieOptions.includes(especie)) {
       setEspecieSelect([...especieSelect, especie]);
+      setFormData((prevFormData) => ({ ...prevFormData, specie: especie }));
     }
   };
 
@@ -128,6 +147,7 @@ const PostPetForm = () => {
 
     if (generoOptions.includes(genero)) {
       setGeneroSelect([...generoSelect, genero]);
+      setFormData((prevFormData) => ({ ...prevFormData, gender: genero }));
     }
   };
 
@@ -136,21 +156,22 @@ const PostPetForm = () => {
 
     if (tamañoOptions.includes(tamaño)) {
       setTamañoSelect([...tamañoSelect, tamaño]);
+      setFormData((prevFormData) => ({ ...prevFormData, size: tamaño }));
     }
   };
 
-//   const blockNonNumericInput = (event) => {
-//     if (event.key === "e" || event.key === "." || event.key === "-") {
-//       event.preventDefault();
-//     }
-//   };
+  //   const blockNonNumericInput = (event) => {
+  //     if (event.key === "e" || event.key === "." || event.key === "-") {
+  //       event.preventDefault();
+  //     }
+  //   };
 
-//   const handleFileChange = (event) => {
-//     const file = event.target.files[0];
-//     setFormData((prevFormData) => ({ ...prevFormData, imageUrl: file }));
-//     setIsPhotoSelected(true);
-//     setErrors((prevErrors) => ({ ...prevErrors, imageUrl: "" }));
-//   };
+  //   const handleFileChange = (event) => {
+  //     const file = event.target.files[0];
+  //     setFormData((prevFormData) => ({ ...prevFormData, imageUrl: file }));
+  //     setIsPhotoSelected(true);
+  //     setErrors((prevErrors) => ({ ...prevErrors, imageUrl: "" }));
+  //   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -174,24 +195,12 @@ const PostPetForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let formIsValid = validateForm();
-
-    if (formData.imageUrl === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        imageUrl: "Por favor, agregue una imageUrl.",
-      }));
-      formIsValid = false;
-    }
+    setIsPhotoSelected(!!formData.imageUrl);
 
     if (formIsValid) {
-      setFormSubmitted(true);
-      console.log("Formulario enviado:", formData);
-      // Aquí puedes enviar el formulario al servidor o realizar otras acciones necesarias
+      dispatch(postPet(formData));
+      alert("Mascota creada exitosamente");
 
-      // Establecemos el mensaje de éxito solo si el formulario es válido
-      setFormSuccess(true);
-
-      // Reseteamos el formulario después del envío
       setFormData({
         name: "",
         numberPhone: "",
@@ -199,7 +208,7 @@ const PostPetForm = () => {
         description: "",
         location: "",
         age: "",
-        imageUrl: null,
+        imageUrl: "",
       });
       setEspecieSelect([]);
       setGeneroSelect([]);
@@ -208,6 +217,7 @@ const PostPetForm = () => {
       setIsFormValid(false);
       setIsAgeModified(false);
       setIsPhotoSelected(false);
+      setFormSuccess(true);
     } else {
       setFormSubmitted(true);
       setFormSuccess(false);
@@ -238,7 +248,7 @@ const PostPetForm = () => {
               {errors.name && <p className={styles.errorText}>{errors.name}</p>}
             </div>
 
-            <div>
+            <div className="platformList">
               <label className="label">Especies *</label>
               <select
                 className="selectOptions"
@@ -285,7 +295,9 @@ const PostPetForm = () => {
               </label>
               <input
                 type="number"
-                className={`${styles.input} ${errors.age ? styles.errorBorder : ""}`}
+                className={`${styles.input} ${
+                  errors.age ? styles.errorBorder : ""
+                }`}
                 name="age"
                 required
                 autoComplete="off"
@@ -298,12 +310,10 @@ const PostPetForm = () => {
                 // onKeyPress={blockNonNumericInput}
                 onBlur={correctAgeIfExceedsMax}
               />
-              {errors.age && (
-                <p className={styles.errorText}>{errors.age}</p>
-              )}
+              {errors.age && <p className={styles.errorText}>{errors.age}</p>}
             </div>
 
-            <div>
+            <div className="platformList">
               <div className="sectionInputCG">
                 <label className="label">Tamaño *</label>
                 <select
@@ -337,7 +347,9 @@ const PostPetForm = () => {
                 placeholder="Foto de la mascota"
                 onChange={handleChange}
               />
-              {errors.imageUrl && <p className={styles.errorText}>{errors.imageUrl}</p>}
+              {errors.imageUrl && (
+                <p className={styles.errorText}>{errors.imageUrl}</p>
+              )}
             </div>
 
             <div className={styles.sectionInputCG}>
@@ -390,7 +402,11 @@ const PostPetForm = () => {
                 name="description"
                 id="descriptionCG"
                 rows="4"
-                style={{ resize: "none" }}
+                style={{
+                  resize: "none",
+                  minHeight: "80px",
+                  maxHeight: "200px",
+                }}
                 className={`${styles.input} ${
                   errors.description ? styles.errorBorder : ""
                 } ${errors.description ? styles.shakeAnimation : ""}`}

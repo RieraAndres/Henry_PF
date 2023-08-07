@@ -3,6 +3,8 @@ import axios from "axios";
 export const GET_PETS = "GET_PETS";
 export const GET_PET_DETAIL = "GET_PET_DETAIL";
 export const GET_PET_BY_NAME = "GET_PET_BY_NAME";
+export const POST_PET_SUCCESS = "POST_PET_SUCCESS";
+export const POST_PET_FAILURE = "POST_PET_FAILURE";
 export const CLEAR_AUX_STATE = "CLEAR_AUX_STATE";
 
 export function getPets() {
@@ -50,9 +52,27 @@ export function getRecipesByName(name) {
   };
 }
 
+// Create(Alexis)
+export function postPet(formData) {
+  return async function (dispatch) {
+    try {
+      await axios.post("http://localhost:3001/mascotas", formData);
+      dispatch({
+        type: POST_PET_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type: POST_PET_FAILURE,
+        payload: error.message,
+      });
+    }
+  };
+}
+
 export function clearAux() {
   //para limpiar AuxState al desmontar el detail
   return {
     type: "CLEAR_AUX_STATE",
   };
 }
+
