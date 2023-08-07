@@ -3,7 +3,6 @@ const routerPets = Router();
 
 
 const { handlerAllPets, handlerPostPet, handlerIdPet, handlerPutPets, handlerLogicDeletePets, handlerDeletePets} = require('../handlers/handlerPets')
-const { handlerAllPets, handlerPostPet, handlerIdPet} = require('../handlers/handlerPets')
 const {handlerSortAndFilter} = require('../handlers/handlerSortAndFilter')
 
 routerPets.get('/', handlerAllPets) //trae todos los pets y por nombre segun condicional //OK pero unicamente por modelo mascota
