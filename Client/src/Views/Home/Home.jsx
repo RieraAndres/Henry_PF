@@ -11,6 +11,7 @@ import { useEffect,useState} from "react";
 function Home () {
     const dispatch = useDispatch()
     const petsCopy = useSelector((state) => state.petsCopy);
+    
    
     useEffect(() => { //al cargar la pagina home traigo las mascotas 
         dispatch(getPets());
@@ -41,7 +42,7 @@ function Home () {
 
         <div className={styles.fondo}> 
             <NavBar/>
-            <FiltersComponent></FiltersComponent>
+            <FiltersComponent/>
             <CardsComponents mascotas={currentCards}/>
             <div className={styles.pagination}>
                 {hasPrevPage && (
