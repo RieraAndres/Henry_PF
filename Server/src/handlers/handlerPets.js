@@ -2,7 +2,7 @@ const getAllPets = require('../controllers/crudPets/getAllPets')
 const postPet = require('../controllers/crudPets/postPet')
 const getNamePet = require('../controllers/crudPets/getNamePet')
 const getIdPet = require('../controllers/crudPets/getIdPet')
-const filterGender = require('../controllers/crudFilter/filterGender')
+const filters = require('../controllers/filterController/filters.js');
 const modifyPets = require('../controllers/crudPets/putPets.js'); 
 const logicDeletePets = require('../controllers/crudPets/logicDeletePets.js');
 const deletePets = require('../controllers/crudPets/deletePetsDB.js');
@@ -87,4 +87,4 @@ const handlerDeletePets = async (req, res) => {
     }
 }
 
-module.exports = {handlerAllPets, handlerPostPet, handlerIdPet, handlerSortAndFilter, handlerPutPets, handlerLogicDeletePets, handlerDeletePets}
+module.exports = {handlerAllPets, handlerPostPet, handlerIdPet, handlerPutPets, handlerLogicDeletePets, handlerDeletePets}
