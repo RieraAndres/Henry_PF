@@ -1,8 +1,6 @@
 .card{
-  border: 0px solid #000000;  
   border-radius: 10px;
   width: 80%;
-  height: 100%;
   background-color: #C8E6CA;
   padding: 5%;
   text-decoration: none;
@@ -15,14 +13,24 @@
   border-radius: 5%;
 }
 
-.divCard h1{
-  margin-top: 5%;
-  color: #000000;
-  font-size: 30px;
-}
-
 .card:hover{
   transition: transform 0.3s ease-in-out;
   transform: scale(1.05);
    }
 
+.nombre{
+  font-size: 30px;
+  color: #000000;
+}
+
+.edad{
+  margin-top: 12px;
+  font-size: 20px;
+  color: #000000;
+}
+
+.info{
+  margin-top: 5%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
