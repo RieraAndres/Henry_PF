@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilter, setOrden, applyFilters } from '../../Redux/Actions';
+import styles from "../filters/Filter.module.css";
 
 const FiltersComponent = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const FiltersComponent = () => {
             placeholder="Nombre"
           />
         </Col> */}
-        <Col>
+        <Col className={styles.filtros}>
           <Form.Control
             as="select"
             value={filters.gender}
