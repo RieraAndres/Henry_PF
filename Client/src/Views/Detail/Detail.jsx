@@ -1,10 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { clearAux, getPetDetail } from "../../Redux/Actions";
-
-
 import NavBar from '../../Components/NavBar/NavBar'
 import Footer from '../../Components/Footer/Footer'
 import Container from 'react-bootstrap/Container';
@@ -12,38 +9,55 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import styles from '../Detail/Detail.module.css';
 import GoolgeMaps from '../../Assets/Logo/googleMaps.png';
-import Button from 'react-bootstrap/Button';
+import FormAdopt from "../../Components/FormAdopt/FormAdopt";
 
 function Detail() {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const mascota = useSelector((state) => state.auxState);
-    
+    // const mascota = useSelector((state) => state.auxState);
+    const mascota =   {
+        "name": "Rocky",
+        "specie": "Dog",
+        "age": "4",
+        "size": "Mediano",
+        "gender": "macho",
+        "imageUrl": "https://www.tailwaggerphoto.com/wp-content/uploads/2021/04/Grand-Rapids-Dog-Photographer-2364-1280x853.jpg",
+        "location": "San miguel de Tucuman",
+        "description": "Rocky es un perro valiente y aventurero que está listo para explorar el mundo contigo",
+        "email": "nvnsuibsd@yahoo.com",
+        "numberPhone": "5789294034"
+      }
+    const [showForm, setShowForm] = useState(false);
+  
     useEffect(() => {
-        dispatch(getPetDetail(id));//al montar traigo la info de la receta en auxState
+        dispatch(getPetDetail(id));
         return () => {
-          dispatch(clearAux());//al desmontar limpio el estado
+            dispatch(clearAux());
         };
-      }, [dispatch, id]);
-
- console.log(mascota);
+    }, [dispatch, id]);
 
     return (
-        <div>
-            <NavBar/>
-            <Container style={{marginTop:'5%', marginBottom: '5%'}}>
-                <Row>
-                    <Col md={5} style={{ textAlign: 'left', marginLeft: '5%' }} className={styles.ColIzq}>
-                        <div className={styles.contenido} style={{ marginTop: '10%' }}>
-                            <h1>{mascota.name/*.toUpperCase()*/}</h1>
-                            <h4>EDAD:  {mascota.age}</h4>
-                            <h4>GENERO:  {mascota.gender}</h4>
-                            <h4>UBICACION: {mascota.location} <Link to={`https://www.google.com/maps/place/${mascota.location}`}><img src={GoolgeMaps} alt="Google Maps" style={{width:'25px'}}/></Link></h4>
-                            <h4>TAMAÑO: {mascota.size}</h4>
-                            <h5 style={{ textAlign: 'center' }}>DESCRIPCION</h5>
-                            <p>{mascota.description}</p>
-                        </div>
-                    </Col>
+        <div className={styles.BigContainer}>
+            <NavBar />
+            <Container  className={styles.Container}>
+                <Row >
+                    {showForm ? (
+                        <Col style={{marginTop: '0'}}>
+                            <FormAdopt />
+                        </Col>
+                    ) : (
+                        <Col md={5} className={styles.ColIzq}>
+                            <div className={styles.contenido} >
+                                <h1>{mascota.name/*.toUpperCase()*/}</h1>
+                                <h4>EDAD:  {mascota.age}</h4>
+                                <h4>GENERO:  {mascota.gender}</h4>
+                                <h4>UBICACIÓN: {mascota.location} <a href={`https://www.google.com/maps/place/${mascota.location}`} target="_blank" rel="noopener noreferrer"><img src={GoolgeMaps} alt="Google Maps" style={{ width: '25px' }} /></a></h4>
+                                <h4>TAMAÑO: {mascota.size}</h4>
+                                <h5 style={{ textAlign: 'center' }}>DESCRIPCIÓN</h5>
+                                <p>{mascota.description}</p>
+                            </div>
+                        </Col>
+                    )}
                     <Col md={5} className={styles.colDer}>
                         <div className={styles.imgContainer}>
                             <div className={styles.imageWrapper}>
@@ -51,15 +65,20 @@ function Detail() {
                             </div>
                         </div>
                         <div style={{ marginTop: '5%' }}>
-                            <Button className={styles.button} variant="outline-info">¡ADOPTA!</Button>
-                        </div>
+                            {!showForm ? (
+                                <button className={styles.button}  onClick={() => setShowForm(true)}>¡ADOPTA!</button>
+                            ):(
+                                <button className={styles.button}  onClick={() => setShowForm(false)}>¡INFO!</button>
 
+                            )}
+                            
+                        </div>
                     </Col>
                 </Row>
             </Container>
-            <Footer/>
+            <Footer />
         </div>
-    )
+    );
 }
 
 export default Detail;
