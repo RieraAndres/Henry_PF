@@ -34,7 +34,7 @@ export function getPetDetail(id) {
   };
 }
 
-export function getRecipesByName(name) {
+export function getPetsByName(name) {
   return async function (dispatch) {
     try {
       const response = await axios.get(
