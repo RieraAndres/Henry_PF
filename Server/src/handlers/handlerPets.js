@@ -5,21 +5,14 @@ const getIdPet = require('../controllers/crudPets/getIdPet')
 
 const handlerAllPets = async(req, res) => {
     try {
-        const { name, age, gender } = req.query
+        const { name } = req.query
         const allPets = await getAllPets()
 
-        
         if(name){
             const petName = await getNamePet(name) //busqueda por name
             return petName.length > 0 
             ? res.json(petName)
             : res.status(404).send('Mascota no encontrada')
-        }
-        if(gender){
-            const petGender = await filterGender(gender)
-            return petGender
-            ? res.json(petGender)
-            : res.status(404).send('Mascota con ese filtro no encontrado')
         }
         else { //sino encuentra la mascota por nombre, pasa toda la info
             return res.json(allPets)
