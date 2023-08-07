@@ -38,7 +38,7 @@ export function getPetsByName(name) {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        `http://localhost:3001/mascotas/${name}`
+        `http://localhost:3001/mascotas?name=${name}`
       );
       return dispatch({
         type: "GET_PET_BY_NAME",
