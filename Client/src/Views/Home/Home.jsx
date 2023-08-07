@@ -2,6 +2,7 @@ import NavBar from "../../Components/NavBar/NavBar";
 import CardsComponents from "../../Components/Cards/cards";
 import Footer from "../../Components/Footer/Footer";
 import styles from "../Home/Home.module.css";
+import FiltersComponent from "../../Components/filters/filterAndSort"
 
 import { useDispatch , useSelector } from "react-redux";
 import { getPets } from "../../Redux/Actions";
@@ -40,6 +41,7 @@ function Home () {
 
         <div className={styles.fondo}> 
             <NavBar/>
+            <FiltersComponent></FiltersComponent>
             <CardsComponents mascotas={currentCards}/>
             <div className={styles.pagination}>
                 {hasPrevPage && (
