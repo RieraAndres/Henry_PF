@@ -26,7 +26,7 @@ function NavBar() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col>  
                         <Navbar.Toggle aria-controls="navbar-dark-example" />
                         <Navbar.Collapse id="navbar-dark-example">
                             <Nav>
