@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setFilter, setOrden, applyFilters } from '../../Redux/Actions';
 import styles from "../filters/Filter.module.css";
 
-const FiltersComponent = () => {
+const FiltersComponent = ({setCurrentPage , setActivePage}) => {
   const dispatch = useDispatch();
   const { filters, orden } = useSelector((state) => state);
 
@@ -18,6 +18,8 @@ const FiltersComponent = () => {
 
   const handleApplyFilters = () => {
     dispatch(applyFilters(filters, orden));
+    setCurrentPage(1)
+    setActivePage(1)
   };
 
   return (
