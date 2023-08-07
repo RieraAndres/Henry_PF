@@ -14,19 +14,8 @@ import FormAdopt from "../../Components/FormAdopt/FormAdopt";
 function Detail() {
     const { id } = useParams();
     const dispatch = useDispatch();
-    // const mascota = useSelector((state) => state.auxState);
-    const mascota =   {
-        "name": "Rocky",
-        "specie": "Dog",
-        "age": "4",
-        "size": "Mediano",
-        "gender": "macho",
-        "imageUrl": "https://www.tailwaggerphoto.com/wp-content/uploads/2021/04/Grand-Rapids-Dog-Photographer-2364-1280x853.jpg",
-        "location": "San miguel de Tucuman",
-        "description": "Rocky es un perro valiente y aventurero que está listo para explorar el mundo contigo",
-        "email": "nvnsuibsd@yahoo.com",
-        "numberPhone": "5789294034"
-      }
+    const mascota = useSelector((state) => state.auxState);
+  
     const [showForm, setShowForm] = useState(false);
   
     useEffect(() => {
