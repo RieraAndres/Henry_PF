@@ -22,11 +22,11 @@ function NavBar() {
                 </Row>
                 <Row>
                     <Col>
-                        {location.pathname === "/home" ? <SearchBar/> : <Link to="/home"><button>Home</button></Link>}
+                        {location.pathname === "/home" ? <SearchBar/> : <Link to="/home"><button className={styles.boton}>Home</button></Link>}
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col>  
                         <Navbar.Toggle aria-controls="navbar-dark-example" />
                         <Navbar.Collapse id="navbar-dark-example">
                             <Nav>
