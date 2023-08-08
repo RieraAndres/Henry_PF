@@ -1,18 +1,21 @@
 .menu{
     width: 20px;
-}
+    position: right;
 
+}
 .Nav {
     background-color: #FFFDF6;
     margin-bottom: 2%;
-}
-.columna {
-    margin-right: 125px;
+    max-width: 100%;
+    width: 100%; 
+    position: fixed;
+    height: 10%;
+    margin-top: 5%;
+    z-index: 9999;
 }
 
 .fijo {
-    width: 100%;
-    min-width: 100%; 
+    width: 100%; 
     position: fixed;
     background-color: #FFFDF6;
     height: 10%;

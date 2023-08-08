@@ -15,8 +15,8 @@ import { Link } from 'react-router-dom';
 function NavBar() { 
     const location = useLocation()
     return (
-        <Navbar className = {styles.Nav} >
-            <Container>
+        <Navbar  >
+            <Container className = {styles.Nav}>
                 <Row>
                     <Col><Navbar.Brand href="/inicio"><img src={Logo} alt="" style={{width :'50px'}}></img></Navbar.Brand></Col>
                 </Row>
@@ -29,11 +29,12 @@ function NavBar() {
                     <Col>  
                         <Navbar.Toggle aria-controls="navbar-dark-example" />
                         <Navbar.Collapse id="navbar-dark-example">
-                            <Nav>
+                            <Nav className={styles.fijo}>
                                 <NavDropdown
                                     title={<img src={Menu} className={styles.menu}></img>}
                                     menuVariant="light"
                                 >
+                                    
                                     <NavDropdown.Item href="/perfil">Perfil</NavDropdown.Item>
                                     <NavDropdown.Item href="/about">About</NavDropdown.Item>
                                     <NavDropdown.Item href="/donations">Donaciones</NavDropdown.Item>
