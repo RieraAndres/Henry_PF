@@ -1,25 +1,8 @@
 .menu{
     width: 20px;
 }
-
-.Nav {
-    background-color: #FFFDF6;
-    margin-bottom: 2%;
-}
-.columna {
-    margin-right: 125px;
-}
-
-.fijo {
-    width: 100%;
-    min-width: 100%; 
-    position: fixed;
-    background-color: #FFFDF6;
-    height: 10%;
-    margin-top: 3%;
-    margin-right: 125px;
-    z-index: 9999;
-    
+.logo{
+    width: 50px;
 }
  .boton {
     background-color: #C8E6CA;
@@ -35,7 +18,26 @@
     cursor: pointer;
  }
 
+.Nav{
+    background-color: #FFFDF6;
+    margin-bottom: 10px;
+    height: 80px;
+}
 
+.contenedor{
+    z-index: 100;
+    position: fixed;
+    width: 100%;
+}
+
+@media screen and (max-width: 768px){
+    .SearchBarColum{
+        width: 80%;
+    }
+    .logo{
+        width: 25px;
+    }
+}
 
 
 

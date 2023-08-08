@@ -4,7 +4,7 @@
     background-size: cover;
 }
 .Container{
-    margin-top: 5%;
+    padding-top: 12%;
     margin-bottom: 5%;
     margin-left: 10%;
 }
@@ -77,7 +77,11 @@
         margin-left: 0;
     }
     .Container{
+        padding-top: 30%;
         max-width: 90%;
+    }
+    .imgContainer{
+        margin-top: 20px;
     }
     
 

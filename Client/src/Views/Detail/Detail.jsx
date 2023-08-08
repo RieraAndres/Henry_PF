@@ -14,7 +14,19 @@ import FormAdopt from "../../Components/FormAdopt/FormAdopt";
 function Detail() {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const mascota = useSelector((state) => state.auxState);
+    // const mascota = useSelector((state) => state.auxState);
+    const mascota = {
+        "name": "Max",
+        "specie": "Perro",
+        "age": "5",
+        "size": "Mediano",
+        "gender": "Macho",
+        "imageUrl": "https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg",
+        "location": "San miguel de Tucuman",
+        "description": "Max es un perro enérgico y cariñoso que siempre está listo para jugar contigo.",
+        "email": "nvnsuibsd@yahoo.com",
+        "numberPhone": "5789294034"
+      }
   
     const [showForm, setShowForm] = useState(false);
   
