@@ -34,57 +34,49 @@ const FiltersComponent = ({setCurrentPage , setActivePage}) => {
 
   return (
     <Form>
-      <Row>
-      <Col className={styles.filtros}>
-          <Form.Control
-            as="select"
-            value={filters.size}
-            onChange={(e) => handleFilterChange('size', e.target.value)}
-          >
-            <option value="">Tamaño</option>
-            <option value="Chico">Chico</option>
-            <option value="Mediano">Mediano</option>
-            <option value="Grande">Grande</option>
-          </Form.Control>
-        </Col>
+      <Row className={styles.filterButtonRow}>
         <Col className={styles.filtros}>
-          <Form.Control
-            as="select"
-            value={filters.gender}
-            onChange={(e) => handleFilterChange('gender', e.target.value)}
-          >
-            <option value="">Género</option>
-            <option value="macho">Macho</option>
-            <option value="hembra">Hembra</option>
-          </Form.Control>
+          <div className={styles.filterButton}>
+              <select className={styles.filterButtonInner} value={filters.size} onChange={(e) => handleFilterChange('size', e.target.value)}
+              >
+                <option value="">Tamaño</option>
+                <option value="Chico">Chico</option>
+                <option value="Mediano">Mediano</option>
+                <option value="Grande">Grande</option>
+              </select>
+          </div>
         </Col>
         <Col>
-          <Form.Control
-            as="select"
-            value={orden.orden_age}
-            onChange={(e) => handleOrdenChange('orden_age', e.target.value)}
-          >
-            <option value="">Ordenar por edad</option>
-            <option value="ASC">Menor Edad</option>
-            <option value="DESC">Mayor Edad</option>
-          </Form.Control>
+        <div className={styles.filterButton}>
+            <select className={styles.filterButtonInner} value={filters.gender} onChange={(e) => handleFilterChange('gender', e.target.value)}>
+              <option value="">Género</option>
+              <option value="macho">Macho</option>
+              <option value="hembra">Hembra</option>
+            </select>
+        </div>
         </Col>
         <Col>
-          <Form.Control
-            as="select"
-            value={orden.orden_name}
-            onChange={(e) => handleOrdenChange('orden_name', e.target.value)}
-          >
-            <option value="">Ordenar por nombre</option>
-            <option value="ASC">Ascendente A-Z</option>
-            <option value="DESC">Descendente Z-A</option>
-          </Form.Control>
+        <div className={styles.filterButton}>
+            <select className={styles.filterButtonInner} value={orden.orden_age} onChange={(e) => handleOrdenChange('orden_age', e.target.value)}>
+              <option value="">Ordenar por edad</option>
+              <option value="ASC">Ascendente</option>
+              <option value="DESC">Descendente</option>
+            </select>
+          </div>
         </Col>
-      </Row>
-      <Row>
         <Col>
-          <Button variant="primary" onClick={handleApplyFilters}>Filtrar</Button>
-          <Button variant="primary" onClick={resetFilter}>Restablecer</Button>
+        <div className={styles.filterButton}>
+            <select className={styles.filterButtonInner} value={orden.orden_name} onChange={(e) => handleOrdenChange('orden_name', e.target.value)}>
+              <option value="">Ordenar por nombre</option>
+              <option value="ASC">Ascendente</option>
+              <option value="DESC">Descendente</option>
+            </select>
+          </div>
+        </Col>
+        <Row className={styles.filterButtonRow}></Row>
+        <Col>
+          <button onClick={handleApplyFilters} className={styles.filterButtonFiltrar} >Filtrar</button>
+          <button onClick={resetFilter} className={styles.filterButtonFiltrar} >Restablecer</button>
         </Col>
       </Row>
     </Form>
@@ -92,5 +84,3 @@ const FiltersComponent = ({setCurrentPage , setActivePage}) => {
 };
 
 export default FiltersComponent;
-
-
