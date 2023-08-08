@@ -41,7 +41,7 @@ Adopcion.belongsTo(Mascota, { foreignKey: 'mascota_id', as: 'mascota' });
 Donacion.belongsTo(User, { foreignKey: 'donante_id', as: 'donante' });
 
 Mascota.hasOne(Adopcion, { foreignKey: 'mascota_id', as: 'adopcion' });
-Mascota.belongsTo(User, {foreignKey: 'user_id', as:'donante'})
+Mascota.belongsTo(User, {foreignKey: 'user_id', as:'publicador'})
 User.hasMany(Mascota, { foreignKey: 'user_id', as: 'mascotas' });
 
 module.exports = {
