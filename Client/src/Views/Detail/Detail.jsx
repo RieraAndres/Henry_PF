@@ -15,6 +15,7 @@ function Detail() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const mascota = useSelector((state) => state.auxState);
+    
   
     const [showForm, setShowForm] = useState(false);
   

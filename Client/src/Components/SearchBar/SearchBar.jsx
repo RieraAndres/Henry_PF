@@ -21,7 +21,7 @@ function SearchBar() {
     return (
         <div >
             <form onSubmit={handleSubmit}>
-                <input className={styles.textBox} type="search" placeholder="Buscar Patitas..."  value={searchString} onChange={handleChange}/>
+                <input className={styles.textBox} type="search" placeholder="Buscar..."  value={searchString} onChange={handleChange}/>
                 <button className={styles.button} type="submit" >Buscar</button>
             </form>
             
