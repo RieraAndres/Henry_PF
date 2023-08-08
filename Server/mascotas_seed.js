@@ -13,7 +13,6 @@ const dbConfig = { /*USARÁN SUS VARIABLES CON LAS QUE SE CONECTAN A SU DB*/
   port: 5432         // Puerto por defecto de PostgreSQL
 };
 
-// Datos de las mascotas
 const mascotasData = [
   {
     "name": "Max",
@@ -29,6 +28,18 @@ const mascotasData = [
   },
   {
     "name": "Luna",
+    "specie": "Perro",
+    "age": "3",
+    "size": "Grande",
+    "gender": "Hembra",
+    "imageUrl": "https://cdn2.thedogapi.com/images/hMyT4CDXR.jpg",
+    "location": "https://goo.gl/maps/Bs4g8QU5aenm5upu5",
+    "description": "Luna es una perrita dulce y tranquila que adora acurrucarse contigo en el sofá.",
+    "email": "nvnsuibsd@yahoo.com",
+    "numberPhone": "5789294034"
+  },
+  {
+    "name": "Lunita2",
     "specie": "Perro",
     "age": "3",
     "size": "Grande",
@@ -297,7 +308,7 @@ const mascotasData = [
     "age": "6",
     "size": "Mediano",
     "gender": "Hembra",
-    "imageUrl": "https://images.unsplash.com/photo-1580253784018-8b2c4a9034c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzU3fHxjYXR8ZW58MHwwfDB8fHww&auto=format&fit=crop&w=500&q=60",
+    "imageUrl": "https://cdn2.thecatapi.com/images/MTY4NzY4Mw.jpg",
     "location": "https://goo.gl/maps/Bs4g8QU5aenm5upu5",
     "description": "Bella es una gatita encantadora y cariñosa que adora recibir caricias.",
     "email": "nvnsuibsd@yahoo.com",
@@ -385,18 +396,25 @@ async function seedMascotas() {
 
     // Iterar sobre los datos y realizar inserciones
     for (const mascota of mascotasData) {
-      const newMascota = await Mascota.create({
-        name: mascota.name,        
-        specie: mascota.specie,
-        age: mascota.age,
-        size: mascota.size,
-        gender: mascota.gender,
-        imageUrl: mascota.imageUrl,
-        location: mascota.location,
-        description: mascota.description,
-        email: mascota.email,
-        mascota: mascota.numberPhone,
-        user_id: mascota.user_id,
+      const [newMascota, created] = await Mascota.findOrCreate({
+        where: {
+          name: mascota.name,
+          specie: mascota.specie,
+        },
+        defaults: {
+          name: mascota.name,        
+          specie: mascota.specie,
+          age: mascota.age,
+          size: mascota.size,
+          gender: mascota.gender,
+          imageUrl: mascota.imageUrl,
+          location: mascota.location,
+          description: mascota.description,
+          /*email: mascota.email,
+          mascota: mascota.numberPhone,*/
+          user_id: mascota.user_id,
+        }
+
       });
 
       // relación con User (que posteó la mascota)
