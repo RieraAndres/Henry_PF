@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
 			allowNull: true,
 		},
 		specie: {
-			type: DataTypes.ENUM('Dog', 'Cat'),
+			type: DataTypes.ENUM('Perro', 'Gato'), // Modificados para que estén en español
 			allowNull: true,
 		},
 		// race: {
@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
 			allowNull: true
 		},
 		gender: {
-			type: DataTypes.ENUM('hembra', 'macho'),
+			type: DataTypes.ENUM('Hembra', 'Macho'), //Ahora con mayúsculas al principio(como debe ser)
 			allowNull: true,
 		},
 		imageUrl: { // Nuevo atributo para la URL de la imagen
