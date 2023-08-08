@@ -15,14 +15,9 @@ let initialState = {
   allPets: [], 
   petsCopy: [], 
   auxState: [],
-  filters: { //filtros
-    size: "",
-    gender: "",
-  },
-  orden: {
-    orden_age: "",
-    orden_name: "",
-}, };
+  filters: { size: "", gender: "" },
+  orden: { orden_age: "", orden_name: "",},
+};
 
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
