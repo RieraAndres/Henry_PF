@@ -4,8 +4,7 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
-  background-color: white;
+  background-color: transparent;
   color: #000000;
 }
 
@@ -273,3 +272,17 @@ textarea:focus::placeholder {
   right: -16px;
   z-index: 1;
   }
+
+/* Estilos para el mensaje de éxito */
+.successMessage {
+  display: block;
+  color: green;
+  margin-top: 10px;
+}
+
+.errorText {
+  color: red;
+  font-size: 14px;
+  max-width: 80%;
+  margin: 0 0 center;
+}

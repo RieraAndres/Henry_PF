@@ -1,0 +1,101 @@
+.filterButtonRow {
+  align-items: center;
+  max-width: 95%;
+  flex-wrap: wrap; /* Nueva propiedad para permitir envolver en una nueva línea */
+  justify-content: space-between; /* Distribuye los elementos en el espacio disponible */
+}
+
+/* Estilos boton atras */
+.filterButton {
+  margin: 2%;
+  margin-left: 20%;
+  margin-right: 10%;
+  position: relative;
+  border-radius: 50px;
+  background-color: transparent;
+  padding: 30px;
+  min-width: 250px;
+  border: solid 5px #EEB3E7;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filterButton:hover {
+  background-color: transparent;
+  border: solid 5px #ed89e1;
+}
+
+/* Estilos boton adelante */
+.filterButtonInner {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #FFFDF6;
+  border: 1px solid #EEB3E7;
+  border-radius: 50px;
+  min-width: 90%;
+  padding: 5px;
+  font-size: 20px;
+  text-align: center;
+  align-items: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.filterButtonInner:hover {
+  background-color: #FFFDF6;
+  border: 1px solid #ed89e1;
+}
+
+/* Estilos boton Filtrar */
+.filterButtonFiltrar {
+  border-radius: 50px;
+  background-color: #EEB3E7;
+  border: none;
+  padding: 8px 25px;
+  font-size: 20px;
+  color: white;
+  align-items: center;
+  margin: 2%;
+}
+
+.filterButtonFiltrar:hover {
+  background-color: #ed89e1;
+}
+
+/* Estilos para modo responsive */
+@media screen and (max-width: 768px) {
+  .filterButton {
+      max-width: 50px;
+      padding: 15px 30px;
+      border: solid 2px #EEB3E7;
+  }
+  .filterButton:hover {
+      background-color: transparent;
+      border: solid 3px #ed89e1;
+    }
+
+    .filterButtonInner {
+      width: 50px;
+      padding: 2px;
+      font-size: 10px;
+    }
+    
+    .filterButtonInner:hover {
+      background-color: #FFFDF6;
+      border: 1px solid #ed89e1;
+    }
+
+
+    .filterButtonFiltrar {
+      border-radius: 50px;
+      background-color: #EEB3E7;
+      border: none;
+      padding: 4px 20px;
+      font-size: 12px;
+    }
+}

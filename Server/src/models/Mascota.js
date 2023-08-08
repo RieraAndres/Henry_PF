@@ -5,16 +5,16 @@ module.exports = (sequelize) => {
 	sequelize.define('Mascota', {
 		id: {
 			type: DataTypes.UUID,
-			primaryKey: true,
 			defaultValue: DataTypes.UUIDV4,
-			unique: true
+			primaryKey: true,
+			unique: true,
 		},
 		name: {
 			type: DataTypes.STRING,
 			allowNull: true,
 		},
 		specie: {
-			type: DataTypes.ENUM('Dog', 'Cat'),
+			type: DataTypes.ENUM('Perro', 'Gato'), // Modificados para que estén en español
 			allowNull: true,
 		},
 		// race: {
@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
 			allowNull: true
 		},
 		gender: {
-			type: DataTypes.ENUM('hembra', 'macho'),
+			type: DataTypes.ENUM('Hembra', 'Macho'), //Ahora con mayúsculas al principio(como debe ser)
 			allowNull: true,
 		},
 		imageUrl: { // Nuevo atributo para la URL de la imagen
@@ -43,13 +43,14 @@ module.exports = (sequelize) => {
 		description: {
 			type: DataTypes.TEXT,
 		},
+		status: {  //Añadí status nuevamente(Marcos), ya que es necesario para el "borrado lógico"(desactivación de una mascota cuando es adoptada) va de la mano con ruta DELETE
+		 	type: DataTypes.BOOLEAN, 
+		 	allowNull: true,
+		 	defaultValue: true,
+		}
 		// healthCondition: {
 		// 	type: DataTypes.TEXT,
 		// 	allowNull: true,
-		// },
-		// status: {
-		// 	type: DataTypes.ENUM('disponible', 'solicitado', 'adoptado'),
-		// 	allowNull: true,
-		// },
+		//},	
 	});
 }

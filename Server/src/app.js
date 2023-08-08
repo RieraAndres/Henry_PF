@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index');
-const imgPetsRoutes = require('./cloudinary/imgPetsRoutes.js');
+const routerCloud = require('./cloudinary/imgPetsRoutes.js');
 
 require('./db.js'); //conexion con la DB
 
@@ -26,7 +26,7 @@ server.use((req, res, next) => {
 
 server.use('/', routes) //raiz del enrutamiento Back
 
-server.use('/api/pets', imgPetsRoutes); //rutas para cargar y pedir imágenes de las mascotas a cloudinary 
+server.use('/api/pets', routerCloud); //rutas para cargar y pedir imágenes de las mascotas a cloudinary 
 
 //midleware para manejo de eventuales errores en las rutas
 server.use((err, req, res, next) => {

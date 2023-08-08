@@ -1,4 +1,19 @@
-const petsData = [
+const { Client } = require('pg');
+const { sequelize, Mascota, User } = require('./src/db.js'); 
+const {
+  DB_USER, DB_PASSWORD, DB_HOST,
+} = process.env;
+
+// Configuración de la conexión a la base de datos
+const dbConfig = { /*USARÁN SUS VARIABLES CON LAS QUE SE CONECTAN A SU DB*/
+  user: DB_USER, 
+  host: DB_HOST,  
+  database: 'patitas_sin_hogar',
+  password: DB_PASSWORD, 
+  port: 5432         // Puerto por defecto de PostgreSQL
+};
+
+const mascotasData = [
   {
     "name": "Max",
     "specie": "Perro",
@@ -13,6 +28,18 @@ const petsData = [
   },
   {
     "name": "Luna",
+    "specie": "Perro",
+    "age": "3",
+    "size": "Grande",
+    "gender": "Hembra",
+    "imageUrl": "https://cdn2.thedogapi.com/images/hMyT4CDXR.jpg",
+    "location": "https://goo.gl/maps/Bs4g8QU5aenm5upu5",
+    "description": "Luna es una perrita dulce y tranquila que adora acurrucarse contigo en el sofá.",
+    "email": "nvnsuibsd@yahoo.com",
+    "numberPhone": "5789294034"
+  },
+  {
+    "name": "Lunita2",
     "specie": "Perro",
     "age": "3",
     "size": "Grande",
@@ -359,6 +386,56 @@ const petsData = [
     "email": "nvnsuibsd@yahoo.com",
     "numberPhone": "5789294034"
   }
-]
+];
 
-module.exports = petsData;
+async function seedMascotas() {
+  const client = new Client(dbConfig);
+
+  try {
+    await client.connect();
+
+    // Iterar sobre los datos y realizar inserciones
+    for (const mascota of mascotasData) {
+      const [newMascota, created] = await Mascota.findOrCreate({
+        where: {
+          name: mascota.name,
+          specie: mascota.specie,
+        },
+        defaults: {
+          name: mascota.name,        
+          specie: mascota.specie,
+          age: mascota.age,
+          size: mascota.size,
+          gender: mascota.gender,
+          imageUrl: mascota.imageUrl,
+          location: mascota.location,
+          description: mascota.description,
+          /*email: mascota.email,
+          mascota: mascota.numberPhone,*/
+          user_id: mascota.user_id,
+        }
+
+      });
+
+      // relación con User (que posteó la mascota)
+      const user = await User.findOne({
+       where: {
+        email: 'email',  
+      }});
+      if (user) {
+        await newMascota.setUserPostPet(user);
+      }
+    }
+
+    console.log('Seeding completado exitosamente.');
+  } catch (error) {
+    console.error('Error durante el seeder:', error);
+  } finally {
+    await client.end();
+  }
+}
+
+seedMascotas();
+
+/* ------------IMPORTANTE----------- */
+/* Instalar dependencia pg si no la tienen, luego ejecutar este comando en la terminal del server; node mascotas_seed.js */

@@ -1,15 +1,14 @@
-// const filterController = require('../controllers/crudFilter/filterController')
-// const getAllPets = require('../controllers/crudPets/getAllPets')
+const filterGender = require("../controllers/filterController/filters");
 
+const handlerSortAndFilter = async (req, res) => {
+  const { size, orden_age, gender, orden_name, specie } = req.query;
+  try {
+    const petsFiltered = await filterGender( size, orden_age, gender, orden_name, specie); //Parametros que manejara el controller
+    return res.status(200).json(petsFiltered);
+  } catch (error) {
+    console.error("Error al filtrar mascotas:", error);
+    return res.status(500).json({ error: "Error al filtrar mascotas" });
+  }
+};
 
-// const handlerSortAndFilter = async(req,res) => {
-//     const { age } = req.query
-//     try {
-//         const allPets = await getAllPets(age)
-        
-//     } catch (error) {
-        
-//     }
-// }
-
-// module.exports = {handlerSortAndFilter}
+module.exports = { handlerSortAndFilter };

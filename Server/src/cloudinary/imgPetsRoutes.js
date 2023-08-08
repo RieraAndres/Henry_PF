@@ -1,12 +1,12 @@
 const express = require('express');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
-const { Mascota } = require('../models/Mascota.js');
+const { Mascota } = require('../db.js');
 const {
 	CLOUD_NAME, API_KEY, API_SECRET,
 } = process.env;
 
-const router = express.Router();
+const routerCloud = express.Router();
 
 cloudinary.config({ 
   cloud_name: CLOUD_NAME, 
@@ -18,7 +18,7 @@ cloudinary.config({
 const storage = multer.diskStorage({});
 const upload = multer({ storage });
 
-router.post('/api/pets/upload', upload.single('image'), async (req, res) => {  //Ruta para subir una imagen de mascota
+routerCloud.post('/api/pets/upload', upload.single('image'), async (req, res) => {  //Ruta para subir una imagen de mascota
 	try {
 		if(req.file) {
 			return res.status(400).json({ error: 'No se ha proporcionado una imagen' });
@@ -34,7 +34,7 @@ router.post('/api/pets/upload', upload.single('image'), async (req, res) => {  /
 	}
 });
 
-router.get('/api/pets', async (req, res) => {  //Ruta que trae todas las imágenes de las mascotas
+routerCloud.get('/api/pets', async (req, res) => {  //Ruta que trae todas las imágenes de las mascotas
 	try {
 		const pets = await Mascota.findAll();
 		return res.json(pets);
@@ -43,4 +43,4 @@ router.get('/api/pets', async (req, res) => {  //Ruta que trae todas las imágen
 	}
 });
 
-module.exports = router;
+module.exports = routerCloud;
