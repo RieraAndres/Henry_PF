@@ -1,5 +1,5 @@
 .contenedor404 {
-   background: url("C:\Users\User\Desktop\Henry_PF\Client\src\Assets\Fondos\error.png");
+   background: url("../../Assets/Fondos/error.png");
    background-repeat: no-repeat;
    background-size: cover;
    display: flex;
