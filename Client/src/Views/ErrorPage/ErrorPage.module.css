@@ -1,0 +1,47 @@
+.contenedor404 {
+   background: url("C:\Users\User\Desktop\Henry_PF\Client\src\Assets\Fondos\error.png");
+   background-repeat: no-repeat;
+   background-size: cover;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   min-height: 100vh;
+  }
+  
+.error {
+  color: rgb(230, 27, 230);
+  font-size: 30px;
+  font-family: 'Helvetica', sans-serif;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  
+}
+
+.buttonLogIn {
+    margin-right: 10px;    
+    min-width: 10%;
+    height: 60px;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+     background-color: #ddacac;
+   z-index: 1;
+
+   /*Para posicionar el boton dentro de la imagen*/
+
+   position: absolute; /* Cambiado a absolute */
+   bottom: 85%; /* Ajusta la distancia desde la parte inferior de la imagen */
+   left: 50%; /* Ajusta la posición horizontal del botón */
+   transform: translateX(-50%); /* Centra el botón horizontalmente */
+}
