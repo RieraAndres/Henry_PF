@@ -15,18 +15,18 @@ import { Link } from 'react-router-dom';
 function NavBar() { 
     const location = useLocation()
     return (
-        <Navbar variant="light" bg="#FFFDF6" >
+        <Navbar className = {styles.Nav} >
             <Container>
                 <Row>
                     <Col><Navbar.Brand href="/inicio"><img src={Logo} alt="" style={{width :'50px'}}></img></Navbar.Brand></Col>
                 </Row>
                 <Row>
                     <Col>
-                        {location.pathname === "/home" ? <SearchBar/> : <Link to="/home"><button>Atras</button></Link>}
+                        {location.pathname === "/home" ? <SearchBar/> : <Link to="/home"><button className={styles.boton}>Home</button></Link>}
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col>  
                         <Navbar.Toggle aria-controls="navbar-dark-example" />
                         <Navbar.Collapse id="navbar-dark-example">
                             <Nav>

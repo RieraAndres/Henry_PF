@@ -8,7 +8,7 @@ function Inicio() {
         ¿ESTÁS INTERESADO EN ADOPTAR?
       </p>
       <button className={styles.buttonAdopt} onClick={() => window.location.href = '/home'}>
-        Perros en Adopción
+        Mascotas en Adopción
       </button>
       <button className={styles.buttonGive} onClick={() => window.location.href = '/adopt'}>
         Dar en Adopción
