@@ -1,12 +1,15 @@
 const { Mascota } = require('../../db');
 
-const filters = async (name, orden_age, gender, orden_name, reset = false) => {
-  let filter = {};
+const filters = async (size, orden_age, gender, orden_name, specie) => {
+  let filter = {}; //Donde son asignados los filtros
   try {
-    if (name) filter.name = name;
+    //Filtros
+    if (size) filter.size = size;
     if (gender) filter.gender = gender;
+    if(specie) filter.specie = specie //Agregado filtrado por especie, por si requiera mas adelante el Front
 
-    const orderExpression = [];
+    //Ordenamientos
+    const orderExpression = []; //Van siendo alojados en este array, por columnas
 
     if (orden_age === 'ASC' || orden_age === 'DESC') {
       orderExpression.push(['age', orden_age]);
@@ -19,7 +22,7 @@ const filters = async (name, orden_age, gender, orden_name, reset = false) => {
     const petFiltered = await Mascota.findAll({
       where: filter,
       order: orderExpression,
-    });
+    }); //Combinación de los filtrados junto a los ordenados
 
     return petFiltered;
   } catch (error) {

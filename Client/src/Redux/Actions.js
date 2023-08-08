@@ -88,7 +88,7 @@ export const setOrden = (ordenData) => {
 export const applyFilters = (filters, orden) => {
   return async function (dispatch) {
     try {
-      const queryString = `name=${filters.name}&gender=${filters.gender}&orden_age=${orden.orden_age}&orden_name=${orden.orden_name}`
+      const queryString = `size=${filters.size}&gender=${filters.gender}&orden_age=${orden.orden_age}&orden_name=${orden.orden_name}`
       const response = await axios.get(`http://localhost:3001/mascotas/filter?${queryString}`, {
         ...filters,
         ...orden,

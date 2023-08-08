@@ -16,7 +16,7 @@ let initialState = {
   petsCopy: [], 
   auxState: [],
   filters: { //filtros
-    name: "",
+    size: "",
     gender: "",
   },
   orden: {
