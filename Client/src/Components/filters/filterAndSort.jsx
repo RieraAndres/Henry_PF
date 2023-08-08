@@ -22,17 +22,31 @@ const FiltersComponent = ({setCurrentPage , setActivePage}) => {
     setActivePage(1)
   };
 
+  const resetFilter = () => {
+    // Restablece los filtros y el orden al estado inicial
+    dispatch(setFilter({ size: '', gender: '' }));
+    dispatch(setOrden({ orden_age: '', orden_name: '' }));
+    // Aplica los filtros y orden iniciales
+    dispatch(applyFilters({ size: '', gender: '' }, { orden_age: '', orden_name: '' }));
+    setCurrentPage(1);
+    setActivePage(1);
+  }
+
   return (
     <Form>
       <Row>
-        {/* <Col>
+      <Col className={styles.filtros}>
           <Form.Control
-            type="text"
-            value={filters.name}
-            onChange={(e) => handleFilterChange('name', e.target.value)}
-            placeholder="Nombre"
-          />
-        </Col> */}
+            as="select"
+            value={filters.size}
+            onChange={(e) => handleFilterChange('size', e.target.value)}
+          >
+            <option value="">Tamaño</option>
+            <option value="Chico">Chico</option>
+            <option value="Mediano">Mediano</option>
+            <option value="Grande">Grande</option>
+          </Form.Control>
+        </Col>
         <Col className={styles.filtros}>
           <Form.Control
             as="select"
@@ -51,8 +65,8 @@ const FiltersComponent = ({setCurrentPage , setActivePage}) => {
             onChange={(e) => handleOrdenChange('orden_age', e.target.value)}
           >
             <option value="">Ordenar por edad</option>
-            <option value="ASC">Ascendente</option>
-            <option value="DESC">Descendente</option>
+            <option value="ASC">Menor Edad</option>
+            <option value="DESC">Mayor Edad</option>
           </Form.Control>
         </Col>
         <Col>
@@ -62,14 +76,15 @@ const FiltersComponent = ({setCurrentPage , setActivePage}) => {
             onChange={(e) => handleOrdenChange('orden_name', e.target.value)}
           >
             <option value="">Ordenar por nombre</option>
-            <option value="ASC">Ascendente</option>
-            <option value="DESC">Descendente</option>
+            <option value="ASC">Ascendente A-Z</option>
+            <option value="DESC">Descendente Z-A</option>
           </Form.Control>
         </Col>
       </Row>
       <Row>
         <Col>
           <Button variant="primary" onClick={handleApplyFilters}>Filtrar</Button>
+          <Button variant="primary" onClick={resetFilter}>Restablecer</Button>
         </Col>
       </Row>
     </Form>
