@@ -7,7 +7,7 @@ const getAllPets = async() => {
             {
             include: {
                 model: User,
-                as: 'donante',
+                as: 'publicador',
                 attributes: ['email', 'numberPhone'],
             }
         }
