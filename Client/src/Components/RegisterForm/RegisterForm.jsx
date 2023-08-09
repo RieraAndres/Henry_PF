@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Para readdressar a la ruta de inicio después del registro
+import { postUser } from "../../Redux/Actions";
+import { useDispatch , useSelector } from "react-redux";
+
+
 
 import styles from "./RegisterForm.module.css";
 
 function RegisterForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const userCreated = useSelector((state)=>state.userCreated)
 
   function validate(user) {
     let errors = {};
@@ -63,7 +69,7 @@ function RegisterForm() {
     numberPhone: "",
     address: "",
   });
-
+console.log(user);
   const [errors, setErrors] = useState({});
 
   function handleChange(e) {
@@ -84,7 +90,10 @@ function RegisterForm() {
     e.preventDefault();
     const formErrors = validate(user);
     if (Object.keys(formErrors).length === 0) {
-      navigate("/inicio"); // Readdressamos a la ruta de login después del registro.
+      dispatch(postUser(user))
+      if(!userCreated){
+      navigate("/"); // Readdressamos a la ruta de login después del registro.
+      }
     } else {
       setErrors(formErrors);
     }
@@ -162,15 +171,15 @@ function RegisterForm() {
           <label htmlFor="birthdate" className="form-label">
             Fecha de Nacimiento
           </label>
-          <input
-            type="text"
-            className={`form-control ${errors.birthdate ? styles.errorInput : ""}`}
-            id="birthdate"
-            name="birthdate"
-            placeholder=" Año/mes/día"
-            value={user.birthdate}
-            onChange={handleChange}
-          />
+          <input 
+          type="date" 
+          id="birthdate" 
+          name="birthdate" 
+          value={user.birthdate} 
+          min="1905-01-01" 
+          max="2023-01-01"
+          onChange={handleChange} 
+          className={`form-control ${errors.birthdate ? styles.errorInput : ""}`}/>
           {errors.birthdate && <p className={styles.errorMsg}>{errors.birthdate}</p>}
         </div>
 
