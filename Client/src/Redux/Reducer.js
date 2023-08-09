@@ -88,11 +88,11 @@ export default function rootReducer(state = initialState, action) {
     case POST_USER_SUCCESS:
       return{
         ...state,
-        userCreated: true,
+        userCreated: true, //al ser creado con exito seteo en true el estado 
       }
     case POST_USER_FAILURE:
       return{
-        ...state,
+        ...state, // al haber error seteo en false el estado
         userCreated:false
       }
     default:

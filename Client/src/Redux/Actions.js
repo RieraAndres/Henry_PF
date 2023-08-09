@@ -121,7 +121,7 @@ export function postUser(user) {
       // Si el servidor devuelve un código de estado 201 (creado), muestra el mensaje de éxito
       if (response.status === 201) {
         dispatch({
-          type: POST_USER_SUCCESS,
+          type: POST_USER_SUCCESS, //para setear userCreated en true y redireccionar a la view login
         })
         window.alert(response.data.message); // Accedemos al mensaje en response.data
 
@@ -130,7 +130,7 @@ export function postUser(user) {
     } catch (error) {
       if (error.response && error.response.status === 409) {
         dispatch({
-          type: POST_USER_FAILURE,
+          type: POST_USER_FAILURE,// para setear userCreated en false y mantenerme en la view de registro
         })
         window.alert(error.response.data.error); // Muestra el mensaje personalizado del servidor en caso de un error 409
       } else {

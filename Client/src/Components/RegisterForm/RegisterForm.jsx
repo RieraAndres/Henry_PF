@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Para readdressar a la ruta de inicio después del registro
 import { postUser } from "../../Redux/Actions";
 import { useDispatch , useSelector } from "react-redux";
+import { validate } from "./formValidator";
 
 
 
@@ -10,53 +11,9 @@ import styles from "./RegisterForm.module.css";
 function RegisterForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const userCreated = useSelector((state)=>state.userCreated)
+  const userCreated = useSelector((state)=>state.userCreated) //para evaluar si debo navegar al login o no
 
-  function validate(user) {
-    let errors = {};
-
-    // Validaciones para el formulario de registro
-    if (!user.name) {
-      errors.name = "Ingresa tu nombre";
-    }
-
-    if (!user.lastName) {
-      errors.lastName = "Ingresa tu apellido";
-    }
-
-    if (!user.email) {
-      errors.email = "Ingresa tu correo electrónico";
-    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email)) {
-      errors.email = "Correo electrónico inválido";
-    }
-
-    if (!user.birthdate) {
-      errors.birthdate = "Ingresa tu fecha de nacimiento";
-    }
-
-    if (!user.userName) {
-      errors.userName = "Ingresa tu nombre de usuario";
-    } else if (!/^[a-zA-Z0-9]+$/.test(user.userName)) {
-      errors.userName = "El nombre de usuario solo puede contener letras y números";
-    }
-
-
-    if (!user.password) {
-      errors.password = "Ingresa una contraseña";
-    } else if (!/\d/.test(user.password)) {
-      errors.password = "La contraseña debe contener al menos un número";
-    } else if (user.password.length < 6 || user.password.length > 15) {
-      errors.password = "La contraseña debe tener entre 6 y 15 caracteres";
-    }
-
-    if (!user.confirmPassword) {
-      errors.confirmPassword = "Confirma tu contraseña";
-    } else if (user.password !== user.confirmPassword) {
-      errors.confirmPassword = "Las contraseñas no coinciden";
-    }
-
-    return errors;
-  }
+  
 
   const [user, setUser] = useState({
     name: "",
@@ -69,7 +26,7 @@ function RegisterForm() {
     numberPhone: "",
     address: "",
   });
-console.log(user);
+
   const [errors, setErrors] = useState({});
 
   function handleChange(e) {
@@ -92,7 +49,7 @@ console.log(user);
     if (Object.keys(formErrors).length === 0) {
       dispatch(postUser(user))
       if(!userCreated){
-      navigate("/"); // Readdressamos a la ruta de login después del registro.
+      navigate("/"); // Readdressamos a la ruta de inicio después del registro exitoso.
       }
     } else {
       setErrors(formErrors);
