@@ -339,7 +339,7 @@ const PostPetForm = () => {
                 Foto:
               </label>
               <input
-                type="text"
+                type="file"
                 className={styles.input}
                 name="imageUrl"
                 required
