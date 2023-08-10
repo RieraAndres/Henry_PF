@@ -1,56 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Para readdressar a la ruta de inicio después del registro
+import { postUser } from "../../Redux/Actions";
+import { useDispatch , useSelector } from "react-redux";
+import { validate } from "./formValidator";
+
+
 
 import styles from "./RegisterForm.module.css";
 
 function RegisterForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const userCreated = useSelector((state)=>state.userCreated) //para evaluar si debo navegar al login o no
 
-  function validate(user) {
-    let errors = {};
-
-    // Validaciones para el formulario de registro
-    if (!user.name) {
-      errors.name = "Ingresa tu nombre";
-    }
-
-    if (!user.lastName) {
-      errors.lastName = "Ingresa tu apellido";
-    }
-
-    if (!user.email) {
-      errors.email = "Ingresa tu correo electrónico";
-    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.email)) {
-      errors.email = "Correo electrónico inválido";
-    }
-
-    if (!user.birthdate) {
-      errors.birthdate = "Ingresa tu fecha de nacimiento";
-    }
-
-    if (!user.userName) {
-      errors.userName = "Ingresa tu nombre de usuario";
-    } else if (!/^[a-zA-Z0-9]+$/.test(user.userName)) {
-      errors.userName = "El nombre de usuario solo puede contener letras y números";
-    }
-
-
-    if (!user.password) {
-      errors.password = "Ingresa una contraseña";
-    } else if (!/\d/.test(user.password)) {
-      errors.password = "La contraseña debe contener al menos un número";
-    } else if (user.password.length < 6 || user.password.length > 15) {
-      errors.password = "La contraseña debe tener entre 6 y 15 caracteres";
-    }
-
-    if (!user.confirmPassword) {
-      errors.confirmPassword = "Confirma tu contraseña";
-    } else if (user.password !== user.confirmPassword) {
-      errors.confirmPassword = "Las contraseñas no coinciden";
-    }
-
-    return errors;
-  }
+  
 
   const [user, setUser] = useState({
     name: "",
@@ -84,7 +47,10 @@ function RegisterForm() {
     e.preventDefault();
     const formErrors = validate(user);
     if (Object.keys(formErrors).length === 0) {
-      navigate("/inicio"); // Readdressamos a la ruta de login después del registro.
+      dispatch(postUser(user))
+      if(!userCreated){
+      navigate("/"); // Readdressamos a la ruta de inicio después del registro exitoso.
+      }
     } else {
       setErrors(formErrors);
     }
@@ -162,15 +128,15 @@ function RegisterForm() {
           <label htmlFor="birthdate" className="form-label">
             Fecha de Nacimiento
           </label>
-          <input
-            type="text"
-            className={`form-control ${errors.birthdate ? styles.errorInput : ""}`}
-            id="birthdate"
-            name="birthdate"
-            placeholder=" Año/mes/día"
-            value={user.birthdate}
-            onChange={handleChange}
-          />
+          <input 
+          type="date" 
+          id="birthdate" 
+          name="birthdate" 
+          value={user.birthdate} 
+          min="1905-01-01" 
+          max="2023-01-01"
+          onChange={handleChange} 
+          className={`form-control ${errors.birthdate ? styles.errorInput : ""}`}/>
           {errors.birthdate && <p className={styles.errorMsg}>{errors.birthdate}</p>}
         </div>
 
