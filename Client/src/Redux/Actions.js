@@ -140,6 +140,15 @@ export function postUser(user) {
   };
 }
 
+export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
+  try {
+    await axios.post(`http://localhost:3001/mascotas/${petId}/adopt`, formData);
+    // Puedes realizar cualquier lógica adicional aquí después de enviar la solicitud
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 
 export function clearAux() {
