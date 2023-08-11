@@ -33,7 +33,7 @@ function Detail() {
                 <Row >
                     {showForm ? (
                         <Col style={{marginTop: '0'}}>
-                            <FormAdopt />
+                            <FormAdopt petId={id}/>
                         </Col>
                     ) : (
                         <Col md={5} className={styles.ColIzq}>

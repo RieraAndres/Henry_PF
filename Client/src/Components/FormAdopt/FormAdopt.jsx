@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styles from "../FormAdopt/FormAdopt.module.css";
+import { useDispatch } from 'react-redux';
+import { submitAdoptionRequest } from '../../Redux/Actions';
 
-const FormAdopt = () => {
+const FormAdopt = ({petId}) => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
-    telefono: "",
+    numberPhone: "",
     email: "",
-    fechaNacimiento: "",
-    descripcion: "",
+    addressAdoption:"",
+    birthdate: "",
+    comment: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -15,7 +19,7 @@ const FormAdopt = () => {
   const [isFormValid, setIsFormValid] = useState(false);
 
   const nameRegex = /^[a-zA-Z\s]+$/;
-  const telefonoRegex = /^[0-9]+$/;
+  const numberPhoneRegex = /^[0-9]+$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   useEffect(() => {
@@ -27,11 +31,11 @@ const FormAdopt = () => {
   const [year, setYear] = useState("");
 
   useEffect(() => {
-    // Actualizar el valor de fechaNacimiento en el estado del formulario
+    // Actualizar el valor de birthdate en el estado del formulario
     if (day && month && year) {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        fechaNacimiento: `${year}-${month.toString().padStart(2, "0")}-${day
+        birthdate: `${year}-${month.toString().padStart(2, "0")}-${day
           .toString()
           .padStart(2, "0")}`,
       }));
@@ -58,14 +62,14 @@ const FormAdopt = () => {
     (_, i) => i + 1905
   );
   // Función para calcular la edad
-  const calcularEdad = (fechaNacimiento) => {
-    const fechaNacimientoDate = new Date(fechaNacimiento);
+  const calcularEdad = (birthdate) => {
+    const birthdateDate = new Date(birthdate);
     const today = new Date();
-    let age = today.getFullYear() - fechaNacimientoDate.getFullYear();
-    const monthDiff = today.getMonth() - fechaNacimientoDate.getMonth();
+    let age = today.getFullYear() - birthdateDate.getFullYear();
+    const monthDiff = today.getMonth() - birthdateDate.getMonth();
     if (
       monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < fechaNacimientoDate.getDate())
+      (monthDiff === 0 && today.getDate() < birthdateDate.getDate())
     ) {
       age--;
     }
@@ -73,17 +77,17 @@ const FormAdopt = () => {
   };
 
   // Función para validar la fecha de nacimiento
-  const validarFechaNacimiento = (fechaNacimiento) => {
-    if (!fechaNacimiento) {
+  const validarbirthdate = (birthdate) => {
+    if (!birthdate) {
       return "Por favor, ingrese una fecha de nacimiento";
     }
 
     const fechaRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!fechaRegex.test(fechaNacimiento)) {
+    if (!fechaRegex.test(birthdate)) {
       return "El formato de fecha no es válido";
     }
 
-    const age = calcularEdad(fechaNacimiento);
+    const age = calcularEdad(birthdate);
     if (age < 21) {
       return "Debe tener al menos 21 años para adoptar";
     }
@@ -96,7 +100,7 @@ const FormAdopt = () => {
   };
 
   const validateForm = () => {
-    const { name, telefono, email, descripcion, fechaNacimiento } = formData;
+    const { name, numberPhone, email, comment, birthdate } = formData;
 
     const newErrors = {};
 
@@ -106,10 +110,10 @@ const FormAdopt = () => {
       newErrors.name = "El nombre no es válido";
     }
 
-    if (!telefono) {
-      newErrors.telefono = "Por favor, ingrese número de teléfono";
-    } else if (!telefonoRegex.test(telefono)) {
-      newErrors.telefono = "El teléfono debe ser un número";
+    if (!numberPhone) {
+      newErrors.numberPhone = "Por favor, ingrese número de teléfono";
+    } else if (!numberPhoneRegex.test(numberPhone)) {
+      newErrors.numberPhone = "El teléfono debe ser un número";
     }
 
     if (!email) {
@@ -119,13 +123,13 @@ const FormAdopt = () => {
     }
 
     // Validar fecha de nacimiento
-    const fechaNacimientoError = validarFechaNacimiento(fechaNacimiento);
-    if (fechaNacimientoError) {
-      newErrors.fechaNacimiento = fechaNacimientoError;
+    const birthdateError = validarbirthdate(birthdate);
+    if (birthdateError) {
+      newErrors.birthdate = birthdateError;
     }
 
-    if (!descripcion || descripcion.length < 10) {
-      newErrors.descripcion =
+    if (!comment || comment.length < 10) {
+      newErrors.comment =
         "Por favor, ingrese una descripción con al menos 10 caracteres";
     }
 
@@ -142,8 +146,8 @@ const FormAdopt = () => {
     setFormSubmitted(false); // Añade esta línea para habilitar el botón nuevamente al cambiar un campo
 
     // Validar campo de fecha al cambiar su valor
-    if (name === "fechaNacimiento") {
-      const errorMessage = validarFechaNacimiento(value);
+    if (name === "birthdate") {
+      const errorMessage = validarbirthdate(value);
       setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
     }
   };
@@ -153,9 +157,22 @@ const FormAdopt = () => {
 
     const isFormValid = validateForm();
 
-    if (isFormValid) {
-      setFormSubmitted(true);
-    }
+  if (isFormValid) {
+    dispatch(
+      submitAdoptionRequest({
+        name: formData.name,
+        numberPhone: formData.numberPhone,
+        email: formData.email,
+        addressAdoption: formData.addressAdoption,
+        birthdate: formData.birthdate,
+        comment: formData.comment,
+      },
+      petId
+      )
+    );
+
+    setFormSubmitted(true);
+  }
   };
 
   return (
@@ -183,23 +200,23 @@ const FormAdopt = () => {
               )}
             </div>
 
-            {/* Telefono */}
+            {/* numberPhone */}
             <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="telefono">
+              <label className={styles.label} htmlFor="numberPhone">
                 {/* Teléfono: */}
               </label>
               <input
                 type="text"
                 className={styles.input}
-                name="telefono"
+                name="numberPhone"
                 required
                 autoComplete="off"
                 placeholder="Teléfono"
-                value={formData.telefono}
+                value={formData.numberPhone}
                 onChange={handleChange}
               />
-              {errors.telefono && (
-                <p className={styles.errorText}>{errors.telefono}</p>
+              {errors.numberPhone && (
+                <p className={styles.errorText}>{errors.numberPhone}</p>
               )}
             </div>
 
@@ -217,6 +234,7 @@ const FormAdopt = () => {
                 placeholder="Ingrese un email válido"
                 value={formData.email}
                 onChange={handleChange}
+                // disabled
               />
               <div>
                 {errors.email && (
@@ -225,29 +243,50 @@ const FormAdopt = () => {
                 )}
               </div>
             </div>
+            <div className={styles.sectionInputCG}>
+              <label className={styles.label} htmlFor="addressAdoption">
+                Ubicación:
+              </label>
+              <input
+                type="text"
+                className={`${styles.input} ${
+                  errors.location ? styles.errorBorder : ""
+                }`}
+                name="addressAdoption"
+                required
+                autoComplete="off"
+                placeholder="Ubicación"
+                value={formData.location} // Proporcionar el valor desde el estado
+                onChange={handleChange}
+              />
+              {errors.location && (
+                <p className={styles.errorText}>{errors.location}</p>
+              )}
+            </div>
 
             {/* Fecha de Nacimiento */}
             <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="fechaNacimiento">
+              <label className={styles.label} htmlFor="birthdate">
                 Fecha de Nacimiento:
               </label>
               <div className={styles.customDateInput}>
                 {/* <input
         type="date"
-        name="fechaNacimiento"
+        name="birthdate"
         id="fecha"
         min="1905-01-01" max="2023-08-05"
         className={`${styles.input} ${styles.centerDate}`}
         required
         autoComplete="off"
-        value={formData.fechaNacimiento}
+        value={formData.birthdate}
         onChange={handleChange}
         onBlur={(e) => {
           const { name, value } = e.target;
-          const errorMessage = validarFechaNacimiento(value);
+          const errorMessage = validarbirthdate(value);
           setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
         }}
       /> */}
+      
                 <div>
                   <label></label>
                   <select
@@ -288,20 +327,20 @@ const FormAdopt = () => {
                     ))}
                   </select>
                 </div>
-                {errors.fechaNacimiento && (
-                  <p className={styles.errorText}>{errors.fechaNacimiento}</p>
+                {errors.birthdate && (
+                  <p className={styles.errorText}>{errors.birthdate}</p>
                 )}
               </div>
             </div>
 
-            {/* Descripcion */}
+            {/* comment */}
             <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="descripcion">
+              <label className={styles.label} htmlFor="comment">
                 Razones para adoptar:
               </label>
               <textarea
-                name="descripcion"
-                id="descripcionCG"
+                name="comment"
+                id="commentCG"
                 rows="4"
                 style={{ resize: "none" }} // Bloquear el estiramiento del textarea
                 minLength="10"
@@ -310,11 +349,11 @@ const FormAdopt = () => {
                 required
                 autoComplete="off"
                 placeholder="¿Por qué quieres adoptar?"
-                value={formData.descripcion}
+                value={formData.comment}
                 onChange={handleChange}
               ></textarea>
-              {errors.descripcion && (
-                <p className={styles.errorText}>{errors.descripcion}</p>
+              {errors.comment && (
+                <p className={styles.errorText}>{errors.comment}</p>
               )}
             </div>
 
