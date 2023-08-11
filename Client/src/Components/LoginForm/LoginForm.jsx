@@ -12,8 +12,7 @@ import styles from "./LoginForm.module.css";
 function LoginForm() {
   const navigate = useNavigate();
 
-  const ClientID = '933461258445-6obss3psoedlvnceq9d6d1kt0fa47tfm.apps.googleusercontent.com'
-  const appID = '786345766571360'
+  const {appID, ClientID} = process.env
 
   useEffect(()=>{
       function start(){
