@@ -1,4 +1,5 @@
 const registerUser = require('../controllers/crudUser/postRegisterUser.js');
+const getUser = require('../controllers/crudUser/getProfileUser.js')
 
 const handlerRegisterUser = async (req, res) => {
     const { name, lastName, email, birthdate, userName, password, numberPhone, address } = req.body;
@@ -20,4 +21,22 @@ const handlerRegisterUser = async (req, res) => {
     }
 };
 
-module.exports = handlerRegisterUser;
+
+const handlerUserData = async (req,res)=>{
+    const {userName} = req.body
+    try {
+        if(!userName){
+            return res.status(400).json({error: 'Ingrese nombre de usuario'})
+        }else{
+            const userData = await getUser(userName)
+            if(userData){
+                return res.status(201).json(userData)
+            }else{
+                return res.status(400).json({error:'No existe usuario con ese UserName'})
+            }
+        }
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+module.exports = {handlerRegisterUser , handlerUserData};
