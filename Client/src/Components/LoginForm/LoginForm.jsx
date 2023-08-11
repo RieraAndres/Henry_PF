@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { validate } from "./validateForm";
 import {gapi} from 'gapi-script'
 import GoogleLogin from 'react-google-login'
+import FacebookLogin from 'react-facebook-login'
 
 import styles from "./LoginForm.module.css";
 
@@ -12,6 +13,7 @@ function LoginForm() {
   const navigate = useNavigate();
 
   const ClientID = '933461258445-6obss3psoedlvnceq9d6d1kt0fa47tfm.apps.googleusercontent.com'
+  const appID = '786345766571360'
 
   useEffect(()=>{
       function start(){
@@ -85,6 +87,11 @@ function LoginForm() {
     console.log("Ocurrio un Problema", response);
   }
 
+  const responseFacebook = (response) => {
+    console.log(response);
+
+
+  }
 
   return (
     <div>
@@ -137,6 +144,7 @@ function LoginForm() {
             {/* <a href=""> <img src="https://img.freepik.com/iconos-gratis/google_318-258888.jpg" alt="googleLogo" /> </a>
             <a href=""> <img src= "https://img.freepik.com/iconos-gratis/facebook_318-157463.jpg" alt="facebookLogo" /> </a> */}
             <GoogleLogin clientId={ClientID} onSuccess={onSuccess} onFailure={onFailure} cookiePolicy="single_host_origin" isSignedIn={true}/>
+            <FacebookLogin appId={appID} autoLoad={false} fields="first_name,last_name" callback={responseFacebook} icon='fa-facebook' textButton="Facebook" buttonStyle={{backgroundColor: 'blue'}} scope="public_profile" redirectUri={`${window.location.origin}/facebook-redirect`}/>
         </div>
       </div>
       </form> 
