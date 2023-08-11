@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styles from "../../Components/PostPetForm/PostPetForm.module.css";
 import { useDispatch } from "react-redux";
 import { postPet } from "../../Redux/Actions";
+import miniPerroImage from "./AssetsForm/miniPerro.jpg";
+import miniGatoImage from "./AssetsForm/miniGato.jpg";
 
 const PostPetForm = () => {
   const dispatch = useDispatch();
@@ -16,9 +18,10 @@ const PostPetForm = () => {
     imageUrl: "",
   });
 
-  const [especieOptions] = useState(["Dog", "Cat"]);
-  const [generoOptions] = useState(["macho", "hembra"]);
+  const [especieOptions] = useState(["Perro", "Gato"]);
+  const [generoOptions] = useState(["Macho", "Hembra"]);
   const [tamañoOptions] = useState(["Grande", "Mediano", "Chico"]);
+  const [selectedFileName, setSelectedFileName] = useState("");
 
   const [especieSelect, setEspecieSelect] = useState([]);
   const [generoSelect, setGeneroSelect] = useState([]);
@@ -30,10 +33,13 @@ const PostPetForm = () => {
   const [isAgeModified, setIsAgeModified] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
   const [isPhotoSelected, setIsPhotoSelected] = useState(false);
+  const [isLocationValid, setIsLocationValid] = useState(true);
 
   const nameRegex = /^[a-zA-Z\s]+$/;
   const numberPhoneRegex = /^[0-9]+$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const googleMapsUrlRegex = /^(https:\/\/goo\.gl\/maps\/|https:\/\/www\.google\.com\/maps\/place\/)([-a-zA-Z0-9_]+)\/?(@([-0-9.]+),([-0-9.]+),(\d+)z)?/;
+
 
   useEffect(() => {
     setIsFormValid(Object.keys(errors).length === 0 && isPhotoSelected);
@@ -49,6 +55,10 @@ const PostPetForm = () => {
         }));
       }
     }
+  };
+
+  const isValidGoogleMapsUrl = (url) => {
+    return googleMapsUrlRegex.test(url);
   };
 
   const validateForm = () => {
@@ -78,18 +88,6 @@ const PostPetForm = () => {
         "Por favor, ingrese una descripción con al menos 10 caracteres";
     }
 
-    // Validación de la imageUrl
-    // if (!imageUrl) {
-    //   newErrors.imageUrl = "Por favor, agregue una imageUrl.";
-    // } else {
-    //   // Si hay una imageUrl seleccionada, verificamos su tipo (opcionalmente)
-    //   const allowedTypes = ["image/jpeg", "image/png", "image/gif", "text"];
-    //   if (!allowedTypes.includes(imageUrl.type)) {
-    //     newErrors.imageUrl = "El tipo de archivo debe ser JPEG, PNG o GIF";
-    //   }
-    // }
-
-    // Validar campos de los selects
     if (especieSelect.length === 0) {
       newErrors.specie = "Por favor, seleccione una especie";
     }
@@ -102,10 +100,27 @@ const PostPetForm = () => {
       newErrors.size = "Por favor, seleccione un tamaño";
     }
 
+    if (!isValidGoogleMapsUrl(formData.location)) {
+      newErrors.location = "Por favor, ingrese una ubicación válida de Google Maps";
+      setIsLocationValid(false);
+    } else {
+      setIsLocationValid(true);
+    }
+
     setErrors(newErrors);
     setIsFormValid(Object.keys(newErrors).length === 0);
 
     return Object.keys(newErrors).length === 0;
+  };
+
+  const validateLocation = (locationValue) => {
+    if (!locationValue) {
+      setIsLocationValid(true);
+    } else if (googleMapsUrlRegex.test(locationValue)) {
+      setIsLocationValid(true);
+    } else {
+      setIsLocationValid(false);
+    }
   };
 
   const validateField = (fieldName, value) => {
@@ -116,16 +131,17 @@ const PostPetForm = () => {
         break;
       case "numberPhone":
         if (!value) return "Por favor, ingrese número de teléfono";
-        if (!numberPhoneRegex.test(value))
-          return "El teléfono debe ser un número";
+        if (!numberPhoneRegex.test(value)) return "El teléfono debe ser un número";
         break;
       case "email":
         if (!value) return "Por favor, ingrese un email válido";
         if (!emailRegex.test(value)) return "Ingrese un email válido";
         break;
       case "description":
-        if (!value || value.length < 10)
-          return "Por favor, ingrese una descripción con al menos 10 caracteres";
+        if (!value || value.length < 10) return "Ingrese una descripción con al menos 10 caracteres";
+        break;
+      case "location":
+        if (!value) return "La ubicación es obligatoria";
         break;
       default:
         break;
@@ -139,6 +155,12 @@ const PostPetForm = () => {
     if (especieOptions.includes(especie)) {
       setEspecieSelect([...especieSelect, especie]);
       setFormData((prevFormData) => ({ ...prevFormData, specie: especie }));
+    }
+
+    if (especie === "") {
+      setFormData({ ...formData, specie: "" });
+    } else {
+      setFormData({ ...formData, specie: especie });
     }
   };
 
@@ -160,18 +182,19 @@ const PostPetForm = () => {
     }
   };
 
-  //   const blockNonNumericInput = (event) => {
-  //     if (event.key === "e" || event.key === "." || event.key === "-") {
-  //       event.preventDefault();
-  //     }
-  //   };
+  const handleLocationChange = (event) => {
+    const locationValue = event.target.value;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      location: locationValue
+    }));
 
-  //   const handleFileChange = (event) => {
-  //     const file = event.target.files[0];
-  //     setFormData((prevFormData) => ({ ...prevFormData, imageUrl: file }));
-  //     setIsPhotoSelected(true);
-  //     setErrors((prevErrors) => ({ ...prevErrors, imageUrl: "" }));
-  //   };
+    if (locationValue.trim() !== "") {
+      validateLocation(locationValue);
+    } else {
+      setIsLocationValid(true);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -184,8 +207,13 @@ const PostPetForm = () => {
 
     if (name === "imageUrl") {
       setIsPhotoSelected(true);
+      setSelectedFileName(e.target.files[0] ? e.target.files[0].name : ""); // Actualizar el nombre del archivo seleccionado
     } else {
       setIsPhotoSelected(false);
+    }
+
+    if (name === "location") {
+      validateLocation(value);
     }
 
     const error = validateField(name, value);
@@ -197,6 +225,7 @@ const PostPetForm = () => {
     let formIsValid = validateForm();
     setIsPhotoSelected(!!formData.imageUrl);
 
+    console.log("Datos enviados:", formData);
     if (formIsValid) {
       dispatch(postPet(formData));
       alert("Mascota creada exitosamente");
@@ -223,61 +252,82 @@ const PostPetForm = () => {
       setFormSuccess(false);
     }
   };
+  const selectStyle = {
+    backgroundImage:
+      formData.specie === "Perro"
+        ? `url(${miniPerroImage})`
+        : formData.specie === "Gato"
+        ? `url(${miniGatoImage})`
+        : "none",
+    backgroundSize: "45px",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "right center",
+    paddingRight: "2px", // Ajusta este valor para controlar el espacio entre el texto y la imagen
+    borderRadius: "15px",
+    backgroundColor: "#ffffff",
+    // width: "12vh",
+    height: "45px",
+    width: "92px",
+    border: "none",
+    padding: "10px",
+    appearance: "none",
+  };
 
   return (
     <div className={styles.createDog}>
-      <div className={styles.container}>
-        <div className={styles.createDogContainer}>
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="name">
-                Nombre Completo:
-              </label>
-              <input
-                type="text"
-                className={`${styles.input} ${
-                  errors.name ? styles.errorBorder : ""
-                } ${errors.name ? styles.shakeAnimation : ""}`}
-                name="name"
-                required
-                autoComplete="off"
-                placeholder="Nombre completo"
-                value={formData.name}
-                onChange={handleChange}
-              />
-              {errors.name && <p className={styles.errorText}>{errors.name}</p>}
-            </div>
-
-            <div className="platformList">
-              <label className="label">Especies *</label>
-              <select
-                className="selectOptions"
-                name="specie"
-                onChange={handleEspeciesSelect}
-                required
+      <div className={styles.createDogContainer}>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.sectionInputCG}>
+            <label className={styles.label} htmlFor="name">
+              {/* Nombre Completo: */}
+            </label>
+            <input
+              type="text"
+              className={`${styles.input} ${
+                errors.name ? styles.errorBorder : ""
+              } ${errors.name ? styles.shakeAnimation : ""}`}
+              name="name"
+              required
+              autoComplete="off"
+              placeholder="Nombre completo"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            {errors.name && <p className={styles.errorText}>{errors.name}</p>}
+          </div>
+  
+          <div className={styles.container}>
+            <div className={styles.flexContainer}>
+              <div
+                className={`${styles.sectionInputCG} ${styles.fieldContainer}`}
               >
-                <option className="optionsAllCGD" value="">
-                  Seleccione
-                </option>
-                {especieOptions.map((especie, i) => (
-                  <option className="optionsCG" key={i} value={especie}>
-                    {especie}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="genresList">
-              <div className="sectionInputCG">
-                <label className="label">Géneros *</label>
+                <label className="label">{/*Especie*/}</label>
+                <div className={styles.customSelect}></div>
                 <select
-                  className="selectOptions"
+                  name="especie"
+                  id="especie"
+                  value={formData.specie}
+                  onChange={handleEspeciesSelect}
+                  style={selectStyle}
+                >
+                  <option value="">Especie</option>
+                  <option value="Perro">Perro</option>
+                  <option value="Gato">Gato</option>
+                </select>
+              </div>
+  
+              <div
+                className={`${styles.sectionInputCG} ${styles.fieldContainer}`}
+              >
+                <label className="label">{/*Género*/}</label>
+                <select
+                  className={styles.selectOptions}
                   name="gender"
                   onChange={handleGeneroSelect}
                   required
                 >
-                  <option className="optionsAllCGD" value="">
-                    Seleccione
+                  <option className={styles.optionsAllCGD} value="">
+                    Género
                   </option>
                   {generoOptions.map((genero, i) => (
                     <option className="optionsCG" key={i} value={genero}>
@@ -285,45 +335,21 @@ const PostPetForm = () => {
                     </option>
                   ))}
                 </select>
+                <div className={styles.petImages}></div>
               </div>
-            </div>
-
-            {/* Edad */}
-            <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="age">
-                Edad:
-              </label>
-              <input
-                type="number"
-                className={`${styles.input} ${
-                  errors.age ? styles.errorBorder : ""
-                }`}
-                name="age"
-                required
-                autoComplete="off"
-                placeholder="Edad mascota"
-                value={formData.age}
-                onChange={handleChange}
-                min="0"
-                max="20"
-                // onKeyDown={blockNonNumericInput}
-                // onKeyPress={blockNonNumericInput}
-                onBlur={correctAgeIfExceedsMax}
-              />
-              {errors.age && <p className={styles.errorText}>{errors.age}</p>}
-            </div>
-
-            <div className="platformList">
-              <div className="sectionInputCG">
-                <label className="label">Tamaño *</label>
+  
+              <div
+                className={`${styles.sectionInputCG} ${styles.fieldContainer}`}
+              >
+                <label className="label">{/*Tamaño*/}</label>
                 <select
-                  className="selectOptions"
+                  className={`${styles.selectOptions} ${styles.sizeList}`}
                   name="size"
                   onChange={handleTamañoSelect}
                   required
                 >
-                  <option className="optionsAllCGD" value="">
-                    Seleccione
+                  <option className={styles.optionsAllCGD} value="">
+                    Tamaño
                   </option>
                   {tamañoOptions.map((tamaño, i) => (
                     <option className="optionsCG" key={i} value={tamaño}>
@@ -333,17 +359,31 @@ const PostPetForm = () => {
                 </select>
               </div>
             </div>
-
-            <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="name">
-                Foto:
+          </div>
+  
+          <div>
+            <div className={`${styles.sectionInputCG} ${styles.whiteBorder}`}>
+              <label className={styles.label} htmlFor="file">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={styles.iborrainputfile}
+                  width="20"
+                  height="17"
+                  viewBox="0 0 20 17"
+                >
+                  <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path>
+                </svg>
+                <span className={`${styles.iborrainputfile} ${styles.fileName}`}>
+                  {selectedFileName || "Seleccione una foto"}
+                </span>
               </label>
               <input
-                type="text"
-                className={styles.input}
+                type="file"
+                className={styles.inputFoto2}
                 name="imageUrl"
+                id="file"
                 required
-                accept="image/*" // Limitar a la selección de archivos de imagen
+                accept="image/*"
                 placeholder="Foto de la mascota"
                 onChange={handleChange}
               />
@@ -351,117 +391,138 @@ const PostPetForm = () => {
                 <p className={styles.errorText}>{errors.imageUrl}</p>
               )}
             </div>
-
-            <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="email">
-                Email:
-              </label>
+  
+            <div className={styles.sectionInputEdad}>
+              <label className={styles.label} htmlFor="age"></label>
               <input
-                type="email"
-                className={`${styles.input} ${
-                  errors.email ? styles.errorBorder : ""
-                } ${errors.email ? styles.shakeAnimation : ""}`}
-                name="email"
-                required
-                autoComplete="off"
-                placeholder="Ingrese un email válido"
-                value={formData.email}
-                onChange={handleChange}
-              />
-              {errors.email && (
-                <p className={styles.errorText}>{errors.email}</p>
-              )}
-            </div>
-
-            <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="numberPhone">
-                Teléfono:
-              </label>
-              <input
-                type="text"
-                className={`${styles.input} ${
-                  errors.numberPhone ? styles.errorBorder : ""
-                } ${errors.numberPhone ? styles.shakeAnimation : ""}`}
-                name="numberPhone"
-                required
-                autoComplete="off"
-                placeholder="Teléfono"
-                value={formData.numberPhone}
-                onChange={handleChange}
-              />
-              {errors.numberPhone && (
-                <p className={styles.errorText}>{errors.numberPhone}</p>
-              )}
-            </div>
-
-            <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="description">
-                Descripción:
-              </label>
-              <textarea
-                name="description"
-                id="descriptionCG"
-                rows="4"
-                style={{
-                  resize: "none",
-                  minHeight: "80px",
-                  maxHeight: "200px",
-                }}
-                className={`${styles.input} ${
-                  errors.description ? styles.errorBorder : ""
-                } ${errors.description ? styles.shakeAnimation : ""}`}
-                minLength="10"
-                maxLength="300"
-                required
-                autoComplete="off"
-                placeholder="Cuéntanos sobre la mascota"
-                value={formData.description}
-                onChange={handleChange}
-              ></textarea>
-              {errors.description && (
-                <p className={styles.errorText}>{errors.description}</p>
-              )}
-            </div>
-
-            {/* Ubicación */}
-            <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="location">
-                Ubicación:
-              </label>
-              <input
-                type="text"
-                className={`${styles.input} ${
-                  errors.location ? styles.errorBorder : ""
+                type="number"
+                className={`${styles.inputEdad} ${
+                  errors.age ? styles.errorBorder : ""
                 }`}
-                name="location"
+                name="age"
                 required
                 autoComplete="off"
-                placeholder="Ubicación"
-                value={formData.location} // Proporcionar el valor desde el estado
+                placeholder="Edad"
+                value={formData.age}
                 onChange={handleChange}
+                min="0"
+                max="20"
+                onBlur={correctAgeIfExceedsMax}
               />
-              {errors.location && (
-                <p className={styles.errorText}>{errors.location}</p>
-              )}
+              {errors.age && <p className={styles.errorText}>{errors.age}</p>}
             </div>
-
-            {/* Botón submit */}
-            <button
-              type="submit"
-              className={`${styles.createBtn} ${
-                formSubmitted && !isFormValid ? styles.disabled : ""
-              }`}
-              disabled={formSubmitted && !isFormValid}
-            >
-              Enviar formulario
-            </button>
-            {formSubmitted && !isFormValid && formSuccess && (
-              <p className={styles.successMessage}>
-                Formulario enviado con éxito.
-              </p>
+          </div>
+  
+          <div className={styles.sectionInputCG}>
+            <label className={styles.label} htmlFor="email">
+              {/* Email: */}
+            </label>
+            <input
+              type="email"
+              className={`${styles.input} ${
+                errors.email ? styles.errorBorder : ""
+              } ${errors.email ? styles.shakeAnimation : ""}`}
+              name="email"
+              required
+              autoComplete="off"
+              placeholder="Ingrese un email válido"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            {errors.email && <p className={styles.errorText}>{errors.email}</p>}
+          </div>
+  
+          <div className={styles.sectionInputCG}>
+            <label className={styles.label} htmlFor="numberPhone">
+              {/* Teléfono: */}
+            </label>
+            <input
+              type="text"
+              className={`${styles.input} ${
+                errors.numberPhone ? styles.errorBorder : ""
+              } ${errors.numberPhone ? styles.shakeAnimation : ""}`}
+              name="numberPhone"
+              required
+              autoComplete="off"
+              placeholder="Número de teléfono"
+              value={formData.numberPhone}
+              onChange={handleChange}
+            />
+            {errors.numberPhone && (
+              <p className={styles.errorText}>{errors.numberPhone}</p>
             )}
-          </form>
-        </div>
+          </div>
+  
+          <div className={styles.sectionInputCG}>
+            <label className={styles.label} htmlFor="description">
+              {/* Descripción: */}
+            </label>
+            <textarea
+              name="description"
+              id="descriptionCG"
+              rows="4"
+              style={{
+                resize: "none",
+                minHeight: "80px",
+                maxHeight: "200px",
+                padding: "10px",
+              }}
+              className={`${styles.input} ${
+                errors.description ? styles.errorBorder : ""
+              } ${errors.description ? styles.shakeAnimation : ""}`}
+              minLength="10"
+              maxLength="300"
+              required
+              autoComplete="off"
+              placeholder="Cuéntanos sobre la mascota"
+              value={formData.description}
+              onChange={handleChange}
+            ></textarea>
+            {errors.description && (
+              <p className={styles.errorText}>{errors.description}</p>
+            )}
+          </div>
+  
+          <div className={styles.sectionInputCG}>
+            <label className={styles.label} htmlFor="location">
+              {/* Ubicación: */}
+            </label>
+            <input
+              type="text"
+              className={`${styles.input} ${
+                !isLocationValid ? styles.errorBorder : ""
+              } ${!isLocationValid ? styles.shakeAnimation : ""}`}
+              name="location"
+              required
+              autoComplete="off"
+              placeholder="Ubicación"
+              value={formData.location}
+              onChange={handleLocationChange}
+            />
+            {/* Mensaje de error si la ubicación no es válida */}
+            {(!isLocationValid || (errors.location && !isLocationValid)) && (
+  <p className={styles.errorText}>
+    {errors.location || "La ubicación no es válida"}
+  </p>
+        )}
+
+          </div>
+  
+          <button
+            type="submit"
+            className={`${styles.createBtn} ${
+              formSubmitted && !isFormValid ? styles.disabled : ""
+            }`}
+            disabled={formSubmitted && !isFormValid}
+          >
+            Enviar formulario
+          </button>
+          {formSubmitted && !isFormValid && formSuccess && (
+            <p className={styles.successMessage}>
+              Formulario enviado con éxito.
+            </p>
+          )}
+        </form>
       </div>
     </div>
   );
