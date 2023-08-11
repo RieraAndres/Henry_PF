@@ -8,7 +8,9 @@ import {
   SET_FILTER,
   SET_ORDEN,
   APPLY_FILTERS_SUCCESS,
-  APPLY_FILTERS_FAILURE
+  APPLY_FILTERS_FAILURE,
+  POST_USER_SUCCESS,
+  POST_USER_FAILURE
 } from "./Actions";
 
 let initialState = { 
@@ -17,6 +19,7 @@ let initialState = {
   auxState: [],
   filters: { size: "", gender: "" },
   orden: { orden_age: "", orden_name: "",},
+  userCreated:false,
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -82,7 +85,16 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         error: action.payload, // Maneja el error en caso de fallo
       };
-
+    case POST_USER_SUCCESS:
+      return{
+        ...state,
+        userCreated: true, //al ser creado con exito seteo en true el estado 
+      }
+    case POST_USER_FAILURE:
+      return{
+        ...state, // al haber error seteo en false el estado
+        userCreated:false
+      }
     default:
       return {
         ...state,
