@@ -14,7 +14,7 @@
   border-radius: 50px;
   background-color: transparent;
   padding: 30px;
-  min-width: 250px;
+  min-width: 246px;
   border: solid 5px #EEB3E7;
   color: white;
   font-weight: bold;
@@ -38,7 +38,7 @@
   border-radius: 50px;
   min-width: 90%;
   padding: 5px;
-  font-size: 20px;
+  font-size: 15px;
   text-align: center;
   align-items: center;
   -webkit-appearance: none;
