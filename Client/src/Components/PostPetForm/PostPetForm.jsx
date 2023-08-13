@@ -17,8 +17,8 @@ const PostPetForm = () => {
     description: "",
     location: "",
     age: "",
-    // imageUrl: "",
-    cloudinaryImageUrl: "", // Nuevo campo para almacenar la URL de la imagen en Cloudinary
+    imageUrl: "",
+    // cloudinaryImageUrl: "", // Nuevo campo para almacenar la URL de la imagen en Cloudinary
   });
 
   const [especieOptions] = useState(["Perro", "Gato"]);
@@ -210,10 +210,10 @@ const PostPetForm = () => {
         formData
       );
   
-      const cloudinaryImageUrl = response.data.secure_url;
+      const imageUrl = response.data.secure_url;
       setFormData((prevFormData) => ({
         ...prevFormData,
-        cloudinaryImageUrl, // Actualizar la URL de la imagen en Cloudinary en el estado
+        imageUrl, // Actualizar la URL de la imagen en Cloudinary en el estado
       }));
     } catch (error) {
       console.error("Error al cargar la imagen a Cloudinary:", error);
