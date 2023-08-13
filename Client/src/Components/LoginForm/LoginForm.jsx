@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { validate } from "./validateForm";
+import {gapi} from 'gapi-script'
+import GoogleLogin from 'react-google-login'
+import FacebookLogin from 'react-facebook-login'
 
 import styles from "./LoginForm.module.css";
 
@@ -8,30 +12,19 @@ import styles from "./LoginForm.module.css";
 function LoginForm() {
   const navigate = useNavigate();
 
-  function validate(user) {
-    let errors = {};
-    if (!user.userName) {
-      errors.userName = "Ingresa tu nombre de usuario";
-    }
-    if (user.userName.length < 3 || user.userName.length > 20) {
-      errors.userName = "El nombre de usuario debe tener entre 3 y 20 caracteres";
-    }
-    if (!/^[a-zA-Z0-9]+$/.test(user.userName)) {
-      errors.userName = "El nombre de usuario solo puede contener letras y números";
-    }
+  const ClientID = '933461258445-6obss3psoedlvnceq9d6d1kt0fa47tfm.apps.googleusercontent.com'
+  const appID = '786345766571360'
 
-
-    if (!/\d/.test(user.password)) {
-      errors.password = "Ingresa una contraseña válida";
+  useEffect(()=>{
+      function start(){
+        gapi.client.init({
+        ClientId: ClientID,
+        scope:''
+      })
     }
-    if (user.password.length < 6 || user.password.length > 15) {
-      errors.password = "La contraseña debe tener entre 6 y 15 caracteres";
-    }
-    if (!user.password) {
-      errors.password = "Ingresa una contraseña válida";
-    }
-    return errors;
-  }
+      gapi.load("client:auth2" , start)
+    },[]
+  )
 
   const [user, setUser] = useState({
     userName: "",
@@ -85,6 +78,21 @@ function LoginForm() {
     return () => clearTimeout(timer);
   }, [showAlert]);
 
+  const onSuccess = (response) => {
+    console.log('login Success current user:', response.profileObj);
+    navigate("/inicio")
+  }
+
+  const onFailure= (response) => {
+    console.log("Ocurrio un Problema", response);
+  }
+
+  const responseFacebook = (response) => {
+    console.log(response);
+
+
+  }
+
   return (
     <div>
        {showAlert && (
@@ -133,8 +141,10 @@ function LoginForm() {
         <div className={styles.socialLogin}>
         <p>O inicia sesión con</p>
         <div>
-            <a href=""> <img src="https://img.freepik.com/iconos-gratis/google_318-258888.jpg" alt="googleLogo" /> </a>
-            <a href=""> <img src= "https://img.freepik.com/iconos-gratis/facebook_318-157463.jpg" alt="facebookLogo" /> </a>
+            {/* <a href=""> <img src="https://img.freepik.com/iconos-gratis/google_318-258888.jpg" alt="googleLogo" /> </a>
+            <a href=""> <img src= "https://img.freepik.com/iconos-gratis/facebook_318-157463.jpg" alt="facebookLogo" /> </a> */}
+            <GoogleLogin clientId={ClientID} onSuccess={onSuccess} onFailure={onFailure} cookiePolicy="single_host_origin" isSignedIn={true}/>
+            <FacebookLogin appId={appID} autoLoad={false} fields="first_name,last_name" callback={responseFacebook} icon='fa-facebook' textButton="Facebook" buttonStyle={{backgroundColor: 'blue'}} scope="public_profile" redirectUri={`${window.location.origin}/facebook-redirect`}/>
         </div>
       </div>
       </form> 

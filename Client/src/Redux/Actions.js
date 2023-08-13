@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 export const GET_PETS = "GET_PETS";
 export const GET_PET_DETAIL = "GET_PET_DETAIL";
 export const GET_PET_BY_NAME = "GET_PET_BY_NAME";
@@ -10,11 +11,17 @@ export const SET_ORDEN = "SET_ORDEN"
 export const SET_FILTER = "SET_FILTER"
 export const APPLY_FILTERS_SUCCESS = "APPLY_FILTERS_SUCCESS"
 export const APPLY_FILTERS_FAILURE = "APPLY_FILTERS_FAILURE"
+
 export const UPDATE_PET = "UPDATE_PET";
 export const UPDATE_PET_STATUS = "UPDATE_PET_STATUS";
 
 export const DISABLE_PET_SUCCESS = "DISABLE_PET_SUCCESS";
 export const DISABLE_PET_FAILURE = "DISABLE_PET_FAILURE";
+
+export const POST_USER_SUCCESS = 'POST_USER_SUCCES'
+export const POST_USER_FAILURE = 'POST_USER_FAILURE'
+
+
 
 export function getPets() {
   return async function (dispatch) {
@@ -93,7 +100,7 @@ export const setOrden = (ordenData) => {
 export const applyFilters = (filters, orden) => {
   return async function (dispatch) {
     try {
-      const queryString = `size=${filters.size}&gender=${filters.gender}&orden_age=${orden.orden_age}&orden_name=${orden.orden_name}`
+      const queryString = `specie=${filters.specie}&size=${filters.size}&gender=${filters.gender}&orden=${orden}`;
       const response = await axios.get(`http://localhost:3001/mascotas/filter?${queryString}`, {
         ...filters,
         ...orden,
@@ -112,6 +119,7 @@ export const applyFilters = (filters, orden) => {
     }
   };
 };
+
 
 
 
@@ -139,9 +147,35 @@ export function disablePet(id) {
     } catch (error) {
       dispatch(disablePetFailure(error)); // Despachar fallo
       throw error;
+
+export function postUser(user) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post("http://localhost:3001/usuario/userLog", user);
+      
+      // Si el servidor devuelve un código de estado 201 (creado), muestra el mensaje de éxito
+      if (response.status === 201) {
+        dispatch({
+          type: POST_USER_SUCCESS, //para setear userCreated en true y redireccionar a la view login
+        })
+        window.alert(response.data.message); // Accedemos al mensaje en response.data
+
+      }
+      
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        dispatch({
+          type: POST_USER_FAILURE,// para setear userCreated en false y mantenerme en la view de registro
+        })
+        window.alert(error.response.data.error); // Muestra el mensaje personalizado del servidor en caso de un error 409
+      } else {
+        window.alert(error.message);
+      }
+
     }
   };
 }
+
 
 export function disablePetSuccess(id) {
   return {
@@ -169,6 +203,17 @@ export function updatePetStatus(id, status) {
     },
   };
 }
+
+export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
+  try {
+    await axios.post(`http://localhost:3001/mascotas/${petId}/adopt`, formData);
+    // Puedes realizar cualquier lógica adicional aquí después de enviar la solicitud
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 
 
 export function clearAux() {

@@ -9,15 +9,7 @@ const postPet = async (name, gender, age, imageUrl, specie, size, location, desc
         numberPhone,
       },
     });
-
-    // Si el usuario no existe, lo creamos
-    if (!ownerPet) {
-      ownerPet = await User.create({
-        email,
-        numberPhone,
-      });
-    }
-
+    
     // Crear la mascota y asignarla al usuario
     const newPet = await Mascota.create({
       name,
