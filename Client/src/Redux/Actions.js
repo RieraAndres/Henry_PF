@@ -92,7 +92,7 @@ export const setOrden = (ordenData) => {
 export const applyFilters = (filters, orden) => {
   return async function (dispatch) {
     try {
-      const queryString = `size=${filters.size}&gender=${filters.gender}&orden_age=${orden.orden_age}&orden_name=${orden.orden_name}`
+      const queryString = `specie=${filters.specie}&size=${filters.size}&gender=${filters.gender}&orden=${orden}`;
       const response = await axios.get(`http://localhost:3001/mascotas/filter?${queryString}`, {
         ...filters,
         ...orden,
@@ -139,6 +139,15 @@ export function postUser(user) {
     }
   };
 }
+
+export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
+  try {
+    await axios.post(`http://localhost:3001/mascotas/${petId}/adopt`, formData);
+    // Puedes realizar cualquier lógica adicional aquí después de enviar la solicitud
+  } catch (error) {
+    throw error;
+  }
+};
 
 
 
