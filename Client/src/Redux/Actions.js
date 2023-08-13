@@ -12,11 +12,19 @@ export const SET_ORDEN = "SET_ORDEN"
 export const SET_FILTER = "SET_FILTER"
 export const APPLY_FILTERS_SUCCESS = "APPLY_FILTERS_SUCCESS"
 export const APPLY_FILTERS_FAILURE = "APPLY_FILTERS_FAILURE"
+
+export const UPDATE_PET = "UPDATE_PET";
+export const UPDATE_PET_STATUS = "UPDATE_PET_STATUS";
+
+export const DISABLE_PET_SUCCESS = "DISABLE_PET_SUCCESS";
+export const DISABLE_PET_FAILURE = "DISABLE_PET_FAILURE";
+
 export const POST_USER_SUCCESS = 'POST_USER_SUCCES'
 export const POST_USER_FAILURE = 'POST_USER_FAILURE'
 export const GET_USER_DATA = 'GET_USER_DATA'
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
 export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE'
+
 
 
 
@@ -119,6 +127,33 @@ export const applyFilters = (filters, orden) => {
 };
 
 
+
+
+export function updatePet(id, updatedFields) {
+  return async function (dispatch) {
+    try {
+      await axios.put(`http://localhost:3001/mascotas/${id}`, updatedFields);
+      console.log("Pet updated successfully"); // Add this line
+      // Puedes realizar cualquier lógica adicional aquí después de la actualización
+    } catch (error) {
+      console.log("Error updating pet:", error); // Add this line
+      throw error;
+    }
+  };
+}
+
+export function disablePet(id) {
+  return async function (dispatch) {
+    try {
+      await axios.put(`http://localhost:3001/mascotas/disable/${id}`);
+      dispatch(disablePetSuccess(id)); // Pasar el id como argumento
+
+      // Cambiar el estado de status a false en el Redux Store
+      dispatch(updatePetStatus(id, false));
+    } catch (error) {
+      dispatch(disablePetFailure(error)); // Despachar fallo
+      throw error;
+
 export function postUser(user) {
   return async function (dispatch) {
     try {
@@ -142,9 +177,38 @@ export function postUser(user) {
       } else {
         window.alert(error.message);
       }
+
     }
   };
 }
+
+
+
+export function disablePetSuccess(id) {
+  return {
+    type: DISABLE_PET_SUCCESS,
+    payload: {
+      id,
+    },
+  };
+}
+
+export function disablePetFailure(error) {
+  return {
+    type: DISABLE_PET_FAILURE,
+    payload: error,
+  };
+}
+
+// Agregar una nueva acción para actualizar el estado de status en el Redux Store
+export function updatePetStatus(id, status) {
+  return {
+    type: UPDATE_PET_STATUS,
+    payload: {
+      id,
+      status,
+    },
+  };
 
 export function logInUser(userName,password){
   return async function (dispatch){
@@ -165,6 +229,7 @@ export function logInUser(userName,password){
       }
     }
   }
+
 }
 
 export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
@@ -189,6 +254,7 @@ export function getUserData (userName){
     }
   }
 }
+
 
 export function clearAux() {
   //para limpiar AuxState al desmontar el detail
