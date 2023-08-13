@@ -8,7 +8,11 @@ import {
   SET_FILTER,
   SET_ORDEN,
   APPLY_FILTERS_SUCCESS,
-  APPLY_FILTERS_FAILURE
+  APPLY_FILTERS_FAILURE,
+  UPDATE_PET,
+  UPDATE_PET_STATUS,
+  DISABLE_PET_SUCCESS,
+  DISABLE_PET_FAILURE
 } from "./Actions";
 
 let initialState = { 
@@ -51,6 +55,7 @@ export default function rootReducer(state = initialState, action) {
           petCreated: false,
           error: action.payload,
         };
+        
     case CLEAR_AUX_STATE: //limpio auxState al hacer unmount de un componente
       return {
         ...state,
@@ -81,6 +86,49 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         error: action.payload, // Maneja el error en caso de fallo
+      };
+
+    case UPDATE_PET:
+      const updatedAllPets = state.allPets.map((pet) => {
+        if (pet.id === action.payload.id) {
+          return {
+            ...pet,
+            ...action.payload.updatedFields,
+          };
+        }
+        return pet;
+      });
+    
+      return {
+        ...state,
+        allPets: updatedAllPets,
+      };
+
+      case DISABLE_PET_SUCCESS:
+    case DISABLE_PET_FAILURE:
+      const updatedAllPetsAfterDisable = state.allPets.map((pet) => {
+        if (pet.id === action.payload.id) {
+          return {
+            ...pet,
+            status: false,
+          };
+        }
+        return pet;
+      });
+
+      return {
+        ...state,
+        allPets: updatedAllPetsAfterDisable,
+      };
+
+      case UPDATE_PET_STATUS:
+      return {
+        ...state,
+        petsCopy: state.petsCopy.map((pet) =>
+          pet.id === action.payload.id
+            ? { ...pet, status: action.payload.status }
+            : pet
+        ),
       };
 
     default:

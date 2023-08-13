@@ -10,6 +10,11 @@ export const SET_ORDEN = "SET_ORDEN"
 export const SET_FILTER = "SET_FILTER"
 export const APPLY_FILTERS_SUCCESS = "APPLY_FILTERS_SUCCESS"
 export const APPLY_FILTERS_FAILURE = "APPLY_FILTERS_FAILURE"
+export const UPDATE_PET = "UPDATE_PET";
+export const UPDATE_PET_STATUS = "UPDATE_PET_STATUS";
+
+export const DISABLE_PET_SUCCESS = "DISABLE_PET_SUCCESS";
+export const DISABLE_PET_FAILURE = "DISABLE_PET_FAILURE";
 
 export function getPets() {
   return async function (dispatch) {
@@ -107,6 +112,63 @@ export const applyFilters = (filters, orden) => {
     }
   };
 };
+
+
+
+export function updatePet(id, updatedFields) {
+  return async function (dispatch) {
+    try {
+      await axios.put(`http://localhost:3001/mascotas/${id}`, updatedFields);
+      console.log("Pet updated successfully"); // Add this line
+      // Puedes realizar cualquier lógica adicional aquí después de la actualización
+    } catch (error) {
+      console.log("Error updating pet:", error); // Add this line
+      throw error;
+    }
+  };
+}
+
+export function disablePet(id) {
+  return async function (dispatch) {
+    try {
+      await axios.put(`http://localhost:3001/mascotas/disable/${id}`);
+      dispatch(disablePetSuccess(id)); // Pasar el id como argumento
+
+      // Cambiar el estado de status a false en el Redux Store
+      dispatch(updatePetStatus(id, false));
+    } catch (error) {
+      dispatch(disablePetFailure(error)); // Despachar fallo
+      throw error;
+    }
+  };
+}
+
+export function disablePetSuccess(id) {
+  return {
+    type: DISABLE_PET_SUCCESS,
+    payload: {
+      id,
+    },
+  };
+}
+
+export function disablePetFailure(error) {
+  return {
+    type: DISABLE_PET_FAILURE,
+    payload: error,
+  };
+}
+
+// Agregar una nueva acción para actualizar el estado de status en el Redux Store
+export function updatePetStatus(id, status) {
+  return {
+    type: UPDATE_PET_STATUS,
+    payload: {
+      id,
+      status,
+    },
+  };
+}
 
 
 export function clearAux() {
