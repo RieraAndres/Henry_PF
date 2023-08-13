@@ -1,6 +1,7 @@
 import axios from "axios";
 
 
+
 export const GET_PETS = "GET_PETS";
 export const GET_PET_DETAIL = "GET_PET_DETAIL";
 export const GET_PET_BY_NAME = "GET_PET_BY_NAME";
@@ -20,6 +21,11 @@ export const DISABLE_PET_FAILURE = "DISABLE_PET_FAILURE";
 
 export const POST_USER_SUCCESS = 'POST_USER_SUCCES'
 export const POST_USER_FAILURE = 'POST_USER_FAILURE'
+export const GET_USER_DATA = 'GET_USER_DATA'
+export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
+export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE'
+
+
 
 
 
@@ -159,7 +165,7 @@ export function postUser(user) {
           type: POST_USER_SUCCESS, //para setear userCreated en true y redireccionar a la view login
         })
         window.alert(response.data.message); // Accedemos al mensaje en response.data
-
+        
       }
       
     } catch (error) {
@@ -175,6 +181,7 @@ export function postUser(user) {
     }
   };
 }
+
 
 
 export function disablePetSuccess(id) {
@@ -202,6 +209,27 @@ export function updatePetStatus(id, status) {
       status,
     },
   };
+
+export function logInUser(userName,password){
+  return async function (dispatch){
+    try {
+      const response = await axios.get(`http://localhost:3001/usuario/userLogin?userName=${userName}&password=${password}`)
+      if(response.status === 200){
+        dispatch({
+          type:USER_LOGIN_SUCCESS,
+          payload:response.data
+        })
+        window.alert("TE LOGUEASTE CON EXITO")
+      }
+    } catch (error) {
+      if(error.response && error.response.status === 400 ){
+        window.alert(error.response.data.error)
+      }else{
+        window.alert(error.message)
+      }
+    }
+  }
+
 }
 
 export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
@@ -213,7 +241,19 @@ export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
   }
 };
 
-
+export function getUserData (userName){
+  return async function(dispatch){
+    try {
+      const response = await axios.get(`http://localhost:3001/usuario/userData?userName=${userName}`)
+      return dispatch({
+        type: GET_USER_DATA,
+        payload: response.data
+      })
+    } catch (error) {
+      
+    }
+  }
+}
 
 
 export function clearAux() {

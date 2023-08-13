@@ -1,5 +1,6 @@
 const registerUser = require('../controllers/crudUser/postRegisterUser.js');
 const getUser = require('../controllers/crudUser/getProfileUser.js')
+const loginUser = require ('../controllers/crudUser/getOpenSesionUser.js')
 
 const handlerRegisterUser = async (req, res) => {
     const { name, lastName, email, birthdate, userName, password, numberPhone, address } = req.body;
@@ -23,7 +24,7 @@ const handlerRegisterUser = async (req, res) => {
 
 
 const handlerUserData = async (req,res)=>{
-    const {userName} = req.body
+    const {userName} = req.query
     try {
         if(!userName){
             return res.status(400).json({error: 'Ingrese nombre de usuario'})
@@ -39,4 +40,23 @@ const handlerUserData = async (req,res)=>{
         return res.status(500).json({ error: error.message });
     }
 }
-module.exports = {handlerRegisterUser , handlerUserData};
+
+
+const handleUserLogin = async (req,res)=>{
+    let {userName,password} = req.query
+    try {
+        if(!userName || !password){
+            return res.status(400).json({error: 'Ingrese un usuario y una contraseña'})
+        }else{
+            let logedIn = await loginUser(userName,password)
+            if(logedIn){
+                return res.status(200).json(logedIn)
+            }else{
+                return res.status(400).json({error: 'Usuario o Contraseña no coinciden'})
+            }
+        }
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+module.exports = {handlerRegisterUser , handlerUserData,handleUserLogin};

@@ -16,7 +16,13 @@ import {
   DISABLE_PET_FAILURE
 
   POST_USER_SUCCESS,
+
   POST_USER_FAILURE
+
+
+  POST_USER_FAILURE,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_FAILURE
 
 } from "./Actions";
 
@@ -27,6 +33,8 @@ let initialState = {
   filters: { size: "", gender: "" },
   orden: { orden_age: "", orden_name: "",},
   userCreated:false,
+  userData:{},
+  userLogedIn:null
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -148,6 +156,16 @@ export default function rootReducer(state = initialState, action) {
       return{
         ...state, // al haber error seteo en false el estado
         userCreated:false
+      }
+
+
+
+   
+    case USER_LOGIN_SUCCESS:
+      return{
+        ...state,
+        userLogedIn: true,
+        userData: action.payload
       }
 
     default:
