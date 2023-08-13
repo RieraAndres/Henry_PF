@@ -3,19 +3,25 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { validate } from "./validateForm";
 import {gapi} from 'gapi-script'
+import { useDispatch, useSelector } from "react-redux";
+
 import GoogleLogin from 'react-google-login'
 import FacebookLogin from 'react-facebook-login'
 
 import styles from "./LoginForm.module.css";
+import { logInUser } from "../../Redux/Actions";
 
 
 function LoginForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userLogedIn = useSelector(state=>state.userLogedIn)
 
-  const ClientID = '933461258445-6obss3psoedlvnceq9d6d1kt0fa47tfm.apps.googleusercontent.com'
+
+  const  ClientID = '933461258445-6obss3psoedlvnceq9d6d1kt0fa47tfm.apps.googleusercontent.com'
   const appID = '786345766571360'
 
-  useEffect(()=>{
+  useEffect(()=>{ //inicia la autentificacion con google
       function start(){
         gapi.client.init({
         ClientId: ClientID,
@@ -36,48 +42,36 @@ function LoginForm() {
     password: " ",
   });
 
-  const [showAlert, setShowAlert] = useState(false); // Estado para mostrar la alerta
-
   function handleChange(e) {
     e.preventDefault();
-    setUser({
+    const updatedUser = {
       ...user,
       [e.target.name]: e.target.value,
-    });
-    setErrors(
-      validate({
-        ...user,
-        [e.target.name]: e.target.value,
-      })
-    );
-  }
-
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-  //   navigate("/inicio"); // redireccionamos a la ruta de inicio después del inicio de sesión.
-  // };
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    const formErrors = validate(user);
+    };
+  
+    setUser(updatedUser);
+  
+    const formErrors = validate(updatedUser);
     setErrors(formErrors);
-    if (Object.keys(formErrors).length === 0) {
-      navigate("/inicio");
-    } else {
-      setShowAlert(true);
-    }
   }
 
+  function handleSubmit(e){ // al dar submit despachara la action de logInUser
+    e.preventDefault();
+    dispatch(logInUser(user.userName,user.password))   
+  }
+  
+  if(userLogedIn){ //si el usuario esta logueado que navegue a inicio
+    navigate("/inicio")
+  } 
   useEffect(() => {
-    let timer;
-    if (showAlert) {
-      timer = setTimeout(() => {
-        setShowAlert(false);
-      }, 3000); // Ocultar la alerta después de 3 segundos (3000 milisegundos)
+    if (userLogedIn) {
+      // Si el usuario ha iniciado sesión con éxito, navegar a la página de inicio
+      navigate("/inicio");
     }
-    return () => clearTimeout(timer);
-  }, [showAlert]);
+  }, [userLogedIn, navigate]);
 
+
+  //GOOGLE
   const onSuccess = (response) => {
     console.log('login Success current user:', response.profileObj);
     navigate("/inicio")
@@ -87,19 +81,13 @@ function LoginForm() {
     console.log("Ocurrio un Problema", response);
   }
 
+  //FACEBOOK
   const responseFacebook = (response) => {
     console.log(response);
-
-
   }
 
   return (
     <div>
-       {showAlert && (
-        <div className={` ${styles.alert} alert alert-warning`} role="alert">
-          Datos incorrectos
-        </div>
-      )}
         <form className={styles.loginForm}>
         <h3>INICIAR SESIÓN</h3>
         <div className="mb-3">
