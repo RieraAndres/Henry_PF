@@ -10,16 +10,15 @@ const filters = async (size, orden, gender, specie) => {
     
     
     //Ordenamientos
-    const orderExpression = []; //Van siendo alojados en este array, por columnas
-    
-    // Procesa el parámetro 'orden' para obtener los valores de 'orden_age' y 'orden_name'
-    const [orden_age, orden_name] = orden.split('-');
+    const orderExpression = [];
 
-    if (orden_name === 'ASC' || orden_name === 'DESC') {
-      orderExpression.push(['name', orden_name]);
+    const [column, orderType] = orden.split('-');
+
+    if (column === 'name' && (orderType === 'ASC' || orderType === 'DESC')) {
+      orderExpression.push(['name', orderType]);
     }
-    if (orden_age === 'ASC' || orden_age === 'DESC') {
-      orderExpression.push(['age', orden_age]);
+    if (column === 'age' && (orderType === 'ASC' || orderType === 'DESC')) {
+      orderExpression.push(['age', orderType]);
     }
 
     const petFiltered = await Mascota.findAll({
