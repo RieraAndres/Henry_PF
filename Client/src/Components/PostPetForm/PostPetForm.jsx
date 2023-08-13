@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { postPet } from "../../Redux/Actions";
 import miniPerroImage from "./AssetsForm/miniPerro.jpg";
 import miniGatoImage from "./AssetsForm/miniGato.jpg";
+// import { Image } from "cloudinary-react"; // Importar el componente Image de cloudinary-react
+import axios from "axios"; // Importar axios para realizar la solicitud HTTP
 
 const PostPetForm = () => {
   const dispatch = useDispatch();
@@ -15,7 +17,8 @@ const PostPetForm = () => {
     description: "",
     location: "",
     age: "",
-    imageUrl: "",
+    // imageUrl: "",
+    cloudinaryImageUrl: "", // Nuevo campo para almacenar la URL de la imagen en Cloudinary
   });
 
   const [especieOptions] = useState(["Perro", "Gato"]);
@@ -196,7 +199,28 @@ const PostPetForm = () => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleImageUpload = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "patitas"); // Usar el nombre de tu upload preset
+  
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dmfx2u1ev/image/upload", // Reemplazar "tu_cloud_name" con tu Cloud Name de Cloudinary
+        formData
+      );
+  
+      const cloudinaryImageUrl = response.data.secure_url;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        cloudinaryImageUrl, // Actualizar la URL de la imagen en Cloudinary en el estado
+      }));
+    } catch (error) {
+      console.error("Error al cargar la imagen a Cloudinary:", error);
+    }
+  };
+
+  const handleChange = async (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     setFormSubmitted(false);
@@ -206,8 +230,19 @@ const PostPetForm = () => {
     }
 
     if (name === "imageUrl") {
-      setIsPhotoSelected(true);
-      setSelectedFileName(e.target.files[0] ? e.target.files[0].name : ""); // Actualizar el nombre del archivo seleccionado
+      const file = e.target.files[0];
+      if (file) {
+        try {
+          await handleImageUpload(file); // Llamar a la función para cargar la imagen a Cloudinary
+          setIsPhotoSelected(true);
+          setSelectedFileName(file.name);
+        } catch (error) {
+          console.error("Error al cargar la imagen:", error);
+        }
+      } else {
+        setIsPhotoSelected(false);
+        setSelectedFileName("");
+      }
     } else {
       setIsPhotoSelected(false);
     }
@@ -252,6 +287,8 @@ const PostPetForm = () => {
       setFormSuccess(false);
     }
   };
+
+
   const selectStyle = {
     backgroundImage:
       formData.specie === "Perro"
@@ -272,6 +309,7 @@ const PostPetForm = () => {
     padding: "10px",
     appearance: "none",
   };
+
 
   return (
     <div className={styles.createDog}>
@@ -389,6 +427,7 @@ const PostPetForm = () => {
                 placeholder="Foto de la mascota"
                 onChange={handleChange}
               />
+              
               {errors.imageUrl && (
                 <p className={styles.errorText}>{errors.imageUrl}</p>
               )}
