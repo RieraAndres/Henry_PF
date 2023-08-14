@@ -22,6 +22,7 @@ export const GET_USER_DATA = 'GET_USER_DATA';
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
 export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE';
 export const LOGIN_USER_GOOGLE = 'LOGIN_USER_GOOGLE';
+export const LOGIN_USER_FACEBOOK = 'LOGIN_USER_FACEBOOK'
 export const USER_LOGOUT = 'USER_LOGOUT';
 
 
@@ -272,10 +273,29 @@ export function loginUserGoogle(email,name,lastName){
         payload: response.data
       })
     } catch (error) {
+      return error.message;
       
     }
   }
 }
+
+export function loginUserFacebook(id,name,lastName){
+  return async function(dispatch){
+    try {
+      const randomNumber = Math.floor(Math.random() * 1000) + 1;
+      const userNameWithRandomNumber = name + lastName + randomNumber;
+      const response = await axios.get(`http://localhost:3001/usuario/loginFacebook?id=${id}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`)
+      return dispatch({
+        type: LOGIN_USER_FACEBOOK,
+        payload: response.data
+      })
+    } catch (error) {
+      return error.message;
+      
+    }
+  }
+}
+
 
 
 export function clearAux() {
