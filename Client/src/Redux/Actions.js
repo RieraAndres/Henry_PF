@@ -149,6 +149,9 @@ export function disablePet(id) {
     } catch (error) {
       dispatch(disablePetFailure(error)); // Despachar fallo
       throw error;
+    }
+  }
+}
 
 export function postUser(user) {
   return async function (dispatch) {
@@ -205,6 +208,7 @@ export function updatePetStatus(id, status) {
       status,
     },
   };
+}
 
 export function logInUser(userName,password){
   return async function (dispatch){
