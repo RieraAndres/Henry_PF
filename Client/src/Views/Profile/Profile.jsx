@@ -51,15 +51,15 @@ function ProfileUser(){
           {isEditing ? (
            <> <input type="text" name="name" value={userData.name} onChange={handleInputChange} /> <br /> </>
           ) : ( 
-            <span>{userData.name}</span>
+            <span> {userData.name}</span>
           )}
         </div> 
         <div className={styles.apellido}>
-          <label>Apellido: </label>
+          <label>Apellido:</label>
           {isEditing ? (
            <> <input type="text" name="lastName" value={userData.lastName} onChange={handleInputChange} /> <br /> </>
           ) : (
-            <span>{userData.lastName}</span>
+            <span> {userData.lastName}</span>
           )}
         </div>
         <div className={styles.nacimiento}>
@@ -67,7 +67,7 @@ function ProfileUser(){
           {isEditing ? (
            <> <input type="text" name="birthdate" value={userData.birthdate} onChange={handleInputChange} /> <br /> </>
           ) : (
-            <span>{userData.birthdate}</span>
+            <span> {userData.birthdate}</span>
           )}
         </div> 
         <div className={styles.dire}>
@@ -75,7 +75,7 @@ function ProfileUser(){
           {isEditing ? (
           <> <input type="text" name="address" value={userData.address} onChange={handleInputChange} /> <br /> </>
           ) : (
-            <span>{userData.address}</span>
+            <span> {userData.address}</span>
           )}
         </div> 
         <div className={styles.correo}>
@@ -83,7 +83,7 @@ function ProfileUser(){
           {isEditing ? (
           <> <input type="email" name="email" value={userData.email} onChange={handleInputChange} /> <br /> </>
           ) : (
-            <span>{userData.email}</span>
+            <span> {userData.email}</span>
           )}
         </div> 
         <div className={styles.usuario}>
@@ -91,7 +91,7 @@ function ProfileUser(){
           {isEditing ? (
           <> <input type="text" name="userName" value={userData.userName} onChange={handleInputChange} /> <br /> </>
           ) : (
-            <span>{userData.userName}</span>
+            <span> {userData.userName}</span>
           )}
         </div> 
         <div className={styles.tel}>
@@ -99,7 +99,7 @@ function ProfileUser(){
           {isEditing ? (
           <> <input type="text" name="numberPhone" value={userData.numberPhone} onChange={handleInputChange} /> <br /> </>
           ) : (
-            <span>{userData.numberPhone}</span>
+            <span> {userData.numberPhone}</span>
           )}
         </div> 
         <div className={styles.contraseña}>

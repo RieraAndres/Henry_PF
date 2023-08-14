@@ -2,11 +2,12 @@
     background-image: url("../../Assets/Backgrounds//BackgroundInicio.png");
     position: absolute;
     width: 100%;
-
-    
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 .container {
-    padding: relative;
+    padding: 2%;
     font-size: 15px;
     text-align: center;
     background-color: #C8E6CA;
@@ -16,7 +17,6 @@
     margin-bottom: 5%; 
     margin-inline: auto;
     max-width: 500px;
-    
   }
 
 .Nav {
@@ -99,15 +99,3 @@ border: 0;
 background: none;    
     
 }
-
-input[type=text],input[type=password],input[type=email] {
-    border-radius: 5px;
-    padding-left: 5px;
-    margin-left: 3%;
-    float: right;
-    margin-right: 5%;
-}
-label {
-    float: left;
-    margin-left: 3%;
-  }
