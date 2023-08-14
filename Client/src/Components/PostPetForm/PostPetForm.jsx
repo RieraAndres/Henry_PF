@@ -206,7 +206,7 @@ const PostPetForm = () => {
       formData.append("upload_preset", "patitas"); // Usar el nombre de tu upload preset
   
       const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/dmfx2u1ev/image/upload", // Reemplazar "tu_cloud_name" con tu Cloud Name de Cloudinary
+        "https://api.cloudinary.com/v1_1/dtovejlec/image/upload", // Reemplazar "tu_cloud_name" con tu Cloud Name de Cloudinary
         formData
       );
   
