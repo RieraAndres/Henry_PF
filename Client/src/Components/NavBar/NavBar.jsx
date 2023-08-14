@@ -17,7 +17,6 @@ function NavBar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const LoggedData = useSelector(state=>state.userData)
-  console.log(LoggedData);
   
   // Aplica la clase de posición fija solo si estás en la página exacta "/home"
   const isHomePage = location.pathname === '/home';
@@ -37,8 +36,8 @@ function NavBar() {
         <Container>
           <Row>
             <Col>
-              <Navbar.Brand href="/inicio">
-                <img className={styles.logo} src={Logo} alt=""></img>
+              <Navbar.Brand>
+                <NavLink to="/inicio"><img className={styles.logo} src={Logo} alt=""></img></NavLink>
               </Navbar.Brand>
             </Col>
           </Row>
