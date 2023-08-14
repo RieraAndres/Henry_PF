@@ -24,6 +24,7 @@ export const POST_USER_FAILURE = 'POST_USER_FAILURE'
 export const GET_USER_DATA = 'GET_USER_DATA'
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
 export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE'
+export const USER_LOGOUT = 'USER_LOGOUT'
 
 
 
@@ -230,6 +231,12 @@ export function logInUser(userName,password){
     }
   }
 
+}
+
+export function logOutUser(){
+  return {
+    type: USER_LOGOUT
+  }
 }
 
 export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
