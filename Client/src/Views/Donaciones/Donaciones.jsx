@@ -1,8 +1,8 @@
 function Donaciones () {
-    return(
-        <div>
-            <p>Estas en Donaciones</p>
-        </div>
-    )
+  return(
+      <div>
+          <p>Estas en Donaciones</p>
+      </div>
+  )
 }
 export default Donaciones;
