@@ -2,7 +2,7 @@
 .createDog {
   display: flex;
   justify-content: center;
-  flex-direction: column;
+  /* flex-direction: column; */
   align-items: center;
   min-height: 100vh;
   background-color: transparent;
@@ -137,8 +137,8 @@
 /* Estilos para los botones */
 .createBtn {
   font-family: "Tilt Neon", cursive;
-  font-size: 20px;
-  padding: 12px 24px;
+  font-size: 13px;
+  padding: 10px;
   width: 100%;
   max-width: 400px;
   background-color: #ff69b4;
@@ -148,7 +148,14 @@
   cursor: pointer;
   box-shadow: 0 2px 25px rgba(140, 255, 0, 0.5);
   transition: all 0.3s;
-  margin-top: 20px;
+  /* margin-top: 20px; */
+  margin: 16px;
+}
+
+.containerButton{
+  width: 147px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .createBtn.disabled {
@@ -419,3 +426,238 @@
   animation: shake 0.5s linear;
 }
 
+
+
+/* .previewSection{
+  display: inline-block;
+  width: 35vh;
+  height: 25vh;
+  background-color: #ff1493;
+} */
+
+/* Estilos CSS para el componente Preview */
+
+/* .CardPreview {
+  margin: 30px 0 0 30px;
+  background-color: red;
+  border-radius: 15px;
+}
+
+#card {
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  background-color: #291d5762;
+  border-radius: 20px;
+  height: 380px;
+  margin: 10px;
+  transition: all 1s;
+  width: 310px;
+}
+
+.imgCard {
+  width: 310px;
+}
+
+.img {
+  border-radius: 20px 20px 0 0;
+  height: 210px;
+  object-fit: cover;
+  object-position: top center;
+  position: relative;
+  width: 100%;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.selectOptions {
+  display: flex;
+  gap: 10px; /* Espacio entre los selects 
+}
+
+.name {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  font-size: calc(0em + 1vw);
+  height: 80px;
+  justify-content: center;
+  margin: 10.5px 0;
+  padding: 10px;
+  width: 290px;
+}
+
+.cardText {
+  color: #fff;
+  font-size: calc(0em + 0.9vw);
+  line-height: 1.4;
+  margin-top: 10px;
+  padding: 0 10px;
+  text-align: left;
+}
+
+@media screen and (max-width: 910px) {
+  #CreateGame {
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+  }
+  .ScCg,
+  .cancelBtn {
+    padding-left: 10px;
+  }
+  .label {
+    width: 27%;
+    text-align: center;
+    padding-right: 25px;
+    margin-left: 10px;
+  }
+  .input {
+    margin-right: 10px;
+  }
+  .CardPreview {
+    margin: 0;
+  }
+} */
+
+/* Estilos CSS para el componente Preview */
+.CardPreview {
+  display: flex;
+  margin: 30px 0 0 30px;
+  background-color: #eeb3e7;
+  border-radius: 15px;
+}
+
+.colorWhite{
+  background-color: white;
+  text-align: center;
+  border-radius: 15px;
+}
+
+/* #card {
+  background-image: linear-gradient(
+      rgba(15, 15, 15, 0),
+      rgb(21, 21, 21)
+    ),
+    linear-gradient(rgba(21, 21, 21, 0.8), rgba(21, 21, 21, 0.5)),
+    url("https://2.bp.blogspot.com/-dgovyb9VyRs/WGsE82H5MbI/AAAAAAAAAwo/UK4FkR1hMbglnzBhZhJ4RUXosPKl4NRPgCLcB/s1600/pixel-art-Dark-Souls-games-3549364.gif");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  border-radius: 20px;
+  height: 380px;
+  margin: 10px;
+  transition: all 1s;
+  width: 310px;
+} */
+
+.imgCard {
+  /* width: 310px; */
+  background-color: red;
+  border-radius: 15px;
+}
+
+.img {
+  border-radius: 20px 20px 0 0;
+  height: 210px;
+  object-fit: cover;
+  object-position: top center;
+  position: relative;
+  width: 100%;
+  display: inline-block;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardClose {
+  /* display: flex; */
+  flex-direction: column;
+  padding: 10px;
+  text-align: center;
+}
+
+/* .rating {
+  font-family: 'Tilt Neon', cursive;
+  font-size: 30px;
+  padding: 10px 0;
+  margin-top: 20px;
+  width: 50px;
+  background: linear-gradient(
+    0deg,
+    rgba(34, 193, 195, 1) 0%,
+    rgba(253, 187, 45, 1) 100%
+  );
+  color: #ffffff;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 25px rgba(140, 255, 0, 0.5);
+  transition: all 1s;
+} */
+
+.platform {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.name {
+  background-color: white;
+  color: black;
+  height: 33px;
+  border-radius: 15px;
+}
+
+/* .cardOpen {
+  margin-top: 10px;
+}
+
+.cardGenres {
+  font-size: medium;
+  color: #e17108;
+  margin-top: 5px;
+} */
+
+.decript{
+  display: inline-block;
+  width: 320px;
+  height: 104px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  word-wrap: break-word;
+  border-radius: 15px;
+  background-color: white;
+  overflow-x: hidden;
+  overflow-y: auto;
+  word-wrap: break-word;
+}
+
+.prewEdad{
+  position: relative;
+  width: 46px;
+  background-color: white;
+  height: 31px;
+  right: 7px;
+  top: 6px;
+  border-radius: 15px;
+  float: right;
+}
+
+.prewUbi{
+  background-color: white;
+  height: 45px;
+  width: 20em;
+  border-radius: 15px;
+}
