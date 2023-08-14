@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilter, setOrden, applyFilters } from '../../Redux/Actions';
 import styles from "../filters/Filter.module.css";
@@ -16,18 +16,20 @@ const FiltersComponent = ({setCurrentPage , setActivePage}) => {
     dispatch(setOrden({ ...orden, [ordenName]: value }));
   };
 
-  const handleApplyFilters = () => {
+  const handleApplyFilters = (event) => {
+    event.preventDefault()
     dispatch(applyFilters(filters, orden));
     setCurrentPage(1)
     setActivePage(1)
   };
 
-  const resetFilter = () => {
+  const resetFilter = (event) => {
+    event.preventDefault()
     // Restablece los filtros y el orden al estado inicial
-    dispatch(setFilter({ size: '', gender: '' }));
-    dispatch(setOrden({ orden_age: '', orden_name: '' }));
+    dispatch(setFilter({ specie: '', size: '', gender: '' }));
+    dispatch(setOrden({ orden: '' }));
     // Aplica los filtros y orden iniciales
-    dispatch(applyFilters({ size: '', gender: '' }, { orden_age: '', orden_name: '' }));
+    dispatch(applyFilters({ specie: '', size: '', gender: '' }, { orden: '' }));
     setCurrentPage(1);
     setActivePage(1);
   }
@@ -35,6 +37,15 @@ const FiltersComponent = ({setCurrentPage , setActivePage}) => {
   return (
     <Form>
       <Row className={styles.filterButtonRow}>
+        <Col className={styles.filtros}>
+          <div className={styles.filterButton}>
+              <select className={styles.filterButtonInner} value={filters.specie} onChange={(e) => handleFilterChange('specie', e.target.value)}>
+                <option value="">Especie</option>
+                <option value="Perro">Perro</option>
+                <option value="Gato">Gato</option>
+              </select>
+          </div>
+        </Col>
         <Col className={styles.filtros}>
           <div className={styles.filterButton}>
               <select className={styles.filterButtonInner} value={filters.size} onChange={(e) => handleFilterChange('size', e.target.value)}
@@ -50,29 +61,28 @@ const FiltersComponent = ({setCurrentPage , setActivePage}) => {
         <div className={styles.filterButton}>
             <select className={styles.filterButtonInner} value={filters.gender} onChange={(e) => handleFilterChange('gender', e.target.value)}>
               <option value="">Género</option>
-              <option value="macho">Macho</option>
-              <option value="hembra">Hembra</option>
+              <option value="Macho">Macho</option>
+              <option value="Hembra">Hembra</option>
             </select>
         </div>
         </Col>
         <Col>
         <div className={styles.filterButton}>
-            <select className={styles.filterButtonInner} value={orden.orden_age} onChange={(e) => handleOrdenChange('orden_age', e.target.value)}>
-              <option value="">Ordenar por edad</option>
-              <option value="ASC">Ascendente</option>
-              <option value="DESC">Descendente</option>
+            <select className={styles.filterButtonInner} value={orden.orden} onChange={(e) => handleOrdenChange('orden', e.target.value)}>
+              <option value="">Ordenar por</option>
+              <option value="name-ASC">Ascendente A-Z</option>
+              <option value="name-DESC">Descendente Z-A</option>
+              <option value="age-ASC">Edad Menor</option>
+              <option value="age-DESC">Edad Mayor</option>
             </select>
           </div>
         </Col>
-        <Col>
+        {/* <Col>
         <div className={styles.filterButton}>
             <select className={styles.filterButtonInner} value={orden.orden_name} onChange={(e) => handleOrdenChange('orden_name', e.target.value)}>
-              <option value="">Ordenar por nombre</option>
-              <option value="ASC">Ascendente</option>
-              <option value="DESC">Descendente</option>
             </select>
           </div>
-        </Col>
+        </Col> */}
         <Row className={styles.filterButtonRow}></Row>
         <Col>
           <button onClick={handleApplyFilters} className={styles.filterButtonFiltrar} >Filtrar</button>

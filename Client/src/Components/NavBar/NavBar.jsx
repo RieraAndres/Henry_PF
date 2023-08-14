@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { NavLink,Link, useLocation,useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import styles from '../NavBar/NavBar.module.css';
 import Nav from 'react-bootstrap/Nav';
@@ -10,15 +10,27 @@ import Col from 'react-bootstrap/Col';
 import Logo from '../../Assets/Logo/logo_PF.png';
 import Menu from '../../Assets/Menu/menu_desplegable.png';
 import SearchBar from '../SearchBar/SearchBar';
-import { Link } from 'react-router-dom';
+import { useDispatch,useSelector } from 'react-redux';
+import { logOutUser } from '../../Redux/Actions';
 
 function NavBar() {
   const location = useLocation();
-
+  const dispatch = useDispatch();
+  const LoggedData = useSelector(state=>state.userData)
+  console.log(LoggedData);
+  
   // Aplica la clase de posición fija solo si estás en la página exacta "/home"
   const isHomePage = location.pathname === '/home';
   const navbarClassName = isHomePage ? `${styles.Nav} ${styles.fixed}` : styles.Nav;
+  const navigate = useNavigate();
 
+  const HandleLogOut = (e)=>{
+    e.preventDefault();
+    dispatch(logOutUser)
+    window.location.href = "/"
+  }
+
+  
   return (
     <div className={styles.contenedor}>
       <Navbar className={navbarClassName}>
@@ -41,7 +53,10 @@ function NavBar() {
               )}
             </Col>
           </Row>
-          <Row>
+          <Row className={styles.welcome}>
+            <Col>
+              <p >Bienvenido {LoggedData.name}</p>
+            </Col>
             <Col>
               <Navbar.Toggle aria-controls="navbar-dark-example" />
               <Navbar.Collapse id="navbar-dark-example">
@@ -51,10 +66,19 @@ function NavBar() {
                     menuVariant="light"
                     drop="start"
                   >
-                    <NavDropdown.Item href="/perfil">Perfil</NavDropdown.Item>
-                    <NavDropdown.Item href="/about">About</NavDropdown.Item>
-                    <NavDropdown.Item href="/donations">Donaciones</NavDropdown.Item>
-                    <NavDropdown.Item href="/info">¿Como adoptar?</NavDropdown.Item>
+                     <NavLink to={`/profile/${LoggedData.id}`} className="dropdown-item"  activeClassName="active">
+                      Perfil
+                    </NavLink>
+                    <NavLink to={'/about'} className="dropdown-item"  activeClassName="active">
+                      Quienes somos
+                    </NavLink>
+                    <NavLink to={'/donations'} className="dropdown-item"  activeClassName="active">
+                      Donaciones
+                    </NavLink>
+                    <NavLink to={'/info'} className="dropdown-item"  activeClassName="active">
+                     ¿Como adoptar?
+                    </NavLink>
+                    <NavDropdown.Item onClick={HandleLogOut}>Salir</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
               </Navbar.Collapse>

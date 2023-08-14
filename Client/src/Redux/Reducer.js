@@ -8,7 +8,16 @@ import {
   SET_FILTER,
   SET_ORDEN,
   APPLY_FILTERS_SUCCESS,
-  APPLY_FILTERS_FAILURE
+  APPLY_FILTERS_FAILURE,
+  UPDATE_PET,
+  UPDATE_PET_STATUS,
+  DISABLE_PET_SUCCESS,
+  DISABLE_PET_FAILURE,
+  POST_USER_SUCCESS,
+  POST_USER_FAILURE,
+  USER_LOGIN_SUCCESS,
+  LOGIN_USER_GOOGLE,
+  USER_LOGOUT,
 } from "./Actions";
 
 let initialState = { 
@@ -17,6 +26,9 @@ let initialState = {
   auxState: [],
   filters: { size: "", gender: "" },
   orden: { orden_age: "", orden_name: "",},
+  userCreated:false,
+  userData:{},
+  userLogedIn:null
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -51,6 +63,7 @@ export default function rootReducer(state = initialState, action) {
           petCreated: false,
           error: action.payload,
         };
+        
     case CLEAR_AUX_STATE: //limpio auxState al hacer unmount de un componente
       return {
         ...state,
@@ -83,6 +96,87 @@ export default function rootReducer(state = initialState, action) {
         error: action.payload, // Maneja el error en caso de fallo
       };
 
+
+    case UPDATE_PET:
+      const updatedAllPets = state.allPets.map((pet) => {
+        if (pet.id === action.payload.id) {
+          return {
+            ...pet,
+            ...action.payload.updatedFields,
+          };
+        }
+        return pet;
+      });
+    
+      return {
+        ...state,
+        allPets: updatedAllPets,
+      };
+
+      case DISABLE_PET_SUCCESS:
+    case DISABLE_PET_FAILURE:
+      const updatedAllPetsAfterDisable = state.allPets.map((pet) => {
+        if (pet.id === action.payload.id) {
+          return {
+            ...pet,
+            status: false,
+          };
+        }
+        return pet;
+      });
+
+      return {
+        ...state,
+        allPets: updatedAllPetsAfterDisable,
+      };
+
+      case UPDATE_PET_STATUS:
+      return {
+        ...state,
+        petsCopy: state.petsCopy.map((pet) =>
+          pet.id === action.payload.id
+            ? { ...pet, status: action.payload.status }
+            : pet
+        ),
+      };
+
+
+    case POST_USER_SUCCESS:
+      return{
+        ...state,
+        userCreated: true, //al ser creado con exito seteo en true el estado 
+      }
+    case POST_USER_FAILURE:
+      return{
+        ...state, // al haber error seteo en false el estado
+        userCreated:false
+      }
+
+
+
+   
+    case USER_LOGIN_SUCCESS:
+      return{
+        ...state,
+        userLogedIn: true,
+        userData: action.payload
+      }
+
+    case LOGIN_USER_GOOGLE:
+      return{
+        ...state,
+        userLogedIn:true,
+        userData:action.payload
+      }
+
+
+    case USER_LOGOUT:
+     return {
+        ...state,
+        userLogedIn:false,
+        userData:{}
+      }
+      
     default:
       return {
         ...state,
