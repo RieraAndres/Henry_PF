@@ -17,6 +17,7 @@ export const POST_USER_FAILURE = 'POST_USER_FAILURE'
 export const GET_USER_DATA = 'GET_USER_DATA'
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
 export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE'
+export const LOGIN_USER_GOOGLE = 'LOGIN_USER_GOOGLE'
 
 
 
@@ -182,6 +183,22 @@ export function getUserData (userName){
       const response = await axios.get(`http://localhost:3001/usuario/userData?userName=${userName}`)
       return dispatch({
         type: GET_USER_DATA,
+        payload: response.data
+      })
+    } catch (error) {
+      return error.message;
+    }
+  }
+}
+
+export function loginUserGoogle(email,name,lastName){
+  return async function(dispatch){
+    try {
+      const randomNumber = Math.floor(Math.random() * 1000) + 1;
+      const userNameWithRandomNumber = name + lastName + randomNumber;
+      const response = await axios.get(`http://localhost:3001/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`)
+      return dispatch({
+        type: LOGIN_USER_GOOGLE,
         payload: response.data
       })
     } catch (error) {

@@ -9,7 +9,7 @@ import GoogleLogin from 'react-google-login'
 import FacebookLogin from 'react-facebook-login'
 
 import styles from "./LoginForm.module.css";
-import { logInUser } from "../../Redux/Actions";
+import { logInUser, loginUserGoogle } from "../../Redux/Actions";
 
 
 function LoginForm() {
@@ -74,6 +74,7 @@ function LoginForm() {
   //GOOGLE
   const onSuccess = (response) => {
     console.log('login Success current user:', response.profileObj);
+    dispatch(loginUserGoogle(response.profileObj.email,response.profileObj.givenName,response.profileObj.familyName ))
     navigate("/inicio")
   }
 
@@ -131,7 +132,7 @@ function LoginForm() {
         <div>
             {/* <a href=""> <img src="https://img.freepik.com/iconos-gratis/google_318-258888.jpg" alt="googleLogo" /> </a>
             <a href=""> <img src= "https://img.freepik.com/iconos-gratis/facebook_318-157463.jpg" alt="facebookLogo" /> </a> */}
-            <GoogleLogin clientId={ClientID} onSuccess={onSuccess} onFailure={onFailure} cookiePolicy="single_host_origin" isSignedIn={true}/>
+            <GoogleLogin clientId={ClientID} onSuccess={onSuccess} onFailure={onFailure} cookiePolicy="single_host_origin" />
             <FacebookLogin appId={appID} autoLoad={false} fields="first_name,last_name" callback={responseFacebook} icon='fa-facebook' textButton="Facebook" buttonStyle={{backgroundColor: 'blue'}} scope="public_profile" redirectUri={`${window.location.origin}/facebook-redirect`}/>
         </div>
       </div>

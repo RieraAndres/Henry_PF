@@ -20,14 +20,14 @@ module.exports = (sequelize) => {
 		},
 		birthdate: {
 			type: DataTypes.DATEONLY, // FORMATO DE FECHA = Año/mes/día 
-			allowNull: false,
+			allowNull: true,
 		},
 		address: {
 			type: DataTypes.STRING,
 		},
 		email: {
 	 		type: DataTypes.STRING,
-	 		allowNull: false,
+	 		allowNull: true,
 	 		unique: true,
 	 		validate: {
 	 			isEmail: true,
@@ -40,7 +40,7 @@ module.exports = (sequelize) => {
 		},
 		password: {   // Usar funciones para hashear o encriptar, y también para verificar 
 			type: DataTypes.STRING,   // librería bcrypt
-			allowNull: false,
+			allowNull: true,
 		},
 		numberPhone: {
 			type: DataTypes.STRING,

@@ -12,7 +12,8 @@ import {
   POST_USER_SUCCESS,
   POST_USER_FAILURE,
   USER_LOGIN_SUCCESS,
-  USER_LOGIN_FAILURE
+  USER_LOGIN_FAILURE,
+  LOGIN_USER_GOOGLE
 } from "./Actions";
 
 let initialState = { 
@@ -105,6 +106,12 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         userLogedIn: true,
         userData: action.payload
+      }
+    case LOGIN_USER_GOOGLE:
+      return{
+        ...state,
+        userLogedIn:true,
+        userData:action.payload
       }
     default:
       return {
