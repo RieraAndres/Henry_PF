@@ -4,21 +4,23 @@ import NavBar from "../../Components/NavBar/NavBar";
 import Footer from "../../Components/Footer/Footer";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
-
+import { useSelector } from 'react-redux';
 function ProfileUser(){
 
     const [isEditing, setIsEditing] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const user = useSelector((state) => state.userData);
+    console.log(user);
 
   const [userData, setUserData] = useState({
-    name: 'Carlos',
-    lastName: 'Aguilar',
-    birthdate: '2002-01-02',
-    address: 'Puerto Rico esq. Panamá',
-    email: 'aguicarpy@gmail.com',
-    userName: 'kkrlinho',
-    password: '$2b$10$zX/szhSzjjotVu3NyxIfl.nPWlKGfrvUSAPb9Wyye5f/9ddqkBhl6',
-    numberPhone: '0983297559',
+    name: user.name,
+    lastName: user.lastName,
+    birthdate: user.birthdate,
+    address: user.address,
+    email: user.email,
+    userName: user.userName,
+    password: user.password,
+    numberPhone: user.password,
   });
 
   const handleInputChange = (e) => {
@@ -47,7 +49,7 @@ function ProfileUser(){
       { <img src={userData.photo} alt="Foto de perfil" />}
       <div >
         <div className={styles.nombre}>
-          <label>Nombre: </label>
+          <label>Nombre:</label>
           {isEditing ? (
            <> <input type="text" name="name" value={userData.name} onChange={handleInputChange} /> <br /> </>
           ) : ( 
