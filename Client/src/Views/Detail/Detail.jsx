@@ -10,6 +10,8 @@ import Col from 'react-bootstrap/Col';
 import styles from '../Detail/Detail.module.css';
 import GoolgeMaps from '../../Assets/Logo/googleMaps.png';
 import FormAdopt from "../../Components/FormAdopt/FormAdopt";
+import UpdatePetForm from '../../Components/PostPetForm/UpdateAndDelete/UpdateAndDelete';
+
 
 function Detail() {
     const { id } = useParams();
@@ -18,6 +20,9 @@ function Detail() {
     
   
     const [showForm, setShowForm] = useState(false);
+    const [showFormEdit, setShowForEdit] = useState(false);
+
+    
   
     useEffect(() => {
         dispatch(getPetDetail(id));
@@ -31,11 +36,11 @@ function Detail() {
             <NavBar />
             <Container  className={styles.Container}>
                 <Row >
-                    {showForm ? (
-                        <Col style={{marginTop: '0'}}>
-                            <FormAdopt petId={id}/>
-                        </Col>
-                    ) : (
+                {showFormEdit ? (
+                            <UpdatePetForm petData={mascota} />
+                        ) : showForm ? (
+                            <FormAdopt petId={id} />
+                        ) : (
                         <Col md={5} className={styles.ColIzq}>
                             <div className={styles.contenido} >
                                 <h1>{mascota.name/*.toUpperCase()*/}</h1>
@@ -56,12 +61,24 @@ function Detail() {
                         </div>
                         <div style={{ marginTop: '5%' }}>
                             {!showForm ? (
-                                <button className={styles.button}  onClick={() => setShowForm(true)}>¡ADOPTA!</button>
+                                    <button className={styles.button}  onClick={() => {setShowForm(true);setShowForEdit(false)}}>¡ADOPTA!</button>
+                                    
                             ):(
-                                <button className={styles.button}  onClick={() => setShowForm(false)}>¡INFO!</button>
+                                <div>
+                                    <button className={styles.button}  onClick={() => {setShowForm(false);setShowForEdit(false)}}>¡INFO!</button>
+                                </div>
 
-                            )}
+                            )}    
+                        </div>
+                        <div>
+                            {!showFormEdit?(
+                                <button className={styles.button} onClick={()=>{setShowForEdit(true);setShowForm(false)}}>Editar</button>
+                            ):(
+                                <button className={styles.button} onClick={()=>{setShowForEdit(false);setShowForm(false)}}>Atras</button>
+
+                            )
                             
+                            }
                         </div>
                     </Col>
                 </Row>
