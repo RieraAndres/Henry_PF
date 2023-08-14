@@ -1,32 +1,67 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
-import { updatePet, disablePet } from "../../../Redux/Actions";
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { updatePet, disablePet, getPetDetail, clearAux } from "../../../Redux/Actions";
 import styles from '../../../Components/PostPetForm/PostPetForm.module.css';
 import miniPerroImage from "../AssetsForm/miniGato.jpg";
 import miniGatoImage from "../AssetsForm/miniGato.jpg";
+import axios from 'axios';
 
-const UpdatePetForm = ({ petData }) => {
+const UpdatePetForm = () => {
+  const { id } = useParams();
   const navigate = useNavigate(); // Obtenemos el objeto history
   const dispatch = useDispatch();
+  const mascota = useSelector((state) => state.auxState);
 
-  const [formData, setFormData] = useState({
-    name: petData.name || '',
-    numberPhone: petData.numberPhone || '',
-    email: petData.email || '',
-    description: petData.description || '',
-    location: petData.location || '',
-    age: petData.age || '',
-    imageUrl: petData.imageUrl || '',
-    specie: petData.specie || '',
-    gender: petData.gender || '',
-    size: petData.size || '',
-  });
+  useEffect(() => {
+    dispatch(getPetDetail(id))
+    return() => {
+      dispatch(clearAux());
+    };
+  }, [dispatch, id])
+
+  useEffect(() => {
+  if (mascota) {
+
+    setFormData({
+      name: mascota.name || '',
+      numberPhone: mascota.numberPhone || '',
+      email: mascota.email || '',
+      description: mascota.description || '',
+      location: mascota.location || '',
+      age: mascota.age || '',
+      imageUrl: mascota.imageUrl || '',
+      specie: mascota.specie || '',
+      gender: mascota.gender || '',
+      size: mascota.size || '',
+    });
+    // Autocompletar campos de "email" y "numberPhone"
+  setFormData((prevFormData) => ({
+    ...prevFormData,
+    email: mascota.email || prevFormData.email,
+    numberPhone: mascota.numberPhone || prevFormData.numberPhone,
+  }));
+  }
+}, [mascota]);
+
+
+  const [formData, setFormData] = useState({});
+   /* name: mascota.name || '',
+    numberPhone: mascota.numberPhone || '',
+    email: mascota.email || '',
+    description: mascota.description || '',
+    location: mascota.location || '',
+    age: mascota.age || '',
+    imageUrl: mascota.imageUrl || '',
+    specie: mascota.specie || '',
+    gender: mascota.gender || '',
+    size: mascota.size || '',
+  });*/
 
   // const [nameChange, setNameChange] = useState(petData.name);
-  const [especieSelect, setEspecieSelect] = useState(petData.specie || '');
-  const [generoSelect, setGeneroSelect] = useState(petData.gender || '');
-  const [tamañoSelect, setTamañoSelect] = useState(petData.size || '');
+  const [especieSelect, setEspecieSelect] = useState(mascota.specie || '');
+  const [generoSelect, setGeneroSelect] = useState(mascota.gender || '');
+  const [tamañoSelect, setTamañoSelect] = useState(mascota.size || '');
   const [isAgeModified, setIsAgeModified] = useState(false);
   const [isLocationValid, setIsLocationValid] = useState(true);
   const [isPhotoChange, setIsPhotoChange] = useState(false);
@@ -55,22 +90,22 @@ const UpdatePetForm = ({ petData }) => {
   
 
   useEffect(() => {
-    if (!petData.status) {
-      setIsDisabled(true);
+    if (!mascota.status) {
+      setIsDisabled(false);
     }
 
     // Actualiza las opciones seleccionadas con los valores de petData
-  setEspecieSelect(petData.specie || ''); // Opción por defecto
-  setGeneroSelect(petData.gender || ''); // Opción por defecto
-  setTamañoSelect(petData.size || '');   // Opción por defecto
+  setEspecieSelect(mascota.specie || ''); // Opción por defecto
+  setGeneroSelect(mascota.gender || ''); // Opción por defecto
+  setTamañoSelect(mascota.size || '');   // Opción por defecto
 
   // Autocompletar campos de "email" y "numberPhone"
   setFormData((prevFormData) => ({
     ...prevFormData,
-    email: petData.email || prevFormData.email,
-    numberPhone: petData.numberPhone || prevFormData.numberPhone,
+    email: mascota.email || prevFormData.email,
+    numberPhone: mascota.numberPhone || prevFormData.numberPhone,
   }));
-}, [petData.status, petData.specie, petData.gender, petData.size, petData.email, petData.numberPhone]);
+}, [mascota.status, mascota.specie, mascota.gender, mascota.size, mascota.email, mascota.numberPhone]);
 
 
 useEffect(() => {
@@ -233,7 +268,25 @@ useEffect(() => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleCloudImage = async (file) => {
+    try{
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'patitas');
+
+      const response = await axios.post("https://api.cloudinary.com/v1_1/dtovejlec/image/upload", formData);
+
+      const imageUrl = response.data.secure_url;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        imageUrl,
+      }));
+    } catch(error){
+      console.error('Error al cargar la imagen a CLoudinary', error);
+    }
+  };
+
+  const handleChange = async (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     setFormSubmitted(false);
@@ -243,8 +296,19 @@ useEffect(() => {
     }
 
     if (name === "imageUrl") {
-      setIsPhotoChange(true);
-      setSelectedFileName(e.target.files[0] ? e.target.files[0].name : "");
+      const file = e.target.files[0];
+      if(file){
+        try{
+          await handleCloudImage(file);
+          setIsPhotoChange(true);
+          setSelectedFileName(file.name);
+        } catch(error){
+          console.error('Error al cargar la imagen', error);
+        }
+      }else{
+        setIsPhotoChange(false);
+        setSelectedFileName('');
+      }
     } else {
       setIsPhotoChange(false);
     }
@@ -252,8 +316,6 @@ useEffect(() => {
     if (name === "location") {
       validateLocation(value);
     }
-
-    
 
     // if (name === "name") {
     //   setNameChange(value); // Actualiza el estado nameChange
@@ -289,7 +351,7 @@ useEffect(() => {
     };
 
     try {
-      dispatch(updatePet(petData.id, updatedFields));
+      dispatch(updatePet(mascota.id, updatedFields));
       setFormSubmitted(true);
       console.log("Pet updated successfully"); // Add this line
       alert("Mascota actualizada exitosamente");
@@ -305,7 +367,7 @@ useEffect(() => {
 
 const handleDisable = async () => {
   try {
-    await dispatch(disablePet(petData.id));
+    await dispatch(disablePet(mascota.id));
     setIsDisabled(true);
     console.log("Pet disabled successfully");
     alert("Mascota desactivada exitosamente");

@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 import styles from '../Detail/Detail.module.css';
 import GoolgeMaps from '../../Assets/Logo/googleMaps.png';
 import FormAdopt from "../../Components/FormAdopt/FormAdopt";
+import UpdateAndDelete from '../../Components/PostPetForm/UpdateAndDelete/UpdateAndDelete.jsx';
 
 function Detail() {
     const { id } = useParams();
@@ -64,7 +65,12 @@ function Detail() {
                             
                         </div>
                     </Col>
-                </Row>
+                    <Col>
+                        <div>
+                            <UpdateAndDelete mascota={id} />
+                        </div>
+                    </Col>
+                </Row>      
             </Container>
             <Footer />
         </div>
