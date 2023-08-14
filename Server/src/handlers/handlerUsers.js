@@ -1,6 +1,7 @@
 const registerUser = require('../controllers/crudUser/postRegisterUser.js');
 const getUser = require('../controllers/crudUser/getProfileUser.js')
-const loginUser = require ('../controllers/crudUser/getOpenSesionUser.js')
+const loginUser = require ('../controllers/crudUser/getOpenSesionUser.js');
+const loginUserGoogle = require('../controllers/crudUser/getOpenSesionUserGoogle.js');
 
 const handlerRegisterUser = async (req, res) => {
     const { name, lastName, email, birthdate, userName, password, numberPhone, address } = req.body;
@@ -59,4 +60,18 @@ const handleUserLogin = async (req,res)=>{
         return res.status(500).json({ error: error.message });
     }
 }
-module.exports = {handlerRegisterUser , handlerUserData,handleUserLogin};
+
+const handleUserLoginGoogle = async (req,res)=>{
+    let {email,name,lastName,userName}= req.query
+    try{
+        if(!email || !name ||!lastName||!userName){
+            return res.status(400).json({error: 'Ingrese todos los datos'})
+        }else{
+            let logedInGoogleUser = await loginUserGoogle(email,name,lastName,userName)
+            return res.status(200).json(logedInGoogleUser)
+        }
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+module.exports = {handlerRegisterUser , handlerUserData,handleUserLogin,handleUserLoginGoogle};

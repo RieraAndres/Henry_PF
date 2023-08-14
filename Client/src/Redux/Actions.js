@@ -8,26 +8,21 @@ export const GET_PET_BY_NAME = "GET_PET_BY_NAME";
 export const POST_PET_SUCCESS = "POST_PET_SUCCESS";
 export const POST_PET_FAILURE = "POST_PET_FAILURE";
 export const CLEAR_AUX_STATE = "CLEAR_AUX_STATE";
-export const SET_ORDEN = "SET_ORDEN"
-export const SET_FILTER = "SET_FILTER"
-export const APPLY_FILTERS_SUCCESS = "APPLY_FILTERS_SUCCESS"
-export const APPLY_FILTERS_FAILURE = "APPLY_FILTERS_FAILURE"
-
+export const SET_ORDEN = "SET_ORDEN";
+export const SET_FILTER = "SET_FILTER";
+export const APPLY_FILTERS_SUCCESS = "APPLY_FILTERS_SUCCESS";
+export const APPLY_FILTERS_FAILURE = "APPLY_FILTERS_FAILURE";
 export const UPDATE_PET = "UPDATE_PET";
 export const UPDATE_PET_STATUS = "UPDATE_PET_STATUS";
-
 export const DISABLE_PET_SUCCESS = "DISABLE_PET_SUCCESS";
 export const DISABLE_PET_FAILURE = "DISABLE_PET_FAILURE";
-
-export const POST_USER_SUCCESS = 'POST_USER_SUCCES'
-export const POST_USER_FAILURE = 'POST_USER_FAILURE'
-export const GET_USER_DATA = 'GET_USER_DATA'
-export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
-export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE'
-export const USER_LOGOUT = 'USER_LOGOUT'
-
-
-
+export const POST_USER_SUCCESS = 'POST_USER_SUCCES';
+export const POST_USER_FAILURE = 'POST_USER_FAILURE';
+export const GET_USER_DATA = 'GET_USER_DATA';
+export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
+export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE';
+export const LOGIN_USER_GOOGLE = 'LOGIN_USER_GOOGLE';
+export const USER_LOGOUT = 'USER_LOGOUT';
 
 
 export function getPets() {
@@ -254,6 +249,22 @@ export function getUserData (userName){
       const response = await axios.get(`http://localhost:3001/usuario/userData?userName=${userName}`)
       return dispatch({
         type: GET_USER_DATA,
+        payload: response.data
+      })
+    } catch (error) {
+      return error.message;
+    }
+  }
+}
+
+export function loginUserGoogle(email,name,lastName){
+  return async function(dispatch){
+    try {
+      const randomNumber = Math.floor(Math.random() * 1000) + 1;
+      const userNameWithRandomNumber = name + lastName + randomNumber;
+      const response = await axios.get(`http://localhost:3001/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`)
+      return dispatch({
+        type: LOGIN_USER_GOOGLE,
         payload: response.data
       })
     } catch (error) {
