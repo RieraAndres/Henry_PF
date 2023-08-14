@@ -10,6 +10,11 @@ module.exports = (sequelize) => {
 			unique: true,
 			primaryKey: true,
 		},
+		idFacebook:{
+			type:DataTypes.BIGINT,
+			unique:true,
+			allowNull:true,
+		},
 		name: {
 			type: DataTypes.STRING,
 			allowNull: false,

@@ -9,7 +9,7 @@ import GoogleLogin from 'react-google-login'
 import FacebookLogin from 'react-facebook-login'
 
 import styles from "./LoginForm.module.css";
-import { logInUser, loginUserGoogle } from "../../Redux/Actions";
+import { logInUser, loginUserFacebook, loginUserGoogle } from "../../Redux/Actions";
 
 
 function LoginForm() {
@@ -79,12 +79,14 @@ function LoginForm() {
   }
 
   const onFailure= (response) => {
-    console.log("Ocurrio un Problema", response);
+    window.alert("Error de Servidor")
   }
 
   //FACEBOOK
   const responseFacebook = (response) => {
-    console.log(response);
+    console.log(response)
+    dispatch(loginUserFacebook(response.id,response.first_name,response.last_name))
+    navigate("/inicio")
   }
 
   return (
@@ -132,7 +134,7 @@ function LoginForm() {
         <div>
             {/* <a href=""> <img src="https://img.freepik.com/iconos-gratis/google_318-258888.jpg" alt="googleLogo" /> </a>
             <a href=""> <img src= "https://img.freepik.com/iconos-gratis/facebook_318-157463.jpg" alt="facebookLogo" /> </a> */}
-            <GoogleLogin clientId={ClientID} onSuccess={onSuccess} onFailure={onFailure} cookiePolicy="single_host_origin" />
+            <GoogleLogin clientId={ClientID} onSuccess={onSuccess} onFailure={onFailure} cookiePolicy="single_host_origin"  isSignedIn={false}/>
             <FacebookLogin appId={appID} autoLoad={false} fields="first_name,last_name" callback={responseFacebook} icon='fa-facebook' textButton="Facebook" buttonStyle={{backgroundColor: 'blue'}} scope="public_profile" redirectUri={`${window.location.origin}/facebook-redirect`}/>
         </div>
       </div>
