@@ -54,7 +54,7 @@ function NavBar() {
           </Row>
           <Row className={styles.welcome}>
             <Col>
-              <p >Bienvenido {LoggedData.name}</p>
+              <p >Bienvenido {LoggedData.userName}</p>
             </Col>
             <Col>
               <Navbar.Toggle aria-controls="navbar-dark-example" />
