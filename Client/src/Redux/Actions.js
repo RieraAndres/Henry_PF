@@ -1,7 +1,5 @@
 import axios from "axios";
 
-
-
 export const GET_PETS = "GET_PETS";
 export const GET_PET_DETAIL = "GET_PET_DETAIL";
 export const GET_PET_BY_NAME = "GET_PET_BY_NAME";
@@ -16,15 +14,16 @@ export const UPDATE_PET = "UPDATE_PET";
 export const UPDATE_PET_STATUS = "UPDATE_PET_STATUS";
 export const DISABLE_PET_SUCCESS = "DISABLE_PET_SUCCESS";
 export const DISABLE_PET_FAILURE = "DISABLE_PET_FAILURE";
-export const POST_USER_SUCCESS = 'POST_USER_SUCCES';
-export const POST_USER_FAILURE = 'POST_USER_FAILURE';
-export const GET_USER_DATA = 'GET_USER_DATA';
-export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
-export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE';
-export const LOGIN_USER_GOOGLE = 'LOGIN_USER_GOOGLE';
-export const LOGIN_USER_FACEBOOK = 'LOGIN_USER_FACEBOOK'
-export const USER_LOGOUT = 'USER_LOGOUT';
-
+export const POST_USER_SUCCESS = "POST_USER_SUCCES";
+export const POST_USER_FAILURE = "POST_USER_FAILURE";
+export const GET_USER_DATA = "GET_USER_DATA";
+export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
+export const USER_LOGIN_FAILURE = "USER_LOGIN_FAILURE";
+export const LOGIN_USER_GOOGLE = "LOGIN_USER_GOOGLE";
+export const LOGIN_USER_FACEBOOK = "LOGIN_USER_FACEBOOK";
+export const USER_LOGOUT = "USER_LOGOUT";
+export const USER_UPDATE = "USER_UPDATE";
+export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
 
 export function getPets() {
   return async function (dispatch) {
@@ -104,10 +103,13 @@ export const applyFilters = (filters, orden) => {
   return async function (dispatch) {
     try {
       const queryString = `specie=${filters.specie}&size=${filters.size}&gender=${filters.gender}&orden=${orden.orden}`;
-      const response = await axios.get(`http://localhost:3001/mascotas/filter?${queryString}`, {
-        ...filters,
-        ...orden,
-      });
+      const response = await axios.get(
+        `http://localhost:3001/mascotas/filter?${queryString}`,
+        {
+          ...filters,
+          ...orden,
+        }
+      );
 
       // Luego de recibir los datos filtrados y ordenados del servidor, actualiza el estado de Redux con estos datos.
       dispatch({
@@ -122,9 +124,6 @@ export const applyFilters = (filters, orden) => {
     }
   };
 };
-
-
-
 
 export function updatePet(id, updatedFields) {
   return async function (dispatch) {
@@ -151,38 +150,36 @@ export function disablePet(id) {
       dispatch(disablePetFailure(error)); // Despachar fallo
       throw error;
     }
-  }
+  };
 }
 
 export function postUser(user) {
   return async function (dispatch) {
     try {
-      const response = await axios.post("http://localhost:3001/usuario/userLog", user);
-      
+      const response = await axios.post(
+        "http://localhost:3001/usuario/userLog",
+        user
+      );
+
       // Si el servidor devuelve un código de estado 201 (creado), muestra el mensaje de éxito
       if (response.status === 201) {
         dispatch({
           type: POST_USER_SUCCESS, //para setear userCreated en true y redireccionar a la view login
-        })
+        });
         window.alert(response.data.message); // Accedemos al mensaje en response.data
-        
       }
-      
     } catch (error) {
       if (error.response && error.response.status === 409) {
         dispatch({
-          type: POST_USER_FAILURE,// para setear userCreated en false y mantenerme en la view de registro
-        })
+          type: POST_USER_FAILURE, // para setear userCreated en false y mantenerme en la view de registro
+        });
         window.alert(error.response.data.error); // Muestra el mensaje personalizado del servidor en caso de un error 409
       } else {
         window.alert(error.message);
       }
-
     }
   };
 }
-
-
 
 export function disablePetSuccess(id) {
   return {
@@ -211,32 +208,33 @@ export function updatePetStatus(id, status) {
   };
 }
 
-export function logInUser(userName,password){
-  return async function (dispatch){
+export function logInUser(userName, password) {
+  return async function (dispatch) {
     try {
-      const response = await axios.get(`http://localhost:3001/usuario/userLogin?userName=${userName}&password=${password}`)
-      if(response.status === 200){
+      const response = await axios.get(
+        `http://localhost:3001/usuario/userLogin?userName=${userName}&password=${password}`
+      );
+      if (response.status === 200) {
         dispatch({
-          type:USER_LOGIN_SUCCESS,
-          payload:response.data
-        })
-        window.alert("TE LOGUEASTE CON EXITO")
+          type: USER_LOGIN_SUCCESS,
+          payload: response.data,
+        });
+        window.alert("TE LOGUEASTE CON EXITO");
       }
     } catch (error) {
-      if(error.response && error.response.status === 400 ){
-        window.alert(error.response.data.error)
-      }else{
-        window.alert(error.message)
+      if (error.response && error.response.status === 400) {
+        window.alert(error.response.data.error);
+      } else {
+        window.alert(error.message);
       }
     }
-  }
-
+  };
 }
 
-export function logOutUser(){
+export function logOutUser() {
   return {
-    type: USER_LOGOUT
-  }
+    type: USER_LOGOUT,
+  };
 }
 
 export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
@@ -248,55 +246,132 @@ export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
   }
 };
 
-export function getUserData (userName){
-  return async function(dispatch){
+export function getUserData(userName) {
+  return async function (dispatch) {
     try {
-      const response = await axios.get(`http://localhost:3001/usuario/userData?userName=${userName}`)
+      const response = await axios.get(
+        `http://localhost:3001/usuario/userData?userName=${userName}`
+      );
       return dispatch({
         type: GET_USER_DATA,
-        payload: response.data
-      })
+        payload: response.data,
+      });
     } catch (error) {
       return error.message;
     }
-  }
+  };
 }
 
-export function loginUserGoogle(email,name,lastName){
-  return async function(dispatch){
+export function loginUserGoogle(email, name, lastName) {
+  return async function (dispatch) {
     try {
       const randomNumber = Math.floor(Math.random() * 1000) + 1;
       const userNameWithRandomNumber = name + lastName + randomNumber;
-      const response = await axios.get(`http://localhost:3001/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`)
+      const response = await axios.get(
+        `http://localhost:3001/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
+      );
       return dispatch({
         type: LOGIN_USER_GOOGLE,
-        payload: response.data
-      })
+        payload: response.data,
+      });
     } catch (error) {
       return error.message;
-      
     }
-  }
+  };
 }
 
-export function loginUserFacebook(id,name,lastName){
-  return async function(dispatch){
+export function loginUserFacebook(id, name, lastName) {
+  return async function (dispatch) {
     try {
       const randomNumber = Math.floor(Math.random() * 1000) + 1;
       const userNameWithRandomNumber = name + lastName + randomNumber;
-      const response = await axios.get(`http://localhost:3001/usuario/loginFacebook?id=${id}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`)
+      const response = await axios.get(
+        `http://localhost:3001/usuario/loginFacebook?id=${id}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
+      );
       return dispatch({
         type: LOGIN_USER_FACEBOOK,
-        payload: response.data
-      })
+        payload: response.data,
+      });
     } catch (error) {
       return error.message;
-      
     }
-  }
+  };
 }
 
+export function updateUser(
+  email,
+  name,
+  lastName,
+  userName,
+  birthdate,
+  address,
+  numberPhone,
+  DBpassword,
+  userActualPassword,
+  userNewPassword
+) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put(
+        "http://localhost:3001/usuario/userUpdate",
+        {
+          email,
+          name,
+          lastName,
+          userName,
+          birthdate,
+          address,
+          numberPhone,
+          DBpassword,
+          userActualPassword,
+          userNewPassword,
+        }
+      );
+      if (response.status === 200) {
+        alert("Usuario editado con exito");
+        return dispatch({
+          type: USER_UPDATE,
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 500) {
+        window.alert(error.response.data.error);
+      } else {
+        window.alert(error.message);
+      }
+    }
+  };
+}
 
+export function createUserPassword(
+  idFacebook,
+  email,
+  createdPassword,
+  createdEmail
+) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/usuario/createUserPassword`,
+        { idFacebook, email, createdPassword, createdEmail }
+      );
+      if (response.status === 200) {
+        alert("Cambios aplicados");
+        return dispatch({
+          type: CREATE_USER_PASSWORD,
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        window.alert(error.response.data.error);
+      } else {
+        window.alert(error.message);
+      }
+    }
+  };
+}
 
 export function clearAux() {
   //para limpiar AuxState al desmontar el detail
