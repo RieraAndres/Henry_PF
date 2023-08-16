@@ -28,7 +28,7 @@ export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
 export function getPets() {
   return async function (dispatch) {
     try {
-      const response = await axios(`http://localhost:3001/mascotas`); //traigo todas las mascotas
+      const response = await axios(`/mascotas`); //traigo todas las mascotas
       return dispatch({
         type: "GET_PETS",
         payload: response.data,
@@ -43,7 +43,7 @@ export function getPetDetail(id) {
   //para traer por id y renderizar los datos en detail
   return async function (dispatch) {
     try {
-      const response = await axios.get(`http://localhost:3001/mascotas/${id}`);
+      const response = await axios.get(`/mascotas/${id}`);
       return dispatch({
         type: "GET_PET_DETAIL",
         payload: response.data,
@@ -57,9 +57,7 @@ export function getPetDetail(id) {
 export function getPetsByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(
-        `http://localhost:3001/mascotas?name=${name}`
-      );
+      const response = await axios.get(`/mascotas?name=${name}`);
       return dispatch({
         type: "GET_PET_BY_NAME",
         payload: response.data,
@@ -74,7 +72,7 @@ export function getPetsByName(name) {
 export function postPet(formData) {
   return async function (dispatch) {
     try {
-      await axios.post("http://localhost:3001/mascotas", formData);
+      await axios.post("/mascotas", formData);
       dispatch({
         type: POST_PET_SUCCESS,
       });
@@ -103,13 +101,10 @@ export const applyFilters = (filters, orden) => {
   return async function (dispatch) {
     try {
       const queryString = `specie=${filters.specie}&size=${filters.size}&gender=${filters.gender}&orden=${orden.orden}`;
-      const response = await axios.get(
-        `http://localhost:3001/mascotas/filter?${queryString}`,
-        {
-          ...filters,
-          ...orden,
-        }
-      );
+      const response = await axios.get(`/mascotas/filter?${queryString}`, {
+        ...filters,
+        ...orden,
+      });
 
       // Luego de recibir los datos filtrados y ordenados del servidor, actualiza el estado de Redux con estos datos.
       dispatch({
@@ -156,10 +151,7 @@ export function disablePet(id) {
 export function postUser(user) {
   return async function (dispatch) {
     try {
-      const response = await axios.post(
-        "http://localhost:3001/usuario/userLog",
-        user
-      );
+      const response = await axios.post("/usuario/userLog", user);
 
       // Si el servidor devuelve un código de estado 201 (creado), muestra el mensaje de éxito
       if (response.status === 201) {
@@ -212,7 +204,7 @@ export function logInUser(userName, password) {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        `http://localhost:3001/usuario/userLogin?userName=${userName}&password=${password}`
+        `/usuario/userLogin?userName=${userName}&password=${password}`
       );
       if (response.status === 200) {
         dispatch({
@@ -239,7 +231,7 @@ export function logOutUser() {
 
 export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
   try {
-    await axios.post(`http://localhost:3001/mascotas/${petId}/adopt`, formData);
+    await axios.post(`/mascotas/${petId}/adopt`, formData);
     // Puedes realizar cualquier lógica adicional aquí después de enviar la solicitud
   } catch (error) {
     throw error;
@@ -250,7 +242,7 @@ export function getUserData(userName) {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        `http://localhost:3001/usuario/userData?userName=${userName}`
+        `/usuario/userData?userName=${userName}`
       );
       return dispatch({
         type: GET_USER_DATA,
@@ -268,7 +260,7 @@ export function loginUserGoogle(email, name, lastName) {
       const randomNumber = Math.floor(Math.random() * 1000) + 1;
       const userNameWithRandomNumber = name + lastName + randomNumber;
       const response = await axios.get(
-        `http://localhost:3001/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
+        `/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
       );
       return dispatch({
         type: LOGIN_USER_GOOGLE,
@@ -286,7 +278,7 @@ export function loginUserFacebook(id, name, lastName) {
       const randomNumber = Math.floor(Math.random() * 1000) + 1;
       const userNameWithRandomNumber = name + lastName + randomNumber;
       const response = await axios.get(
-        `http://localhost:3001/usuario/loginFacebook?id=${id}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
+        `/usuario/loginFacebook?id=${id}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
       );
       return dispatch({
         type: LOGIN_USER_FACEBOOK,
@@ -312,21 +304,18 @@ export function updateUser(
 ) {
   return async function (dispatch) {
     try {
-      const response = await axios.put(
-        "http://localhost:3001/usuario/userUpdate",
-        {
-          email,
-          name,
-          lastName,
-          userName,
-          birthdate,
-          address,
-          numberPhone,
-          DBpassword,
-          userActualPassword,
-          userNewPassword,
-        }
-      );
+      const response = await axios.put("/usuario/userUpdate", {
+        email,
+        name,
+        lastName,
+        userName,
+        birthdate,
+        address,
+        numberPhone,
+        DBpassword,
+        userActualPassword,
+        userNewPassword,
+      });
       if (response.status === 200) {
         alert("Usuario editado con exito");
         return dispatch({
@@ -352,10 +341,12 @@ export function createUserPassword(
 ) {
   return async function (dispatch) {
     try {
-      const response = await axios.put(
-        `http://localhost:3001/usuario/createUserPassword`,
-        { idFacebook, email, createdPassword, createdEmail }
-      );
+      const response = await axios.put(`/usuario/createUserPassword`, {
+        idFacebook,
+        email,
+        createdPassword,
+        createdEmail,
+      });
       if (response.status === 200) {
         alert("Cambios aplicados");
         return dispatch({
