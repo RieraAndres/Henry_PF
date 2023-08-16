@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./Redux/Store";
 import { Provider } from "react-redux";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import axios from "axios";
@@ -16,9 +17,11 @@ axios.defaults.baseURL = "henrypf-production.up.railway.app";
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <GoogleOAuthProvider clientId="933461258445-6obss3psoedlvnceq9d6d1kt0fa47tfm.apps.googleusercontent.com">
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </GoogleOAuthProvider>
   </Provider>,
   document.getElementById("root")
 );
