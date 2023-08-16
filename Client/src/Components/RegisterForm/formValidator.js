@@ -51,5 +51,6 @@ export function validate(user) {
       errors.confirmPassword = "Las contraseñas no coinciden";
     }
 
+    
     return errors;
   }
