@@ -4,11 +4,8 @@ import { Link } from "react-router-dom";
 import { validate } from "./validateForm";
 import {gapi} from 'gapi-script'
 import { useDispatch, useSelector } from "react-redux";
-
-import GoogleLogin from 'react-google-login'
-import FacebookLogin from 'react-facebook-login'
-
 import styles from "./LoginForm.module.css";
+import { GoogleLogin } from '@react-oauth/google';
 import { logInUser, loginUserFacebook, loginUserGoogle } from "../../Redux/Actions";
 
 
@@ -70,25 +67,18 @@ function LoginForm() {
     }
   }, [userLogedIn, navigate]);
 
-
   //GOOGLE
-  const onSuccess = (response) => {
-    console.log('login Success current user:', response.profileObj);
-    dispatch(loginUserGoogle(response.profileObj.email,response.profileObj.givenName,response.profileObj.familyName ))
-    navigate("/inicio")
+  const googleSuccess = (credentialResponse)=>{
+    const token = credentialResponse.credential
+    const [, payload, ] = token.split(".");
+    const decodedPayload = JSON.parse(atob(payload));
+    dispatch(loginUserGoogle(decodedPayload.email,decodedPayload.given_name,decodedPayload.family_name))
   }
 
-  const onFailure= (response) => {
-    window.alert("Error de Servidor")
+  const googleError = ()=>{
+    alert("Ocurrio un problema")
   }
-
-  //FACEBOOK
-  const responseFacebook = (response) => {
-    console.log(response)
-    dispatch(loginUserFacebook(response.id,response.first_name,response.last_name))
-    navigate("/inicio")
-  }
-
+  
   return (
     <div>
         <form className={styles.loginForm}>
@@ -132,10 +122,7 @@ function LoginForm() {
         <div className={styles.socialLogin}>
         <p>O inicia sesión con</p>
         <div>
-            {/* <a href=""> <img src="https://img.freepik.com/iconos-gratis/google_318-258888.jpg" alt="googleLogo" /> </a>
-            <a href=""> <img src= "https://img.freepik.com/iconos-gratis/facebook_318-157463.jpg" alt="facebookLogo" /> </a> */}
-            <GoogleLogin clientId={ClientID} onSuccess={onSuccess} onFailure={onFailure} cookiePolicy="single_host_origin"  isSignedIn={false}/>
-            <FacebookLogin appId={appID} autoLoad={false} fields="first_name,last_name" callback={responseFacebook} icon='fa-facebook' textButton="Facebook" buttonStyle={{backgroundColor: 'blue'}} scope="public_profile" redirectUri={`${window.location.origin}/facebook-redirect`}/>
+          <GoogleLogin type="icon" onSuccess={googleSuccess} onError={googleError}/>;
         </div>
       </div>
       </form> 
