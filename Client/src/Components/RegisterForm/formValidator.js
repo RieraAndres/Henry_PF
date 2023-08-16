@@ -5,9 +5,20 @@ export function validate(user) {
     if (!user.name) {
       errors.name = "Ingresa tu nombre";
     }
+    if (!/^[A-Za-z]+$/.test(user.name)) {
+      errors.name = "El nombre debe contener solo letras";
+    }
+
+    if (user.name.length < 2 || user.name.length > 50) {
+      errors.name = "El nombre de tener entre 2 y 50 caracteres";
+    }
 
     if (!user.lastName) {
       errors.lastName = "Ingresa tu apellido";
+    }
+
+    if (!/^[A-Za-z]+$/.test(user.lastName)) {
+      errors.lastName = "El apellido debe contener solo letras";
     }
 
     if (!user.email) {
@@ -26,7 +37,6 @@ export function validate(user) {
       errors.userName = "El nombre de usuario solo puede contener letras y números";
     }
 
-
     if (!user.password) {
       errors.password = "Ingresa una contraseña";
     } else if (!/\d/.test(user.password)) {
@@ -41,5 +51,6 @@ export function validate(user) {
       errors.confirmPassword = "Las contraseñas no coinciden";
     }
 
+    
     return errors;
   }
