@@ -6,7 +6,7 @@ import {gapi} from 'gapi-script'
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./LoginForm.module.css";
 import { GoogleLogin } from '@react-oauth/google';
-import { logInUser, loginUserFacebook, loginUserGoogle } from "../../Redux/Actions";
+import { logInUser, loginUserGoogle } from "../../Redux/Actions";
 
 
 function LoginForm() {
@@ -121,8 +121,8 @@ function LoginForm() {
         </div>
         <div className={styles.socialLogin}>
         <p>O inicia sesión con</p>
-        <div>
-          <GoogleLogin type="icon" onSuccess={googleSuccess} onError={googleError}/>;
+        <div className={styles.ButtonGoogle}>
+          <GoogleLogin className={styles.google} type="standar" shape="pill" size="large" theme= "filled_blue" onSuccess={googleSuccess} onError={googleError}/>
         </div>
       </div>
       </form> 
