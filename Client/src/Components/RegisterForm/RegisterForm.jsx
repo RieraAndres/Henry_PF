@@ -146,7 +146,7 @@ function RegisterForm() {
             Teléfono
           </label>
           <input
-            type="text"
+            type="number"
             className={`form-control ${errors.numberPhone ? styles.errorInput : ""}`}
             id="numberPhone"
             name="numberPhone"
