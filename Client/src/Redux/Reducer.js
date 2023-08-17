@@ -19,6 +19,9 @@ import {
   LOGIN_USER_GOOGLE,
   LOGIN_USER_FACEBOOK,
   USER_LOGOUT,
+  POST_DONATION,
+  POST_DONATION_SUCCESS,
+  POST_DONATION_FAILURE,
 } from "./Actions";
 
 let initialState = { 
@@ -29,7 +32,8 @@ let initialState = {
   orden: { orden_age: "", orden_name: "",},
   userCreated:false,
   userData:{},
-  userLogedIn:null
+  userLogedIn:null,
+  donations: []
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -153,8 +157,29 @@ export default function rootReducer(state = initialState, action) {
         userCreated:false
       }
 
+    case POST_DONATION_SUCCESS:
+      return {
+        ...state,
+        donationCreated: true,
+        error: null,
+        donations: action.payload,
+      }
 
+    case POST_DONATION:
+      return {
+        ...state,
+        donationCreated: true,
+        error: null,
+        donations: action.payload,
+      }
 
+    case POST_DONATION_FAILURE:
+      return {
+        ...state,
+        donationCreated: false,
+        error: action.payload,
+        donations: [],
+      }
    
     case USER_LOGIN_SUCCESS:
       return{

@@ -24,7 +24,9 @@ export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE';
 export const LOGIN_USER_GOOGLE = 'LOGIN_USER_GOOGLE';
 export const LOGIN_USER_FACEBOOK = 'LOGIN_USER_FACEBOOK'
 export const USER_LOGOUT = 'USER_LOGOUT';
-
+export const POST_DONATION = "POST_DONATION";
+export const POST_DONATION_SUCCESS = "POST_DONATION_SUCCESS";
+export const POST_DONATION_FAILURE = "POST_DONATION_FAILURE";
 
 export function getPets() {
   return async function (dispatch) {
@@ -296,7 +298,55 @@ export function loginUserFacebook(id,name,lastName){
   }
 }
 
+export function postDonationAndMercadoPago (donationData, donationId, mp_payment_id, mp_status){
+  return async function(dispatch){
+    try {
+      const response = await axios.post(`http://localhost:3001/donations/payment`, donationData)
+      const { preferenceId, donate } = response.data
+      
+      dispatch({
+        type: POST_DONATION,
+        payload: donate,
+      });
+      
+      window.alert('Serás redirigido a Mercado Pago')
+      window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference_id=${preferenceId}`
+      
+      // Esperar el retorno de Mercado Pago y obtener mp_payment_id y mp_status
+      const urlParams = new URLSearchParams(window.location.search);
+      const mp_payment_id = urlParams.get('mp_payment_id');
+      const mp_status = urlParams.get('mp_status');
 
+      if(mp_payment_id && mp_status){
+        const resMpago = await axios.post(`http://localhost:3001/donations/success`, {
+          donationId: donate.id, 
+          mp_payment_id, 
+          mp_status,
+       });
+      
+        dispatch({
+          type: POST_DONATION_SUCCESS,
+          payload: resMpago.data,
+        });
+        window.alert('Gracias por tu granito de arena!')
+
+      } else {
+        dispatch({
+          type: POST_DONATION_FAILURE,
+          payload: 'Error al obtener los datos de pago de Mercado Pago',
+        });
+
+        window.alert('Error al obtener los datos de pago de Mercado Pago.')
+      }
+    } catch (error) {
+      dispatch({
+        type: POST_DONATION_FAILURE,
+        payload: error.message,
+      });
+      window.alert(error.message)
+    }
+  }
+}
 
 export function clearAux() {
   //para limpiar AuxState al desmontar el detail
