@@ -11,6 +11,7 @@ import Donaciones from "./Views/Donaciones/Donaciones";
 import DarAdopt from "./Views/DarAdopt/DarAdopt";
 import ErrorPage from "./Views/ErrorPage/ErrorPage";
 import Registro from "./Views/Registro/Registro";
+import Dashboard from "./Views/Dashboard/Dashboard";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/donations" element={<Donaciones />} />
         <Route path="/adopt" element={<DarAdopt />} />
+        <Route path="/admindashboard" element={<Dashboard/>}/>
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
