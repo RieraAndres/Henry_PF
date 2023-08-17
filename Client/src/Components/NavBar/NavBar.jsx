@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink,Link, useLocation,useNavigate } from 'react-router-dom';
+import { NavLink,Link, useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import styles from '../NavBar/NavBar.module.css';
 import Nav from 'react-bootstrap/Nav';
@@ -21,7 +21,6 @@ function NavBar() {
   // Aplica la clase de posición fija solo si estás en la página exacta "/home"
   const isHomePage = location.pathname === '/home';
   const navbarClassName = isHomePage ? `${styles.Nav} ${styles.fixed}` : styles.Nav;
-  const navigate = useNavigate();
 
   const HandleLogOut = (e)=>{
     e.preventDefault();
@@ -54,14 +53,14 @@ function NavBar() {
           </Row>
           <Row className={styles.welcome}>
             <Col>
-              <p >Bienvenido {LoggedData.name}</p>
+              <p >Bienvenido {LoggedData.userName}</p>
             </Col>
             <Col>
               <Navbar.Toggle aria-controls="navbar-dark-example" />
               <Navbar.Collapse id="navbar-dark-example">
                 <Nav>
                   <NavDropdown
-                    title={<img src={Menu} className={styles.menu}></img>}
+                    title={<img src={Menu} className={styles.menu} alt=''></img>}
                     menuVariant="light"
                     drop="start"
                   >

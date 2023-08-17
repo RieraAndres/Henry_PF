@@ -4,10 +4,15 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-	DB_USER, DB_PASSWORD, DB_HOST,
+	DB_USER, DB_PASSWORD, DB_HOST, DB_DEPLOY
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/patitas_sin_hogar`, {
+// const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/patitas_sin_hogar`, {
+// 	logging: false,
+// 	native: false,
+// });
+
+const sequelize = new Sequelize(DB_DEPLOY, {
 	logging: false,
 	native: false,
 });
@@ -28,7 +33,7 @@ let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { Adopcion, Donacion, Mascota, User } = sequelize.models;
+const { Adopcion, Donacion, Mascota, Review, User } = sequelize.models;
 
 User.hasMany(Adopcion, { foreignKey: 'adoptante_id', as: 'adopcionesAdoptante' });
 User.hasMany(Adopcion, { foreignKey: 'admin_id', as: 'adopcionesAdmin' });
@@ -43,6 +48,9 @@ Donacion.belongsTo(User, { foreignKey: 'donante_id', as: 'donante' });
 Mascota.hasOne(Adopcion, { foreignKey: 'mascota_id', as: 'adopcion' });
 Mascota.belongsTo(User, {foreignKey: 'user_id', as:'publicador'})
 User.hasMany(Mascota, { foreignKey: 'user_id', as: 'mascotas' });
+
+User.hasMany(Review, {foreignKey:'user_id', as: 'user'})
+Review.belongsTo(User, { foreignKey: 'user_id', as: 'reviewer'})
 
 module.exports = {
 	...sequelize.models,
