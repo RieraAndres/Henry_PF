@@ -1,5 +1,5 @@
 import styles from "./ErrorPage.module.css"
-import { NavLink , useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 const ErrorPage = ({access}) => {
 

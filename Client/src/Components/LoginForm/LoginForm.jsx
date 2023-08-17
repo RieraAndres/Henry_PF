@@ -16,7 +16,6 @@ function LoginForm() {
 
 
   const  ClientID = '933461258445-6obss3psoedlvnceq9d6d1kt0fa47tfm.apps.googleusercontent.com'
-  const appID = '786345766571360'
 
   useEffect(()=>{ //inicia la autentificacion con google
       function start(){
