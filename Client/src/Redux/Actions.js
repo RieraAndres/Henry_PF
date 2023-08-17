@@ -24,6 +24,9 @@ export const LOGIN_USER_FACEBOOK = "LOGIN_USER_FACEBOOK";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_UPDATE = "USER_UPDATE";
 export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
+export const GET_ALL_USERS = "GET_ALL_USERS";
+export const DELETE_USER = "DELETE_USER";
+export const CLEAR_ALERTS_STATE = "CLEAR_ALERTS_STATE";
 
 export function getPets() {
   return async function (dispatch) {
@@ -361,6 +364,39 @@ export function createUserPassword(
         window.alert(error.message);
       }
     }
+  };
+}
+
+export function getAllUsers() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get("/usuario/users");
+      return dispatch({
+        type: GET_ALL_USERS,
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
+export function deleteUser(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.delete(`usuario/deleteUser?id=${id}`);
+      return dispatch({
+        type: DELETE_USER,
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+export function clearAlerts() {
+  return {
+    type: CLEAR_ALERTS_STATE,
   };
 }
 

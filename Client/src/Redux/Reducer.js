@@ -21,6 +21,9 @@ import {
   USER_LOGOUT,
   USER_UPDATE,
   CREATE_USER_PASSWORD,
+  GET_ALL_USERS,
+  DELETE_USER,
+  CLEAR_ALERTS_STATE,
 } from "./Actions";
 
 let initialState = {
@@ -32,6 +35,8 @@ let initialState = {
   userCreated: false,
   userData: {},
   userLogedIn: null,
+  allUsers: [],
+  alerts: "",
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -189,6 +194,24 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         userData: action.payload,
+      };
+    }
+    case GET_ALL_USERS: {
+      return {
+        ...state,
+        allUsers: action.payload,
+      };
+    }
+    case DELETE_USER: {
+      return {
+        ...state,
+        alerts: action.payload,
+      };
+    }
+    case CLEAR_ALERTS_STATE: {
+      return {
+        ...state,
+        alerts: "",
       };
     }
     default:

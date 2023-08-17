@@ -1,0 +1,13 @@
+.container{
+    padding-top:10%;
+    display: flex;
+    justify-content: center;
+}
+
+.table{
+    width: 90%;
+}
+
+.table p{
+    font-size: 40px;
+}

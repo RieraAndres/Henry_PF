@@ -219,16 +219,16 @@ const handleGetAllUsers = async (req, res) => {
 };
 
 const handleDeleteUser = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.query;
   try {
     if (!id) {
       return res.status(400).json("Ingrese un id");
     }
     const user = await deleteUser(id);
     if (user === 1) {
-      return res.status(200).json("Usuario eliminado");
+      return res.status(200).json(`Usuario con ID:${id} eliminado`);
     } else {
-      return res.status(200).json("Eliminacion fallida");
+      return res.status(400).json("Eliminacion fallida");
     }
   } catch (error) {
     return res.status(500).json({ error: error.message });
