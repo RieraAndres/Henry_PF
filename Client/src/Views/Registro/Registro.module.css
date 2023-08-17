@@ -1,0 +1,33 @@
+.Registro {
+  background: url("../../Assets/Backgrounds/BackgroundLogin.png");
+  background-size: cover;
+  padding: 1%;
+}
+
+.loginLink {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.loginLink button {
+  padding: 8px 15px; /* Ajustar el padding horizontalmente para mantener el tamaño del botón */
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  background-color: #FFCBCB;
+  align-items: center;
+  font-size: 17px; /* Ajustar el tamaño de fuente del botón */
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .Registro {
+    background: url("../../Assets/Backgrounds/BackgroundLoginResp.png");
+    background-size: cover;
+  }
+
+  .loginLink button {
+    padding: 5px 10px; /* Ajustar el padding en versión responsive */
+    font-size: 14px; /* Ajustar el tamaño de fuente en versión responsive */
+  }
+}

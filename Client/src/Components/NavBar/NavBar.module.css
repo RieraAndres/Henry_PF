@@ -1,0 +1,51 @@
+.menu{
+    width: 20px;
+}
+.logo{
+    width: 50px;
+}
+ .boton {
+    background-color: #C8E6CA;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+ }
+
+.Nav{
+    background-color: #FFFDF6;
+    margin-bottom: 10px;
+    height: 80px;
+}
+
+.contenedor{
+    z-index: 100;
+    position: fixed;
+    width: 100%;
+}
+
+@media screen and (max-width: 768px){
+    .SearchBarColum{
+        width: 80%;
+    }
+    .logo{
+        width: 25px;
+    }
+}
+
+.welcome{
+    margin-top: 2%;
+    margin-right: -10%;
+}
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+.container {
+    background: url("../../Assets/Backgrounds/BackgroundInicio.png");
+    background-size: cover;
+    height: 100%; /* Establecer la altura para que ocupe toda la pantalla */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .content {
+    flex-grow: 1; /* Hace que el componente PostPetForm ocupe el espacio restante */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 90px;
+  }
+
+    
+/* Fondo responsive */
+@media screen and (max-width: 768px) {
+    .container {
+      background: url("../../Assets/Backgrounds/BackgroundInicioResp.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+}
