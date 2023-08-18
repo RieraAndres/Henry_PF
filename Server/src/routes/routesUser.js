@@ -12,6 +12,7 @@ const {
   handleGetAllUsers,
   handleDeleteUser,
   handleGetAllPetsOfUser,
+  handleSetAdminUser,
 } = require("../handlers/handlerUsers.js");
 
 routerForUsers.post("/userLog", handlerRegisterUser); // Crea el registro para un usuario nuevo en la base de datos(crea una cuenta)
@@ -24,5 +25,6 @@ routerForUsers.put("/createUserPassword", handleCreateUserPassword); //crea la c
 routerForUsers.get("/users", handleGetAllUsers); //Trae todos los usuarios cargados en la DB
 routerForUsers.delete("/deleteUser", handleDeleteUser); //Eliminda de la DB el usuario
 routerForUsers.get('/petsOfUser', handleGetAllPetsOfUser); //Obtiene lista de usuarios con sus posteos de mascotas
+routerForUsers.put('/changeType', handleSetAdminUser); //Ruta que cambia el tipo de usuario de adopter a Admin
 
 module.exports = routerForUsers;

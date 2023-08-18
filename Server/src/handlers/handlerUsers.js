@@ -8,6 +8,7 @@ const createUserPassword = require("../controllers/crudUser/putCreateUserPasswor
 const getAllUsers = require("../controllers/crudUser/getAllUsers.js");
 const deleteUser = require("../controllers/crudUser/deleteUser.js");
 const getAllPetsOfUser = require('../controllers/crudUser/getAllPetsOfUser.js');
+const setAdminUser = require('../controllers/crudUser/setAdminUser.js');
 
 const handlerRegisterUser = async (req, res) => {
   const {
@@ -249,6 +250,17 @@ const handleGetAllPetsOfUser = async (req, res) => {
   }
 };
 
+const handleSetAdminUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const adminUser = await setAdminUser(id)
+    return res.status(200).json(adminUser);
+  } catch(error) {
+    console.error('Ocurrió un error al actualizar el tipo de usuario');
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   handlerRegisterUser,
   handlerUserData,
@@ -260,4 +272,5 @@ module.exports = {
   handleGetAllUsers,
   handleDeleteUser,
   handleGetAllPetsOfUser,
+  handleSetAdminUser,
 };
