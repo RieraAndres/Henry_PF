@@ -16,9 +16,13 @@ import {
   POST_USER_SUCCESS,
   POST_USER_FAILURE,
   USER_LOGIN_SUCCESS,
+  GET_USER_DATA,
   LOGIN_USER_GOOGLE,
   LOGIN_USER_FACEBOOK,
   USER_LOGOUT,
+  POST_DONATION,
+  POST_DONATION_SUCCESS,
+  POST_DONATION_FAILURE,
   USER_UPDATE,
   CREATE_USER_PASSWORD,
   GET_ALL_USERS,
@@ -35,6 +39,7 @@ let initialState = {
   userCreated: false,
   userData: {},
   userLogedIn: null,
+  donations: [],
   allUsers: [],
   alerts: "",
 };
@@ -158,7 +163,38 @@ export default function rootReducer(state = initialState, action) {
         userCreated: false,
       };
 
+    case POST_DONATION_SUCCESS:
+      return {
+        ...state,
+        donationCreated: true,
+        error: null,
+        donations: action.payload,
+      };
+
+    case POST_DONATION:
+      return {
+        ...state,
+        donationCreated: true,
+        error: null,
+        donations: action.payload,
+      };
+
+    case POST_DONATION_FAILURE:
+      return {
+        ...state,
+        donationCreated: false,
+        error: action.payload,
+        donations: [],
+      };
+
     case USER_LOGIN_SUCCESS:
+      return {
+        ...state,
+        userLogedIn: true,
+        userData: action.payload,
+      };
+
+    case GET_USER_DATA:
       return {
         ...state,
         userLogedIn: true,
