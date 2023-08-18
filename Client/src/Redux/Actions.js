@@ -205,19 +205,33 @@ export function updatePetStatus(id, status) {
   };
 }
 
+//LOGIN LOCAL
+export const loginUserSuccess = (userData) => {
+  return {
+    type: USER_LOGIN_SUCCESS,
+    payload: userData,
+  };
+};
+
 export function logInUser(userName, password) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(
-        `/usuario/userLogin?userName=${userName}&password=${password}`
-      );
+
+      const response = await axios.post(`http://localhost:3001/loginAuth/login`, {userName, password});
+
       if (response.status === 200) {
-        dispatch({
-          type: USER_LOGIN_SUCCESS,
-          payload: response.data,
-        });
+        const responseData = response.data;
+        localStorage.setItem("authUser", JSON.stringify(responseData)) //guarda el token en aplicación-storage
+        dispatch(dispatch(loginUserSuccess(response.data.userData)));
         window.alert("TE LOGUEASTE CON EXITO");
       }
+      // Ahora, obtenemos los datos del usuario logueado utilizando la ruta userData
+      const userResponse = await axios.get(`http://localhost:3001/usuario/userData?userName=${userName}`);
+      dispatch({
+        type: GET_USER_DATA,
+        payload: userResponse.data,
+      });
+      console.log(userResponse);
     } catch (error) {
       if (error.response && error.response.status === 400) {
         window.alert(error.response.data.error);
@@ -229,6 +243,7 @@ export function logInUser(userName, password) {
 }
 
 export function logOutUser() {
+  localStorage.removeItem("authUser") //al cerrar la sesion elimina su almacenamiento
   return {
     type: USER_LOGOUT,
   };
@@ -243,21 +258,6 @@ export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
   }
 };
 
-export function getUserData(userName) {
-  return async function (dispatch) {
-    try {
-      const response = await axios.get(
-        `/usuario/userData?userName=${userName}`
-      );
-      return dispatch({
-        type: GET_USER_DATA,
-        payload: response.data,
-      });
-    } catch (error) {
-      return error.message;
-    }
-  };
-}
 
 export function loginUserGoogle(email, name, lastName) {
   return async function (dispatch) {
