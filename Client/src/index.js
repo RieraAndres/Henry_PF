@@ -11,9 +11,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import axios from "axios";
 
+const { DEPLOY_BACK } = process.env;
 // axios.defaults.baseURL = "http://localhost:3001";
 
-axios.defaults.baseURL = "henrypf-production.up.railway.app";
+axios.defaults.baseURL = DEPLOY_BACK;
 
 ReactDOM.render(
   <Provider store={store}>
@@ -24,7 +25,6 @@ ReactDOM.render(
     </GoogleOAuthProvider>
   </Provider>,
   document.getElementById("root")
-
 );
 
 // If you want to start measuring performance in your app, pass a function
