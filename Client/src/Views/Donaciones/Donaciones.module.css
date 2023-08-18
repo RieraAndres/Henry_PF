@@ -1,9 +1,9 @@
 .fondo {
-    /*background-image: url("../../Assets/Fondos/Donaciones.png"); No tengo la imagen por eso comente para que no se rompa*/
+    background-image: url("../../Assets/Fondos/Donaciones.png");
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    
 
 }
 
@@ -28,6 +28,7 @@
     margin-top: 110px;
     padding-left: 5%;
     padding-right: 5%;
+
 }
 
 /*.nav {      ****estilos que definí****
@@ -48,4 +49,6 @@
     cursor: pointer;
     transition: all 0.3s;
     margin-top: 20px;
+
 }
+

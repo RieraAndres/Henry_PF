@@ -14,7 +14,6 @@ export const UPDATE_PET = "UPDATE_PET";
 export const UPDATE_PET_STATUS = "UPDATE_PET_STATUS";
 export const DISABLE_PET_SUCCESS = "DISABLE_PET_SUCCESS";
 export const DISABLE_PET_FAILURE = "DISABLE_PET_FAILURE";
-
 export const POST_DONATION = "POST_DONATION";
 export const POST_DONATION_SUCCESS = "POST_DONATION_SUCCESS";
 export const POST_DONATION_FAILURE = "POST_DONATION_FAILURE";
@@ -28,7 +27,6 @@ export const LOGIN_USER_FACEBOOK = "LOGIN_USER_FACEBOOK";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_UPDATE = "USER_UPDATE";
 export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
-
 
 export function getPets() {
   return async function (dispatch) {
@@ -205,19 +203,37 @@ export function updatePetStatus(id, status) {
   };
 }
 
+//LOGIN LOCAL
+export const loginUserSuccess = (userData) => {
+  return {
+    type: USER_LOGIN_SUCCESS,
+    payload: userData,
+  };
+};
+
 export function logInUser(userName, password) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(
-        `/usuario/userLogin?userName=${userName}&password=${password}`
+      const response = await axios.post(
+        `http://localhost:3001/loginAuth/login`,
+        { userName, password }
       );
+
       if (response.status === 200) {
-        dispatch({
-          type: USER_LOGIN_SUCCESS,
-          payload: response.data,
-        });
+        const responseData = response.data;
+        localStorage.setItem("authUser", JSON.stringify(responseData)); //guarda el token en aplicación-storage
+        dispatch(dispatch(loginUserSuccess(response.data.userData)));
         window.alert("TE LOGUEASTE CON EXITO");
       }
+      // Ahora, obtenemos los datos del usuario logueado utilizando la ruta userData
+      const userResponse = await axios.get(
+        `http://localhost:3001/usuario/userData?userName=${userName}`
+      );
+      dispatch({
+        type: GET_USER_DATA,
+        payload: userResponse.data,
+      });
+      console.log(userResponse);
     } catch (error) {
       if (error.response && error.response.status === 400) {
         window.alert(error.response.data.error);
@@ -229,6 +245,7 @@ export function logInUser(userName, password) {
 }
 
 export function logOutUser() {
+  localStorage.removeItem("authUser"); //al cerrar la sesion elimina su almacenamiento
   return {
     type: USER_LOGOUT,
   };
@@ -242,22 +259,6 @@ export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
     throw error;
   }
 };
-
-export function getUserData(userName) {
-  return async function (dispatch) {
-    try {
-      const response = await axios.get(
-        `/usuario/userData?userName=${userName}`
-      );
-      return dispatch({
-        type: GET_USER_DATA,
-        payload: response.data,
-      });
-    } catch (error) {
-      return error.message;
-    }
-  };
-}
 
 export function loginUserGoogle(email, name, lastName) {
   return async function (dispatch) {
@@ -295,56 +296,65 @@ export function loginUserFacebook(id, name, lastName) {
   };
 }
 
-
-export function postDonationAndMercadoPago (donationData, donationId, mp_payment_id, mp_status){
-  return async function(dispatch){
+export function postDonationAndMercadoPago(
+  donationData,
+  donationId,
+  mp_payment_id,
+  mp_status
+) {
+  return async function (dispatch) {
     try {
-      const response = await axios.post(`http://localhost:3001/donations/payment`, donationData)
-      const { preferenceId, donate } = response.data
-      
+      const response = await axios.post(
+        `http://localhost:3001/donations/payment`,
+        donationData
+      );
+      const { preferenceId, donate } = response.data;
+
       dispatch({
         type: POST_DONATION,
         payload: donate,
       });
-      
-      window.alert('Serás redirigido a Mercado Pago')
-      window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference_id=${preferenceId}`
-      
+
+      window.alert("Serás redirigido a Mercado Pago");
+      window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference_id=${preferenceId}`;
+
       // Esperar el retorno de Mercado Pago y obtener mp_payment_id y mp_status
       const urlParams = new URLSearchParams(window.location.search);
-      const mp_payment_id = urlParams.get('mp_payment_id');
-      const mp_status = urlParams.get('mp_status');
+      const mp_payment_id = urlParams.get("mp_payment_id");
+      const mp_status = urlParams.get("mp_status");
 
-      if(mp_payment_id && mp_status){
-        const resMpago = await axios.post(`http://localhost:3001/donations/success`, {
-          donationId: donate.id, 
-          mp_payment_id, 
-          mp_status,
-       });
-      
+      if (mp_payment_id && mp_status) {
+        const resMpago = await axios.post(
+          `http://localhost:3001/donations/success`,
+          {
+            donationId: donate.id,
+            mp_payment_id,
+            mp_status,
+          }
+        );
+
         dispatch({
           type: POST_DONATION_SUCCESS,
           payload: resMpago.data,
         });
-        window.alert('Gracias por tu granito de arena!')
-
+        window.alert("Gracias por tu granito de arena!");
       } else {
         dispatch({
           type: POST_DONATION_FAILURE,
-          payload: 'Error al obtener los datos de pago de Mercado Pago',
+          payload: "Error al obtener los datos de pago de Mercado Pago",
         });
 
-        window.alert('Error al obtener los datos de pago de Mercado Pago.')
+        window.alert("Error al obtener los datos de pago de Mercado Pago.");
       }
     } catch (error) {
       dispatch({
         type: POST_DONATION_FAILURE,
         payload: error.message,
       });
-      window.alert(error.message)
+      window.alert(error.message);
     }
   }
-}
+};
 
 export function updateUser(
   email,
@@ -418,7 +428,6 @@ export function createUserPassword(
       }
     }
   };
-
 }
 
 export function clearAux() {
