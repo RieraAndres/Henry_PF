@@ -1,7 +1,7 @@
 import {
   GET_PETS,
   GET_PET_DETAIL,
-  POST_PET_SUCCESS, 
+  POST_PET_SUCCESS,
   POST_PET_FAILURE,
   CLEAR_AUX_STATE,
   GET_PET_BY_NAME,
@@ -24,9 +24,9 @@ import {
   POST_DONATION_FAILURE,
 } from "./Actions";
 
-let initialState = { 
-  allPets: [], 
-  petsCopy: [], 
+let initialState = {
+  allPets: [],
+  petsCopy: [],
   auxState: [],
   filters: { size: "", gender: "" },
   orden: { orden_age: "", orden_name: "",},
@@ -56,25 +56,25 @@ export default function rootReducer(state = initialState, action) {
         petsCopy: action.payload,
       };
 
-      case POST_PET_SUCCESS:
-        return {
-          ...state,
-          petCreated: true,
-          error: null,
-        };
-      case POST_PET_FAILURE:
-        return {
-          ...state,
-          petCreated: false,
-          error: action.payload,
-        };
-        
+    case POST_PET_SUCCESS:
+      return {
+        ...state,
+        petCreated: true,
+        error: null,
+      };
+    case POST_PET_FAILURE:
+      return {
+        ...state,
+        petCreated: false,
+        error: action.payload,
+      };
+
     case CLEAR_AUX_STATE: //limpio auxState al hacer unmount de un componente
       return {
         ...state,
         auxState: [], // el estado debe setearse como vacío y no como null, porque eso provoca que se rompa el detail
       };
-      case SET_FILTER: // Nuevo caso para setear los filtros
+    case SET_FILTER: // Nuevo caso para setear los filtros
       return {
         ...state,
         filters: {
@@ -90,7 +90,7 @@ export default function rootReducer(state = initialState, action) {
           ...action.payload,
         },
       };
-      case APPLY_FILTERS_SUCCESS:
+    case APPLY_FILTERS_SUCCESS:
       return {
         ...state,
         petsCopy: action.payload, // Actualiza petsCopy con los datos filtrados y ordenados del servidor
@@ -100,7 +100,6 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         error: action.payload, // Maneja el error en caso de fallo
       };
-
 
     case UPDATE_PET:
       const updatedAllPets = state.allPets.map((pet) => {
@@ -112,13 +111,13 @@ export default function rootReducer(state = initialState, action) {
         }
         return pet;
       });
-    
+
       return {
         ...state,
         allPets: updatedAllPets,
       };
 
-      case DISABLE_PET_SUCCESS:
+    case DISABLE_PET_SUCCESS:
     case DISABLE_PET_FAILURE:
       const updatedAllPetsAfterDisable = state.allPets.map((pet) => {
         if (pet.id === action.payload.id) {
@@ -135,7 +134,7 @@ export default function rootReducer(state = initialState, action) {
         allPets: updatedAllPetsAfterDisable,
       };
 
-      case UPDATE_PET_STATUS:
+    case UPDATE_PET_STATUS:
       return {
         ...state,
         petsCopy: state.petsCopy.map((pet) =>
@@ -145,14 +144,13 @@ export default function rootReducer(state = initialState, action) {
         ),
       };
 
-
     case POST_USER_SUCCESS:
-      return{
+      return {
         ...state,
-        userCreated: true, //al ser creado con exito seteo en true el estado 
-      }
+        userCreated: true, //al ser creado con exito seteo en true el estado
+      };
     case POST_USER_FAILURE:
-      return{
+      return {
         ...state, // al haber error seteo en false el estado
         userCreated:false
       }
@@ -182,33 +180,43 @@ export default function rootReducer(state = initialState, action) {
       }
    
     case USER_LOGIN_SUCCESS:
-      return{
+      return {
         ...state,
         userLogedIn: true,
-        userData: action.payload
-      }
+        userData: action.payload,
+      };
 
     case LOGIN_USER_GOOGLE:
-      return{
+      return {
         ...state,
-        userLogedIn:true,
-        userData:action.payload
-      }
+        userLogedIn: true,
+        userData: action.payload,
+      };
 
     case LOGIN_USER_FACEBOOK:
-      return{
+      return {
         ...state,
-        userLogedIn:true,
-        userData:action.payload
-      }
+        userLogedIn: true,
+        userData: action.payload,
+      };
 
     case USER_LOGOUT:
-     return {
+      return {
         ...state,
-        userLogedIn:false,
-        userData:{}
-      }
-      
+        userLogedIn: false,
+        userData: {},
+      };
+    case USER_UPDATE:
+      return {
+        ...state,
+        userData: action.payload,
+      };
+    case CREATE_USER_PASSWORD: {
+      return {
+        ...state,
+        userData: action.payload,
+      };
+    }
     default:
       return {
         ...state,

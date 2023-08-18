@@ -1,0 +1,142 @@
+
+.reviewsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url("../../Assets/Backgrounds//BackgroundInicio.png");
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  .createReview {
+    border: none;
+    padding: 20px;
+    margin-top: 150px;
+    margin-bottom: 50px;
+    width: 40%;
+    background-color: #ebf8f8;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .commentTextarea {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 150px;
+    padding: 5px 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    border-color: #ccc; /* Cambia el color del borde al estar seleccionado */
+    resize: none; /* Evita la redimensión vertical */
+    outline: none; /* Elimina el borde predeterminado al estar seleccionado */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .commentTextarea:focus {
+    border-color: #ffffff;
+    box-shadow: 10px 10px 15px 5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .createButton {
+    align-items: center;
+    appearance: none;
+    background-color: #FCFCFD;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border-width: 0;
+    box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,rgba(45, 35, 66, 0.15) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+    box-sizing: border-box;
+    color: #36395A;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "JetBrains Mono",monospace;
+    height: 48px;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow .15s,transform .15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow,transform;
+    font-size: 18px;
+   }
+   
+   .createButton:focus {
+    box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+   }
+   
+   .createButton:hover {
+    box-shadow: rgba(45, 35, 66, 0.3) 0 4px 8px, rgba(45, 35, 66, 0.2) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+    transform: translateY(-2px);
+   }
+   
+   .createButton:active {
+    box-shadow: #D6D6E7 0 3px 7px inset;
+    transform: translateY(2px);
+   }
+  
+  .allReviews {
+    width: 60%;
+  }
+  
+  .filterSelect {
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+  
+  .reviewList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .reviewItem {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border-radius: 4px;
+  }
+
+/* Estrellas */
+
+.estrella {
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .estrella input {
+    display: none;
+  }
+  
+  .estrella label {
+    float: right;
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.4s;
+  }
+  
+  .estrella label:before {
+    content: '\2605';
+    font-size: 40px;
+  }
+  
+  .estrella input:checked ~ label,
+  .estrella label:hover,
+  .estrella label:hover ~ label {
+    color: #1d56ff;
+    transition: color 0.4s;
+  }
