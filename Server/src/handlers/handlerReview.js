@@ -1,5 +1,5 @@
 const postRewiew = require('./../controllers/crudReview/postReview')
-const getByUsername = require('./../controllers/crudReview/getByUsername')
+const getById = require('../controllers/crudReview/getById')
 const getReviews = require('../controllers/crudReview/getReviews')
 const deleteReview = require('../controllers/crudReview/deleteReview')
 
@@ -18,19 +18,27 @@ const handlerPostReview = async(req,res) => {
     
 
 const handlerGetReviews = async(req, res) => {
-    const {userName} = req.query
     try {
         const allReviews = await getReviews();
-        if(userName){
-            const findReviewByUsername = await getByUsername(userName)
-            return findReviewByUsername.length > 0 ? res.status(200).json(findReviewByUsername) : res.status(404).send('Usuario no encontrado')
-        } else {
-            return res.status(200).json({Reviews: allReviews})
-        }
+        return res.status(200).json(allReviews)
     } catch (error) {
         return res.status(500).json({error: error.message})
     }
 }
+
+const handlerIdReview = async(req, res) => {
+    const id = req.params.id
+    try {
+        const reviewUser = await getById(id)
+        if (reviewUser.length === 0) {
+            return res.status(400).json("No existen reseñas para el usuario especificado");
+        } else {
+            return res.json({Reviews: reviewUser})
+        }
+    } catch (error) {
+       return res.status(500).json(error.message)
+    }
+   }
 
 const handlerDeleteReview = async(req,res) => {
     const id = req.params.id;
@@ -43,4 +51,4 @@ const handlerDeleteReview = async(req,res) => {
     }
 }
 
-module.exports = {handlerPostReview, handlerGetReviews, handlerDeleteReview}
+module.exports = {handlerPostReview, handlerGetReviews, handlerIdReview, handlerDeleteReview}
