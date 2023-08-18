@@ -16,6 +16,7 @@ import {
   POST_USER_SUCCESS,
   POST_USER_FAILURE,
   USER_LOGIN_SUCCESS,
+  GET_USER_DATA,
   LOGIN_USER_GOOGLE,
   LOGIN_USER_FACEBOOK,
   USER_LOGOUT,
@@ -159,6 +160,13 @@ export default function rootReducer(state = initialState, action) {
         userLogedIn: true,
         userData: action.payload,
       };
+      
+    case GET_USER_DATA:
+      return{
+        ...state,
+        userLogedIn: true,
+        userData: action.payload
+      }
 
     case LOGIN_USER_GOOGLE:
       return {
