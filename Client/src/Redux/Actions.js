@@ -344,6 +344,7 @@ export function postDonationAndMercadoPago (donationData, donationId, mp_payment
       window.alert(error.message)
     }
   }
+}
 
 export function updateUser(
   email,
