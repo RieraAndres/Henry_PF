@@ -5,6 +5,8 @@ const loginUserGoogle = require("../controllers/crudUser/getOpenSesionUserGoogle
 const loginUserFacebook = require("../controllers/crudUser/getOpenSesionUserFacebook.js");
 const modifyUser = require("../controllers/crudUser/putModifyProfileUser.js");
 const createUserPassword = require("../controllers/crudUser/putCreateUserPassword.js");
+const getAllUsers = require("../controllers/crudUser/getAllUsers.js");
+const deleteUser = require("../controllers/crudUser/deleteUser.js");
 
 const handlerRegisterUser = async (req, res) => {
   const {
@@ -206,6 +208,33 @@ const handleCreateUserPassword = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+const handleGetAllUsers = async (req, res) => {
+  try {
+    const users = await getAllUsers();
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const handleDeleteUser = async (req, res) => {
+  const { id } = req.body;
+  try {
+    if (!id) {
+      return res.status(400).json("Ingrese un id");
+    }
+    const user = await deleteUser(id);
+    if (user === 1) {
+      return res.status(200).json("Usuario eliminado");
+    } else {
+      return res.status(200).json("Eliminacion fallida");
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   handlerRegisterUser,
   handlerUserData,
@@ -214,4 +243,6 @@ module.exports = {
   handleUserLoginFacebook,
   handlerModifyUser,
   handleCreateUserPassword,
+  handleGetAllUsers,
+  handleDeleteUser,
 };

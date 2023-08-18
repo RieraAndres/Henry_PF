@@ -20,8 +20,14 @@ import {
   LOGIN_USER_GOOGLE,
   LOGIN_USER_FACEBOOK,
   USER_LOGOUT,
+
+  POST_DONATION,
+  POST_DONATION_SUCCESS,
+  POST_DONATION_FAILURE,
+
   USER_UPDATE,
   CREATE_USER_PASSWORD,
+
 } from "./Actions";
 
 let initialState = {
@@ -29,10 +35,12 @@ let initialState = {
   petsCopy: [],
   auxState: [],
   filters: { size: "", gender: "" },
-  orden: { orden_age: "", orden_name: "" },
-  userCreated: false,
-  userData: {},
-  userLogedIn: null,
+
+  orden: { orden_age: "", orden_name: "",},
+  userCreated:false,
+  userData:{},
+  userLogedIn:null,
+  donations: []
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -151,9 +159,33 @@ export default function rootReducer(state = initialState, action) {
     case POST_USER_FAILURE:
       return {
         ...state, // al haber error seteo en false el estado
-        userCreated: false,
-      };
+        userCreated:false
+      }
 
+    case POST_DONATION_SUCCESS:
+      return {
+        ...state,
+        donationCreated: true,
+        error: null,
+        donations: action.payload,
+      }
+
+    case POST_DONATION:
+      return {
+        ...state,
+        donationCreated: true,
+        error: null,
+        donations: action.payload,
+      }
+
+    case POST_DONATION_FAILURE:
+      return {
+        ...state,
+        donationCreated: false,
+        error: action.payload,
+        donations: [],
+      }
+   
     case USER_LOGIN_SUCCESS:
       return {
         ...state,

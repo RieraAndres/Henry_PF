@@ -14,6 +14,10 @@ export const UPDATE_PET = "UPDATE_PET";
 export const UPDATE_PET_STATUS = "UPDATE_PET_STATUS";
 export const DISABLE_PET_SUCCESS = "DISABLE_PET_SUCCESS";
 export const DISABLE_PET_FAILURE = "DISABLE_PET_FAILURE";
+
+export const POST_DONATION = "POST_DONATION";
+export const POST_DONATION_SUCCESS = "POST_DONATION_SUCCESS";
+export const POST_DONATION_FAILURE = "POST_DONATION_FAILURE";
 export const POST_USER_SUCCESS = "POST_USER_SUCCES";
 export const POST_USER_FAILURE = "POST_USER_FAILURE";
 export const GET_USER_DATA = "GET_USER_DATA";
@@ -25,10 +29,11 @@ export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_UPDATE = "USER_UPDATE";
 export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
 
+
 export function getPets() {
   return async function (dispatch) {
     try {
-      const response = await axios(`http://localhost:3001/mascotas`); //traigo todas las mascotas
+      const response = await axios(`/mascotas`); //traigo todas las mascotas
       return dispatch({
         type: "GET_PETS",
         payload: response.data,
@@ -43,7 +48,7 @@ export function getPetDetail(id) {
   //para traer por id y renderizar los datos en detail
   return async function (dispatch) {
     try {
-      const response = await axios.get(`http://localhost:3001/mascotas/${id}`);
+      const response = await axios.get(`/mascotas/${id}`);
       return dispatch({
         type: "GET_PET_DETAIL",
         payload: response.data,
@@ -57,9 +62,7 @@ export function getPetDetail(id) {
 export function getPetsByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(
-        `http://localhost:3001/mascotas?name=${name}`
-      );
+      const response = await axios.get(`/mascotas?name=${name}`);
       return dispatch({
         type: "GET_PET_BY_NAME",
         payload: response.data,
@@ -74,7 +77,7 @@ export function getPetsByName(name) {
 export function postPet(formData) {
   return async function (dispatch) {
     try {
-      await axios.post("http://localhost:3001/mascotas", formData);
+      await axios.post("/mascotas", formData);
       dispatch({
         type: POST_PET_SUCCESS,
       });
@@ -103,13 +106,10 @@ export const applyFilters = (filters, orden) => {
   return async function (dispatch) {
     try {
       const queryString = `specie=${filters.specie}&size=${filters.size}&gender=${filters.gender}&orden=${orden.orden}`;
-      const response = await axios.get(
-        `http://localhost:3001/mascotas/filter?${queryString}`,
-        {
-          ...filters,
-          ...orden,
-        }
-      );
+      const response = await axios.get(`/mascotas/filter?${queryString}`, {
+        ...filters,
+        ...orden,
+      });
 
       // Luego de recibir los datos filtrados y ordenados del servidor, actualiza el estado de Redux con estos datos.
       dispatch({
@@ -156,10 +156,7 @@ export function disablePet(id) {
 export function postUser(user) {
   return async function (dispatch) {
     try {
-      const response = await axios.post(
-        "http://localhost:3001/usuario/userLog",
-        user
-      );
+      const response = await axios.post("/usuario/userLog", user);
 
       // Si el servidor devuelve un código de estado 201 (creado), muestra el mensaje de éxito
       if (response.status === 201) {
@@ -219,7 +216,9 @@ export const loginUserSuccess = (userData) => {
 export function logInUser(userName, password) {
   return async function (dispatch) {
     try {
+
       const response = await axios.post(`http://localhost:3001/loginAuth/login`, {userName, password});
+
       if (response.status === 200) {
         const responseData = response.data;
         localStorage.setItem("authUser", JSON.stringify(responseData)) //guarda el token en aplicación-storage
@@ -252,7 +251,7 @@ export function logOutUser() {
 
 export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
   try {
-    await axios.post(`http://localhost:3001/mascotas/${petId}/adopt`, formData);
+    await axios.post(`/mascotas/${petId}/adopt`, formData);
     // Puedes realizar cualquier lógica adicional aquí después de enviar la solicitud
   } catch (error) {
     throw error;
@@ -266,7 +265,7 @@ export function loginUserGoogle(email, name, lastName) {
       const randomNumber = Math.floor(Math.random() * 1000) + 1;
       const userNameWithRandomNumber = name + lastName + randomNumber;
       const response = await axios.get(
-        `http://localhost:3001/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
+        `/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
       );
       return dispatch({
         type: LOGIN_USER_GOOGLE,
@@ -284,7 +283,7 @@ export function loginUserFacebook(id, name, lastName) {
       const randomNumber = Math.floor(Math.random() * 1000) + 1;
       const userNameWithRandomNumber = name + lastName + randomNumber;
       const response = await axios.get(
-        `http://localhost:3001/usuario/loginFacebook?id=${id}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
+        `/usuario/loginFacebook?id=${id}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
       );
       return dispatch({
         type: LOGIN_USER_FACEBOOK,
@@ -295,6 +294,56 @@ export function loginUserFacebook(id, name, lastName) {
     }
   };
 }
+
+
+export function postDonationAndMercadoPago (donationData, donationId, mp_payment_id, mp_status){
+  return async function(dispatch){
+    try {
+      const response = await axios.post(`http://localhost:3001/donations/payment`, donationData)
+      const { preferenceId, donate } = response.data
+      
+      dispatch({
+        type: POST_DONATION,
+        payload: donate,
+      });
+      
+      window.alert('Serás redirigido a Mercado Pago')
+      window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference_id=${preferenceId}`
+      
+      // Esperar el retorno de Mercado Pago y obtener mp_payment_id y mp_status
+      const urlParams = new URLSearchParams(window.location.search);
+      const mp_payment_id = urlParams.get('mp_payment_id');
+      const mp_status = urlParams.get('mp_status');
+
+      if(mp_payment_id && mp_status){
+        const resMpago = await axios.post(`http://localhost:3001/donations/success`, {
+          donationId: donate.id, 
+          mp_payment_id, 
+          mp_status,
+       });
+      
+        dispatch({
+          type: POST_DONATION_SUCCESS,
+          payload: resMpago.data,
+        });
+        window.alert('Gracias por tu granito de arena!')
+
+      } else {
+        dispatch({
+          type: POST_DONATION_FAILURE,
+          payload: 'Error al obtener los datos de pago de Mercado Pago',
+        });
+
+        window.alert('Error al obtener los datos de pago de Mercado Pago.')
+      }
+    } catch (error) {
+      dispatch({
+        type: POST_DONATION_FAILURE,
+        payload: error.message,
+      });
+      window.alert(error.message)
+    }
+  }
 
 export function updateUser(
   email,
@@ -310,21 +359,18 @@ export function updateUser(
 ) {
   return async function (dispatch) {
     try {
-      const response = await axios.put(
-        "http://localhost:3001/usuario/userUpdate",
-        {
-          email,
-          name,
-          lastName,
-          userName,
-          birthdate,
-          address,
-          numberPhone,
-          DBpassword,
-          userActualPassword,
-          userNewPassword,
-        }
-      );
+      const response = await axios.put("/usuario/userUpdate", {
+        email,
+        name,
+        lastName,
+        userName,
+        birthdate,
+        address,
+        numberPhone,
+        DBpassword,
+        userActualPassword,
+        userNewPassword,
+      });
       if (response.status === 200) {
         alert("Usuario editado con exito");
         return dispatch({
@@ -350,10 +396,12 @@ export function createUserPassword(
 ) {
   return async function (dispatch) {
     try {
-      const response = await axios.put(
-        `http://localhost:3001/usuario/createUserPassword`,
-        { idFacebook, email, createdPassword, createdEmail }
-      );
+      const response = await axios.put(`/usuario/createUserPassword`, {
+        idFacebook,
+        email,
+        createdPassword,
+        createdEmail,
+      });
       if (response.status === 200) {
         alert("Cambios aplicados");
         return dispatch({
@@ -369,6 +417,7 @@ export function createUserPassword(
       }
     }
   };
+
 }
 
 export function clearAux() {
