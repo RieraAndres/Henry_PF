@@ -30,6 +30,7 @@ export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const DELETE_USER = "DELETE_USER";
 export const CLEAR_ALERTS_STATE = "CLEAR_ALERTS_STATE";
+export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
 
 export function getPets() {
   return async function (dispatch) {
@@ -356,8 +357,8 @@ export function postDonationAndMercadoPago(
       });
       window.alert(error.message);
     }
-  }
-};
+  };
+}
 
 export function updateUser(
   email,
@@ -453,6 +454,20 @@ export function deleteUser(id) {
       const response = await axios.delete(`usuario/deleteUser?id=${id}`);
       return dispatch({
         type: DELETE_USER,
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
+export function getAllReviws() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get("/review");
+      return dispatch({
+        type: GET_ALL_REVIEWS,
         payload: response.data,
       });
     } catch (error) {

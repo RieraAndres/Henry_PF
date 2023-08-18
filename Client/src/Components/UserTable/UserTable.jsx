@@ -16,9 +16,11 @@ function UserTable({ users, onUserDelete }) {
     setShowAlert(true); // Mostrar la alerta al eliminar un usuario
     setTimeout(() => {
       setShowAlert(false);
-      dispatch(clearAlerts()) // Ocultar la alerta después de 3 segundos
+      dispatch(clearAlerts()); // Ocultar la alerta después de 3 segundos
+      window.location.reload(); // Recargar la página
     }, 3000); // 3000 milisegundos = 3 segundos
   }
+  
 
     
   return (

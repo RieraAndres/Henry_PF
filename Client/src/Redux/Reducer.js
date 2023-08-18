@@ -28,6 +28,7 @@ import {
   GET_ALL_USERS,
   DELETE_USER,
   CLEAR_ALERTS_STATE,
+  GET_ALL_REVIEWS,
 } from "./Actions";
 
 let initialState = {
@@ -42,6 +43,7 @@ let initialState = {
   donations: [],
   allUsers: [],
   alerts: "",
+  allReviews: [],
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -242,6 +244,12 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         alerts: action.payload,
+      };
+    }
+    case GET_ALL_REVIEWS: {
+      return {
+        ...state,
+        allReviews: action.payload,
       };
     }
     case CLEAR_ALERTS_STATE: {

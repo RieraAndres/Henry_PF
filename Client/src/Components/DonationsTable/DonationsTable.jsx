@@ -72,12 +72,11 @@ function DonationsTable() {
                         </tr>
                       ))}
                     </tbody>
-                </Table>
-                <Table>
                     <thead>
-                        <tr>
-                            <th>TOTAL: ${totalDonationAmount}</th>
-                        </tr>
+                      <tr>
+                        <th>TOTAL</th>
+                        <th>{totalDonationAmount}</th>
+                      </tr>
                     </thead>
                 </Table>
     </div>

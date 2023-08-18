@@ -23,6 +23,6 @@ routerForUsers.put("/userUpdate", handlerModifyUser); // modifica y devuelve el 
 routerForUsers.put("/createUserPassword", handleCreateUserPassword); //crea la contraseña a los usuarios que son de google o facebook y si quiere mpdifica datos de usuario
 routerForUsers.get("/users", handleGetAllUsers); //Trae todos los usuarios cargados en la DB
 routerForUsers.delete("/deleteUser", handleDeleteUser); //Eliminda de la DB el usuario
-routerForUsers.get('/petsOfUser', handleGetAllPetsOfUser); //Obtiene lista de usuarios con sus posteos de mascotas
+routerForUsers.get("/petsOfUser", handleGetAllPetsOfUser); //Obtiene lista de usuarios con sus posteos de mascotas
 
 module.exports = routerForUsers;

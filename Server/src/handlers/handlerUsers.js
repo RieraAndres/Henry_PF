@@ -7,7 +7,7 @@ const modifyUser = require("../controllers/crudUser/putModifyProfileUser.js");
 const createUserPassword = require("../controllers/crudUser/putCreateUserPassword.js");
 const getAllUsers = require("../controllers/crudUser/getAllUsers.js");
 const deleteUser = require("../controllers/crudUser/deleteUser.js");
-const getAllPetsOfUser = require('../controllers/crudUser/getAllPetsOfUser.js');
+const getAllPetsOfUser = require("../controllers/crudUser/getAllPetsOfUser.js");
 
 const handlerRegisterUser = async (req, res) => {
   const {
@@ -237,10 +237,13 @@ const handleDeleteUser = async (req, res) => {
 };
 
 const handleGetAllPetsOfUser = async (req, res) => {
+  const { id } = req.body;
   try {
-    const pets = await getAllPetsOfUser();
-    if(pets === null || pets.length === 0){
-      return res.status(404).json({ error: 'Usuario no encontrado, o no ha posteado mascotas'})
+    const pets = await getAllPetsOfUser(id);
+    if (pets === null || pets.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "Usuario no encontrado, o no ha posteado mascotas" });
     }
     return res.status(200).json(pets);
   } catch (error) {
