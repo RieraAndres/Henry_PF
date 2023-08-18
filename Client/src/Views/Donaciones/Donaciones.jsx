@@ -150,9 +150,7 @@ function Donaciones () {
 
   return(
     <div className={styles.fondo}>
-      <div className={styles.nav}>
         <NavBar/>
-      </div>
       <Form className={styles.form}>
         <Form.Group className="mb-3" controlId="formDonation">
           <>
@@ -249,7 +247,7 @@ function Donaciones () {
               placeholder="Ingrese monto"
               required
               autoComplete="off"
-              min={300}
+              min="300"
               name="amount"
               value={donationData.amount}
               onChange={handleChange}
@@ -258,21 +256,18 @@ function Donaciones () {
           </>
         </Form.Group>
           <>
-            <Button 
-              variant="primary" 
-              type="submit"
-              className={`${styles.boton} ${
-                formSubmitted && !isFormValid ? styles.disabled : ""
-              }`}
-              disabled={formSubmitted && !isFormValid}
-              onClick={handleSubmit}
-              >
-               Donar
+          <Button
+          className={styles.btn} 
+          disabled={formSubmitted && isFormValid}
+          onClick={handleSubmit}
+          >
+            Donar
             </Button>
-            {formSubmitted && !isFormValid && formSuccess && (
-              <p className={styles.successMessage}>
+
+            {formSubmitted && isFormValid && formSuccess && (
+               <p className={styles.successMessage}>
                 Formulario enviado con éxito.
-              </p>
+                </p>
             )}
           </>       
       </Form>
@@ -281,4 +276,4 @@ function Donaciones () {
   )
 }
 
-export default Donaciones;
+export default Donaciones; 
