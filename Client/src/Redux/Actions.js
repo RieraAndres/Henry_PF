@@ -353,8 +353,8 @@ export function postDonationAndMercadoPago(
       });
       window.alert(error.message);
     }
-  };
-}
+  }
+};
 
 export function updateUser(
   email,
