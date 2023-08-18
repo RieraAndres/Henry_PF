@@ -11,10 +11,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import axios from "axios";
 
-const { DEPLOY_BACK } = process.env;
 // axios.defaults.baseURL = "http://localhost:3001";
 
-axios.defaults.baseURL = DEPLOY_BACK;
+axios.defaults.baseURL = "henrypf-production.up.railway.app";
 
 ReactDOM.render(
   <Provider store={store}>
