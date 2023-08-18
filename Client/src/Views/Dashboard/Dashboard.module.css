@@ -1,11 +1,8 @@
 .container{
     padding-top:10%;
-    display: flex;
-    justify-content: center;
-}
-
-.table{
     width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .table p{
