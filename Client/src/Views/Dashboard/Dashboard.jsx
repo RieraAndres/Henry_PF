@@ -50,7 +50,6 @@ console.log(users);
             }
             return user;
         });
-
         setUsers(updatedUsers);
     };
 
@@ -101,7 +100,7 @@ console.log(users);
                   <Col>
                     <div className={styles.table}>
                       <p>USUARIOS</p>
-                      <UserTable onUpdateUser={onUpdateUser} onUserDelete={onUserDelete} users={users}/>
+                      <UserTable  onUpdateUser={onUpdateUser} onUserDelete={onUserDelete} users={users}/>
                     </div>
                   </Col>   
             </Row>}

@@ -9,7 +9,6 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
   const alerts = useSelector(state=>state.alerts)
   const dispatch = useDispatch()
   const [showAlert, setShowAlert] = useState(false); // Estado para controlar la visibilidad de la alerta
-
   function handleDeleteUser(id) {
     dispatch(deleteUser(id));
     onUserDelete(id);
@@ -29,6 +28,7 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
       dispatch(clearAlerts()); // Ocultar la alerta después de 1 segundos
     }, 1000); // 3000 milisegundos = 1 segundos
   }
+
 
     
   return (
@@ -52,6 +52,7 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
                         <th>Creado en</th>
                         <th>ACTION</th>
                       </tr>
+                      
                     </thead>
                     <tbody>
                       {users.map((user, index) => (
@@ -75,6 +76,7 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
                         </tr>
                       ))}
                     </tbody>
+                    
                 </Table>
     </div>
   );

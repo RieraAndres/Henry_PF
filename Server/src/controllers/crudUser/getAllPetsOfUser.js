@@ -1,6 +1,6 @@
-const { User, Mascota } = require("../../db.js");
+const { User, Mascota, Donacion, Review } = require("../../db.js");
 
-const getAllPetsOfUser = async (id) => {
+const getAllDataOfUser = async (id) => {
   try {
     const user = await User.findOne({
       where: { id },
@@ -8,7 +8,12 @@ const getAllPetsOfUser = async (id) => {
         {
           model: Mascota,
           as: "mascotas",
-          required: false,
+          require: false,
+        },
+        {
+          model: Donacion,
+          as: "donaciones",
+          require: false,
         },
       ],
     });
@@ -23,4 +28,4 @@ const getAllPetsOfUser = async (id) => {
   }
 };
 
-module.exports = getAllPetsOfUser;
+module.exports = getAllDataOfUser;
