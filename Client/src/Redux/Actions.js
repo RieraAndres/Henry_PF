@@ -479,8 +479,9 @@ export function getAllReviws() {
 
 export function changeUserType(id) {
   return async function (dispatch) {
+    console.log(id);
     try {
-      const response = await axios.put("/usuario/changeType");
+      const response = await axios.put("/usuario/changeType", { id });
       if (response.status === 200) {
         return dispatch({
           type: CHANGE_USER_TYPE,

@@ -22,7 +22,7 @@ const Dashboard = () => {
     const [showUsers,setShowUsers] = useState(false)
     const [showDonations,setShowDonations] = useState(false)
     const [showReviews,setShowReviews] = useState(false)
-
+console.log(users);
     const dispatch = useDispatch();
 
      //AL RENDERIZAR DASHBOARD CARGO ALLUSERS CON USUARIOS Y ESTADO LOCAL TAMBIEN
@@ -34,11 +34,25 @@ const Dashboard = () => {
         dispatch(getAllReviws())
     },[dispatch])
 
-    const handleUserDelete = (id) => {
+    const onUserDelete = (id) => {
         // Eliminar el usuario del estado local
         const updatedUsers = users.filter((user) => user.id !== id);
         setUsers(updatedUsers);
       };
+
+      const onUpdateUser = (id) => {
+        const updatedUsers = users.map(user => {
+            if (user.id === id) {
+                return {
+                    ...user,
+                    typeUser: user.typeUser === "Admin" ? "Adopter" : "Admin"
+                };
+            }
+            return user;
+        });
+
+        setUsers(updatedUsers);
+    };
 
     const handleShowUsers = ()=>{
         if(showUsers === true){
@@ -87,7 +101,7 @@ const Dashboard = () => {
                   <Col>
                     <div className={styles.table}>
                       <p>USUARIOS</p>
-                      <UserTable onUserDelete={handleUserDelete} users={users}/>
+                      <UserTable onUpdateUser={onUpdateUser} onUserDelete={onUserDelete} users={users}/>
                     </div>
                   </Col>   
             </Row>}

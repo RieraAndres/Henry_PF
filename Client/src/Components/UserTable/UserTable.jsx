@@ -1,11 +1,11 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import { useDispatch,useSelector } from 'react-redux';
-import { clearAlerts, deleteUser } from '../../Redux/Actions';
+import { changeUserType, clearAlerts, deleteUser } from '../../Redux/Actions';
 import { useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 
-function UserTable({ users, onUserDelete }) {
+function UserTable({ users, onUserDelete,onUpdateUser }) {
   const alerts = useSelector(state=>state.alerts)
   const dispatch = useDispatch()
   const [showAlert, setShowAlert] = useState(false); // Estado para controlar la visibilidad de la alerta
@@ -17,10 +17,18 @@ function UserTable({ users, onUserDelete }) {
     setTimeout(() => {
       setShowAlert(false);
       dispatch(clearAlerts()); // Ocultar la alerta después de 3 segundos
-      window.location.reload(); // Recargar la página
     }, 3000); // 3000 milisegundos = 3 segundos
   }
   
+  function handleUpdateUser(id){
+    dispatch(changeUserType(id));
+    onUpdateUser(id)
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+      dispatch(clearAlerts()); // Ocultar la alerta después de 1 segundos
+    }, 1000); // 3000 milisegundos = 1 segundos
+  }
 
     
   return (
@@ -61,8 +69,8 @@ function UserTable({ users, onUserDelete }) {
                           <td>{user.createdAt}</td>
                           <td>
                             <button style={{marginTop:"5px"}} onClick={() => handleDeleteUser(user.id)}>Borrar usuario</button>
-                            <button style={{marginTop:"5px"}}>Ver publicaciones</button>
-                            <button style={{marginTop:"5px"}}>Cambiar Tipo</button>
+                            <button style={{marginTop:"5px"}} >Ver publicaciones</button>
+                            <button style={{marginTop:"5px"}}onClick={()=>handleUpdateUser(user.id)}>Cambiar Tipo</button>
                           </td>
                         </tr>
                       ))}
