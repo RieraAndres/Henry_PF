@@ -31,6 +31,7 @@ export const GET_ALL_USERS = "GET_ALL_USERS";
 export const DELETE_USER = "DELETE_USER";
 export const CLEAR_ALERTS_STATE = "CLEAR_ALERTS_STATE";
 export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
+export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
 
 export function getPets() {
   return async function (dispatch) {
@@ -475,6 +476,28 @@ export function getAllReviws() {
     }
   };
 }
+
+export function changeUserType(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put("/usuario/changeType");
+      if (response.status === 200) {
+        return dispatch({
+          type: CHANGE_USER_TYPE,
+          payload: "Tipo de usuario cambiado",
+        });
+      } else {
+        return dispatch({
+          type: CHANGE_USER_TYPE,
+          payload: "Error al cambiar tipo de usuario",
+        });
+      }
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
 export function clearAlerts() {
   return {
     type: CLEAR_ALERTS_STATE,

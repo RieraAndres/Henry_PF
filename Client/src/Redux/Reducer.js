@@ -29,6 +29,7 @@ import {
   DELETE_USER,
   CLEAR_ALERTS_STATE,
   GET_ALL_REVIEWS,
+  CHANGE_USER_TYPE,
 } from "./Actions";
 
 let initialState = {
@@ -250,6 +251,12 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         allReviews: action.payload,
+      };
+    }
+    case CHANGE_USER_TYPE: {
+      return {
+        ...state,
+        alerts: action.payload,
       };
     }
     case CLEAR_ALERTS_STATE: {
