@@ -4,6 +4,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { changeUserType, clearAlerts, deleteUser } from '../../Redux/Actions';
 import { useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
+import { NavLink } from 'react-router-dom';
 
 function UserTable({ users, onUserDelete,onUpdateUser }) {
   const alerts = useSelector(state=>state.alerts)
@@ -70,7 +71,7 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
                           <td>{user.createdAt}</td>
                           <td>
                             <button style={{marginTop:"5px"}} onClick={() => handleDeleteUser(user.id)}>Borrar usuario</button>
-                            <button style={{marginTop:"5px"}} >Ver publicaciones</button>
+                            <NavLink to={`/admindashboard/${user.id}`}><button style={{marginTop:"5px"}} >Ver publicaciones</button></NavLink>
                             <button style={{marginTop:"5px"}}onClick={()=>handleUpdateUser(user.id)}>Cambiar Tipo</button>
                           </td>
                         </tr>

@@ -12,6 +12,7 @@ import DarAdopt from "./Views/DarAdopt/DarAdopt";
 import ErrorPage from "./Views/ErrorPage/ErrorPage";
 import Registro from "./Views/Registro/Registro";
 import Dashboard from "./Views/Dashboard/Dashboard";
+import DashboardPerfil from "./Views/DashboardPeril/DashboardPerfil";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/donations" element={<Donaciones />} />
         <Route path="/adopt" element={<DarAdopt />} />
-        <Route path="/admindashboard" element={<Dashboard/>}/>
+        <Route path="/admindashboard" element={<Dashboard />} />
+        <Route path="/admindashboard/:id" element={<DashboardPerfil />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
