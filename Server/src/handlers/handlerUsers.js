@@ -254,7 +254,7 @@ const handleGetAllPetsOfUser = async (req, res) => {
 };
 
 const handleSetAdminUser = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.body;
   try {
     const adminUser = await setAdminUser(id);
     return res.status(200).json(adminUser);
