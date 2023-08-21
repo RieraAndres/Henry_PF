@@ -60,6 +60,8 @@ const Dashboard = () => {
             setShowUsers(false)
         }else{
             setShowUsers(true)
+            setShowDonations(false)
+            setShowReviews(false)
         }
     }
 
@@ -68,6 +70,8 @@ const Dashboard = () => {
             setShowDonations(false)
         }else{
             setShowDonations(true)
+            setShowUsers(false)
+            setShowReviews(false)
         }
     }
 
@@ -76,6 +80,8 @@ const Dashboard = () => {
             setShowReviews(false)
         }else{
             setShowReviews(true)
+            setShowUsers(false)
+            setShowDonations(false)
         }
     }
   return (
@@ -84,16 +90,16 @@ const Dashboard = () => {
             <NavBar/> 
         </div>
         <div className={styles.container}>
-        <p style={{fontSize:"80px"}}>DASHBOARD DE ADMINISTRADOR</p>
-        <Row xs={1} md={3}>
+        <p className={styles.titulo}>DASHBOARD DE ADMINISTRADOR</p>
+        <Row   md={3} className={styles.botones}>
             <Col>
-                <button onClick={handleShowUsers}>USUARIOS</button>
+                <button className={styles.buttonSelect} onClick={handleShowUsers}>USUARIOS</button>
             </Col>
             <Col>
-                <button onClick={handleShowDonations}>DONACIONES</button>
+                <button className={styles.buttonSelect} onClick={handleShowDonations}>DONACIONES</button>
             </Col>
             <Col>
-                <button onClick={handleShowReviews}>Reviews</button>
+                <button className={styles.buttonSelect} onClick={handleShowReviews}>RESEÑAS</button>
             </Col>
         </Row>
         <div>
@@ -127,9 +133,6 @@ const Dashboard = () => {
              </Row>
          }
         </div>
-       
-            
-            
         </div>
         <div>
             <Footer/>

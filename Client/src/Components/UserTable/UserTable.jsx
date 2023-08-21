@@ -5,6 +5,7 @@ import { changeUserType, clearAlerts, deleteUser } from '../../Redux/Actions';
 import { useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import { NavLink } from 'react-router-dom';
+import styles from './UserTable.module.css'
 
 function UserTable({ users, onUserDelete,onUpdateUser }) {
   const alerts = useSelector(state=>state.alerts)
@@ -26,8 +27,8 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
     setShowAlert(true);
     setTimeout(() => {
       setShowAlert(false);
-      dispatch(clearAlerts()); // Ocultar la alerta después de 1 segundos
-    }, 1000); // 3000 milisegundos = 1 segundos
+      dispatch(clearAlerts()); 
+    }, 2000); 
   }
 
 
@@ -70,9 +71,9 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
                           <td>{user.typeUser}</td>
                           <td>{user.createdAt}</td>
                           <td>
-                            <button style={{marginTop:"5px"}} onClick={() => handleDeleteUser(user.id)}>Borrar usuario</button>
-                            <NavLink to={`/admindashboard/${user.id}`}><button style={{marginTop:"5px"}} >Ver publicaciones</button></NavLink>
-                            <button style={{marginTop:"5px"}}onClick={()=>handleUpdateUser(user.id)}>Cambiar Tipo</button>
+                            <button style={{marginTop:"5px"}} onClick={() => handleDeleteUser(user.id)} className={styles.delete}>Borrar usuario</button>
+                            <NavLink to={`/admindashboard/${user.id}`}><button style={{marginTop:"5px"}} className={styles.see}>Ver publicaciones</button></NavLink>
+                            <button style={{marginTop:"5px"}}onClick={()=>handleUpdateUser(user.id)} className={styles.type}>Cambiar Tipo</button>
                           </td>
                         </tr>
                       ))}
