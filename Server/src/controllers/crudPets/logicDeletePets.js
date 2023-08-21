@@ -10,4 +10,26 @@ const logicDeletePets = async (id) => {
 	return petNull
 }
 
-module.exports = logicDeletePets;
+// Controlador para habilitar o deshabilitar una mascota por ID
+const enableOrDisablePet = async (id, newStatus) => {
+	try {
+	  const pet = await Mascota.findByPk(id);
+	  if (!pet) {
+		throw new Error('Mascota no encontrada');
+	  }
+  
+	  // Cambia el estado según el nuevo parámetro
+	  pet.status = newStatus;
+	  await pet.save();
+  
+	  return pet;
+	} catch (error) {
+	  console.error('Ocurrió un error al cambiar el estado de la mascota:', error);
+	  throw error;
+	}
+  };
+
+module.exports = {
+	logicDeletePets,
+	enableOrDisablePet
+};

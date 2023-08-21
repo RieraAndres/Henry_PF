@@ -66,7 +66,7 @@ export default function rootReducer(state = initialState, action) {
     case GET_PET_BY_NAME:
       return {
         ...state,
-        petsCopy: action.payload,
+        allPets: action.payload,
       };
 
     case POST_PET_SUCCESS:

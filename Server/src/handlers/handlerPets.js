@@ -4,8 +4,9 @@ const getNamePet = require('../controllers/crudPets/getNamePet')
 const getIdPet = require('../controllers/crudPets/getIdPet')
 const filters = require('../controllers/filterController/filters.js');
 const modifyPets = require('../controllers/crudPets/putPets.js'); 
-const logicDeletePets = require('../controllers/crudPets/logicDeletePets.js');
+const {logicDeletePets, enableOrDisablePet} = require('../controllers/crudPets/logicDeletePets.js');
 const deletePets = require('../controllers/crudPets/deletePetsDB.js');
+
 
 const handlerAllPets = async(req, res) => {
     try {
@@ -76,6 +77,20 @@ const handlerLogicDeletePets = async (req, res) => {
     }
 }
 
+// Manejador para habilitar o deshabilitar una mascota por ID
+const handlerEnableOrDisablePet = async (req, res) => {
+    const id = req.params.id;
+    const { newStatus } = req.body;
+  
+    try {
+      const updatedPet = await enableOrDisablePet(id, newStatus);
+      return res.status(200).json(updatedPet);
+    } catch (error) {
+      console.error('Ocurrió un error al cambiar el estado de la mascota:', error);
+      return res.status(500).json({ error: error.message });
+    }
+  };
+
 const handlerDeletePets = async (req, res) => {
     const id = req.params.id;
     try {
@@ -87,4 +102,4 @@ const handlerDeletePets = async (req, res) => {
     }
 }
 
-module.exports = {handlerAllPets, handlerPostPet, handlerIdPet, handlerPutPets, handlerLogicDeletePets, handlerDeletePets}
+module.exports = {handlerAllPets, handlerPostPet, handlerIdPet, handlerPutPets, handlerLogicDeletePets, handlerDeletePets, handlerEnableOrDisablePet}
