@@ -1,0 +1,107 @@
+.page{
+        align-items: center;
+        background-image: url("../../Assets/Backgrounds//BackgroundInicio.png");
+        position: absolute;
+        width: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+}
+.container{
+    padding-top:10%;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.table{
+    margin-top: 15px;
+}
+.table p{
+    font-size: 40px;
+}
+
+.titulo{
+    word-wrap:none;
+    margin: 0 auto;
+    font-size: 50px;
+    max-width: 90%;
+    margin-bottom: 35px;
+}
+
+.botones{
+    margin-top: 10px;
+}
+
+.buttonSelect {
+    font-size: 16px;
+    position: relative;
+    margin: auto;
+    padding: 1em 1em 1em 1em;
+    border: none;
+    background: #000000;
+    transition: all 0.1s linear;
+    box-shadow: 0 0.4em 1em rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
+    color: white;
+   }
+   
+   .buttonSelect:active {
+    transform: scale(0.95);
+   }
+   
+   .buttonSelect span {
+    color: #464646;
+   }
+   
+   .buttonSelect .border {
+    position: absolute;
+    border: 0.15em solid #000000;
+    transition: all 0.3s 0.08s linear;
+    top: 50%;
+    left: 50%;
+    width: 9em;
+    height: 3em;
+    transform: translate(-50%, -50%);
+   }
+   
+   .buttonSelect:hover .border {
+    display: block;
+    width: 9.9em;
+    height: 3.7em;
+   }
+
+@media screen and (max-width:1000px) {
+    .titulo{
+        font-size: 40px;
+    }
+    .container{
+        padding-top: 15%;
+    }
+    .buttonSelect {
+        font-size: 14px;
+       
+       }
+}
+
+@media screen and (max-width:768px) {
+    .titulo{
+        font-size: 30px;
+    }
+    .container{
+        padding-top: 20%;
+    }
+    .buttonSelect {
+        font-size: 12px;
+       
+       }
+}
+
+@media screen and (max-width:450px) {
+    .titulo{
+        font-size: 15px;
+        font-weight: bold;
+    }
+    .container{
+        padding-top: 30%;
+    }
+}

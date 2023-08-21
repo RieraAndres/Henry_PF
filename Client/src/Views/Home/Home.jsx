@@ -61,7 +61,7 @@ function Home() {
 
   function paginate(pageNumber) {
     setCurrentPage(pageNumber);
-    setActivePage(pageNumber)
+    setActivePage(pageNumber);
   }
 
   return (
