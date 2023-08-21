@@ -28,6 +28,9 @@ import {
   USER_UPDATE,
   CREATE_USER_PASSWORD,
 
+  GET_REVIEWS,
+  CREATE_REVIEW,
+  GET_USER_REVIEWS,
 } from "./Actions";
 
 let initialState = {
@@ -40,7 +43,10 @@ let initialState = {
   userCreated:false,
   userData:{},
   userLogedIn:null,
-  donations: []
+  donations: [],
+  allReviews: [],
+  createReview: {},
+  UserReviews:[],
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -231,6 +237,24 @@ export default function rootReducer(state = initialState, action) {
         userData: action.payload,
       };
     }
+
+    //Reviews
+    case GET_REVIEWS:
+      return {
+        ...state,
+        allReviews: action.payload,
+      };
+    case CREATE_REVIEW:
+      return {
+        ...state,
+        createReview: action.payload,
+      }
+    case GET_USER_REVIEWS:
+      return {
+        ...state,
+        UserReviews: action.payload,
+      };
+    
     default:
       return {
         ...state,

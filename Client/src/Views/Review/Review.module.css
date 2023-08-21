@@ -6,9 +6,9 @@
     background-image: url("../../Assets/Backgrounds//BackgroundInicio.png");
     position: absolute;
     width: 100%;
-    height: 100%;
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
   }
   
   .createReview {
@@ -87,34 +87,11 @@
     box-shadow: #D6D6E7 0 3px 7px inset;
     transform: translateY(2px);
    }
-  
-  .allReviews {
-    width: 60%;
-  }
-  
-  .filterSelect {
-    margin-bottom: 10px;
-    padding: 5px;
-  }
-  
-  .reviewList {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .reviewItem {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #fff;
-    border-radius: 4px;
-  }
 
 /* Estrellas */
 
 .estrella {
     display: inline-block;
-    margin-top: 10px;
     margin-bottom: 10px;
   }
   
@@ -137,6 +114,168 @@
   .estrella input:checked ~ label,
   .estrella label:hover,
   .estrella label:hover ~ label {
-    color: #1d56ff;
+    color: gold;
     transition: color 0.4s;
   }
+
+/* Reviews */
+.myReviews{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 80%;
+}
+
+.allReviews {
+  width: 80%;
+}
+
+.myReviews h2{
+  margin-bottom: 30px;
+}
+
+.allReviews h2{
+  margin-bottom: 30px;
+}
+
+.reviewContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.reviewCard {
+  position: relative; /* Añadir posición relativa para que los elementos absolutos se posicionen en relación con la tarjeta */
+  z-index: 1;
+  width: 30%;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  margin-bottom: 25px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  /* Agregar margen inferior para espacio entre el nombre de usuario y el fondo de la tarjeta */
+  margin-bottom: 20px;
+}
+
+.reviewCard h3 {
+  font-size: 13px;
+  margin-bottom: 15px;
+  text-align: left;
+  /* Fijar el nombre de usuario en la parte inferior de la tarjeta */
+  position: absolute;
+  bottom: 0;
+}
+
+.reviewCard p {
+  font-size: 16px;
+  text-align: left;
+  margin-bottom: 40px;
+  max-width: 100%; /* Establece el ancho máximo del texto */
+  word-wrap: break-word; /* Permite el quiebre de palabras */
+}
+
+/* Efecto de transición cuando el usuario pasa el cursor sobre la tarjeta */
+.reviewCard:hover {
+  transform: translateY(-5px);
+}
+
+/* estrellas fijas */
+.star-rating {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 30px;
+}
+
+.star-filled {
+  color: gold; /* Color de estrella pintada */
+}
+
+.star-empty {
+  color: #ccc; /* Color de estrella vacía */
+}
+
+
+/* responsive */
+@media screen and (max-width:1350px) {
+  .createReview {
+    width: 60%; /* Reducir el ancho del área de creación de reseñas */
+  }
+  .myReviews,
+  .allReviews {
+    width: 90%; /* Hacer que las secciones de reseñas ocupen todo el ancho */
+  }
+  .reviewCard {
+    width: 45%; /* Cambia el ancho al 70% */
+    margin: 0 auto; /* Centra horizontalmente */
+    display: block; /* Hace que cada tarjeta ocupe todo el ancho disponible y se coloque una debajo de la otra */
+    margin-bottom: 20px;
+  }
+}  
+@media screen and (max-width:1000px) {
+  .createReview {
+    width: 80%; /* Reducir el ancho del área de creación de reseñas */
+  }
+  .commentTextarea {
+    font-size: 14px;
+  }
+  
+  .createButton {
+    font-size: 16px;
+  }
+
+  .myReviews,
+  .allReviews {
+    width: 90%; /* Hacer que las secciones de reseñas ocupen todo el ancho */
+  }
+  .reviewCard {
+    width: 45%; /* Cambia el ancho al 70% */
+    margin: 0 auto; /* Centra horizontalmente */
+    display: block; /* Hace que cada tarjeta ocupe todo el ancho disponible y se coloque una debajo de la otra */
+    margin-bottom: 20px;
+  }
+  
+  .reviewCard h3 {
+    font-size: 12px;
+  }
+  
+  .reviewCard p {
+    font-size: 14px;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .createReview {
+    width: 90%; /* Reducir el ancho del área de creación de reseñas */
+  }
+  .commentTextarea {
+    font-size: 14px;
+  }
+  
+  .createButton {
+    font-size: 16px;
+  }
+
+  .reviewCard {
+    width: 70%; /* Cambia el ancho al 70% */
+    margin: 0 auto; /* Centra horizontalmente */
+    display: block; /* Hace que cada tarjeta ocupe todo el ancho disponible y se coloque una debajo de la otra */
+    margin-bottom: 20px;
+  }
+
+  .myReviews,
+  .allReviews {
+    width: 100%; /* Hacer que las secciones de reseñas ocupen todo el ancho */
+  }
+
+  
+  
+  .reviewCard h3 {
+    font-size: 12px;
+  }
+  
+  .reviewCard p {
+    font-size: 14px;
+  }
+}
