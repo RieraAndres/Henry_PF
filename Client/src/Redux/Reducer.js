@@ -31,6 +31,7 @@ import {
   CHANGE_USER_TYPE,
   GET_ALL_USER_DATA,
   DELETE_PET_DB,
+  GET_ALL_DONATIONS,
 } from "./Actions";
 
 let initialState = {
@@ -46,6 +47,7 @@ let initialState = {
   allUsers: [],
   alerts: "",
   allReviews: [],
+  allDonations: [],
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -267,6 +269,14 @@ export default function rootReducer(state = initialState, action) {
         auxState: action.payload,
       };
     }
+
+    case GET_ALL_DONATIONS: {
+      return {
+        ...state,
+        allDonations: action.payload,
+      };
+    }
+
     case CLEAR_ALERTS_STATE: {
       return {
         ...state,

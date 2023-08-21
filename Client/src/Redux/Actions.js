@@ -33,6 +33,7 @@ export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
 export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
 export const GET_ALL_USER_DATA = "GET_ALL_USER_DATA";
 export const DELETE_PET_DB = "DELETE_PET_DB";
+export const GET_ALL_DONATIONS = "GET_ALL_DONATIONS";
 
 export function getPets() {
   return async function (dispatch) {
@@ -527,6 +528,20 @@ export function deletePetDb(id) {
           payload: "Ocurrio un problema",
         });
       }
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
+export function getAllDonations() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get("/donations/all");
+      return dispatch({
+        type: GET_ALL_DONATIONS,
+        payload: response.data,
+      });
     } catch (error) {
       return error.message;
     }

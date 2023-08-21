@@ -1,6 +1,6 @@
 import { useSelector, useDispatch} from 'react-redux';
 import { useEffect,useState } from 'react';
-import { getAllUsers, getAllReviws } from '../../Redux/Actions';
+import { getAllUsers, getAllReviws, getAllDonations } from '../../Redux/Actions';
 
 import styles from './Dashboard.module.css'
 import NavBar from '../../Components/NavBar/NavBar'
@@ -13,6 +13,8 @@ import Row from 'react-bootstrap/Row';
 
 const Dashboard = () => {
     const dbUsers = useSelector(state=>state.allUsers)
+    const donations = useSelector(state=>state.allDonations)
+
     dbUsers.sort((a, b) => a.userName.localeCompare(b.userName));
 
     const reviews = useSelector(state=> state.allReviews)
@@ -31,6 +33,7 @@ const Dashboard = () => {
 
     useEffect(()=>{
         dispatch(getAllReviws())
+        dispatch(getAllDonations())
     },[dispatch])
 
     const onUserDelete = (id) => {
@@ -108,7 +111,7 @@ const Dashboard = () => {
                 <Col>
                   <div className={styles.table}>
                     <p>DONACIONES</p>
-                    <DonationsTable/>
+                    <DonationsTable donations={donations}/>
                   </div>
                 </Col>   
             </Row>
