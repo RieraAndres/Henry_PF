@@ -17,6 +17,7 @@ function NavBar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const LoggedData = useSelector(state=>state.userData)
+  console.log(LoggedData);
   
   // Aplica la clase de posición fija solo si estás en la página exacta "/home"
   const isHomePage = location.pathname === '/home';
@@ -76,6 +77,9 @@ function NavBar() {
                     <NavLink to={'/info'} className="dropdown-item"  activeClassName="active">
                      ¿Como adoptar?
                     </NavLink>
+                    {LoggedData.typeUser === "Admin" && 
+                    <NavLink to={'/admindashboard'} className="dropdown-item" activeClassName="active">Dashboard</NavLink>
+                  }
                     <NavDropdown.Item onClick={HandleLogOut}>Salir</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
