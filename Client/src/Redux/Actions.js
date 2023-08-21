@@ -32,6 +32,8 @@ export const DELETE_USER = "DELETE_USER";
 export const CLEAR_ALERTS_STATE = "CLEAR_ALERTS_STATE";
 export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
 export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
+export const GET_ALL_USER_DATA = "GET_ALL_USER_DATA";
+export const CLEAR_USER_ALL_DATA = "CLEAR_USER_ALL_DATA";
 
 export function getPets() {
   return async function (dispatch) {
@@ -479,7 +481,6 @@ export function getAllReviws() {
 
 export function changeUserType(id) {
   return async function (dispatch) {
-    console.log(id);
     try {
       const response = await axios.put("/usuario/changeType", { id });
       if (response.status === 200) {
@@ -499,12 +500,33 @@ export function changeUserType(id) {
   };
 }
 
+export function getAllUserData(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`/usuario/dataOfUser`, {
+        params: { id },
+      });
+      return dispatch({
+        type: GET_ALL_USER_DATA,
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
 export function clearAlerts() {
   return {
     type: CLEAR_ALERTS_STATE,
   };
 }
 
+export function clearUserAllData() {
+  return {
+    type: CLEAR_USER_ALL_DATA,
+  };
+}
 export function clearAux() {
   //para limpiar AuxState al desmontar el detail
   return {

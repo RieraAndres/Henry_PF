@@ -30,6 +30,8 @@ import {
   CLEAR_ALERTS_STATE,
   GET_ALL_REVIEWS,
   CHANGE_USER_TYPE,
+  GET_ALL_USER_DATA,
+  CLEAR_USER_ALL_DATA,
 } from "./Actions";
 
 let initialState = {
@@ -37,12 +39,8 @@ let initialState = {
   petsCopy: [],
   auxState: [],
   filters: { size: "", gender: "" },
-  orden: { orden_age: "", orden_name: "" },
   userCreated: false,
-  userData: {},
-  userLogedIn: null,
   orden: { orden_age: "", orden_name: "" },
-  userCreated: false,
   userData: {},
   userLogedIn: null,
   donations: [],
@@ -261,6 +259,13 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         alerts: action.payload,
+      };
+    }
+
+    case GET_ALL_USER_DATA: {
+      return {
+        ...state,
+        auxState: action.payload,
       };
     }
     case CLEAR_ALERTS_STATE: {

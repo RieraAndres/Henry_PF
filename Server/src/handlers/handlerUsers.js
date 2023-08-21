@@ -238,13 +238,14 @@ const handleDeleteUser = async (req, res) => {
 };
 
 const handleGetAllDataOfUser = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.query;
   try {
     const pets = await getAllDataOfUser(id);
-    // if (pets === null || pets.length === 0) {
-    //   return res.status(404).json({ error: "Usuario no encontrado" });
-    // }
-    return res.status(200).json(pets);
+    if (pets === null || pets.length === 0) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    } else {
+      return res.status(200).json(pets);
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: error.message });

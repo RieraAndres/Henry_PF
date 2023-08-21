@@ -36,7 +36,8 @@ function Home () {
   function paginate(pageNumber) {
     setCurrentPage(pageNumber);
     setActivePage(pageNumber);
-  }
+}
+console.log(currentCards);
     return(
 
         <div className={styles.fondo}> 
