@@ -1,3 +1,12 @@
+.page{
+        align-items: center;
+        background-image: url("../../Assets/Backgrounds//BackgroundInicio.png");
+        position: absolute;
+        width: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+}
 .container{
     padding-top:10%;
     width: 90%;

@@ -7,14 +7,14 @@ import Detail from "./Views/Detail/Detail";
 import Home from "./Views/Home/Home";
 import Info from "./Views/Info/Info";
 import Profile from "./Views/Profile/Profile";
-import MisPublicaciones from "./Views/MisPublicaciones/MisPublicaciones"
-import EditPet from "./Views/EditPet/EditPet"
+import MisPublicaciones from "./Views/MisPublicaciones/MisPublicaciones";
+import EditPet from "./Views/EditPet/EditPet";
 import Donaciones from "./Views/Donaciones/Donaciones";
 import DarAdopt from "./Views/DarAdopt/DarAdopt";
 import ErrorPage from "./Views/ErrorPage/ErrorPage";
 import Registro from "./Views/Registro/Registro";
 import Dashboard from "./Views/Dashboard/Dashboard";
-import DashboardPerfil from "./Views/DashboardPeril/DashboardPerfil";
+import DashboardPerfil from "./Views/DashboardPerfil/DashboardPerfil";
 
 function App() {
   return (
@@ -28,8 +28,14 @@ function App() {
         <Route path="/home/:id" element={<Detail />} />
         <Route path="/info" element={<Info />} />
         <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/profile/:id/mispublicaciones" element={<MisPublicaciones />} />
-        <Route path="/profile/:id/mispublicaciones/editar/:id" element={<EditPet />} />
+        <Route
+          path="/profile/:id/mispublicaciones"
+          element={<MisPublicaciones />}
+        />
+        <Route
+          path="/profile/:id/mispublicaciones/editar/:id"
+          element={<EditPet />}
+        />
         <Route path="/donations" element={<Donaciones />} />
         <Route path="/adopt" element={<DarAdopt />} />
         <Route path="/admindashboard" element={<Dashboard />} />

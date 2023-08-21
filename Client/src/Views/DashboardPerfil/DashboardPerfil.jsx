@@ -25,7 +25,7 @@ const DashboardPerfil = () => {
       return (<></>)
     }else{
       return (
-        <div>
+        <div className={styles.page}>
           <div>
             <NavBar/>
           </div>

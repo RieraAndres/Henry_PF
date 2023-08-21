@@ -22,7 +22,6 @@ const Dashboard = () => {
     const [showUsers,setShowUsers] = useState(false)
     const [showDonations,setShowDonations] = useState(false)
     const [showReviews,setShowReviews] = useState(false)
-console.log(users);
     const dispatch = useDispatch();
 
      //AL RENDERIZAR DASHBOARD CARGO ALLUSERS CON USUARIOS Y ESTADO LOCAL TAMBIEN
