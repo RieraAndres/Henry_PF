@@ -15,8 +15,11 @@ import ErrorPage from "./Views/ErrorPage/ErrorPage";
 import Registro from "./Views/Registro/Registro";
 import Dashboard from "./Views/Dashboard/Dashboard";
 import DashboardPerfil from "./Views/DashboardPerfil/DashboardPerfil";
+import { useSelector } from "react-redux";
 
 function App() {
+  const LoggedUser = useSelector((state) => state.userData);
+  console.log(LoggedUser);
   return (
     <div className="App">
       <Routes>
@@ -38,8 +41,12 @@ function App() {
         />
         <Route path="/donations" element={<Donaciones />} />
         <Route path="/adopt" element={<DarAdopt />} />
-        <Route path="/admindashboard" element={<Dashboard />} />
-        <Route path="/admindashboard/:id" element={<DashboardPerfil />} />
+        {LoggedUser && LoggedUser.typeUser === "Admin" ? (
+          <>
+            <Route path="/admindashboard" element={<Dashboard />} />
+            <Route path="/admindashboard/:id" element={<DashboardPerfil />} />
+          </>
+        ) : null}
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
