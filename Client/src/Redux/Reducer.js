@@ -32,6 +32,9 @@ import {
   GET_ALL_USER_DATA,
   DELETE_PET_DB,
   GET_ALL_DONATIONS,
+  GET_REVIEWS,
+  CREATE_REVIEW,
+  GET_USER_REVIEWS,
 } from "./Actions";
 
 let initialState = {
@@ -48,6 +51,9 @@ let initialState = {
   alerts: "",
   allReviews: [],
   allDonations: [],
+  createReview: {},
+  UserReviews:[],
+
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -231,6 +237,7 @@ export default function rootReducer(state = initialState, action) {
         userData: action.payload,
       };
     }
+
     case GET_ALL_USERS: {
       return {
         ...state,
@@ -283,6 +290,22 @@ export default function rootReducer(state = initialState, action) {
         alerts: "",
       };
     }
+    case GET_REVIEWS:
+      return {
+        ...state,
+        allReviews: action.payload,
+      };
+    case CREATE_REVIEW:
+      return {
+        ...state,
+        createReview: action.payload,
+      }
+    case GET_USER_REVIEWS:
+      return {
+        ...state,
+        UserReviews: action.payload,
+      };
+    
     default:
       return {
         ...state,

@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 import Logo from '../../Assets/Logo/logo_PF.png';
 import Menu from '../../Assets/Menu/menu_desplegable.png';
 import SearchBar from '../SearchBar/SearchBar';
+import Reviews from '../../Views/Review/Review';
 import { useDispatch,useSelector } from 'react-redux';
 import { logOutUser } from '../../Redux/Actions';
 
@@ -80,6 +81,9 @@ function NavBar() {
                     {LoggedData.typeUser === "Admin" && 
                     <NavLink to={'/admindashboard'} className="dropdown-item" activeClassName="active">Dashboard</NavLink>
                   }
+                    <NavLink to={'/reviews'} className="dropdown-item"  activeClassName="active">
+                     Reseñas
+                    </NavLink>
                     <NavDropdown.Item onClick={HandleLogOut}>Salir</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>

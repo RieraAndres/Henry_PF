@@ -16,6 +16,8 @@ import Registro from "./Views/Registro/Registro";
 import Dashboard from "./Views/Dashboard/Dashboard";
 import DashboardPerfil from "./Views/DashboardPerfil/DashboardPerfil";
 import { useSelector } from "react-redux";
+import Reviews from "./Views/Review/Review";
+
 
 function App() {
   const LoggedUser = useSelector((state) => state.userData);
@@ -47,6 +49,7 @@ function App() {
             <Route path="/admindashboard/:id" element={<DashboardPerfil />} />
           </>
         ) : null}
+        <Route path="/reviews" element={<Reviews />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
