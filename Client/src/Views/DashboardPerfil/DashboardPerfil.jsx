@@ -20,7 +20,6 @@ const DashboardPerfil = () => {
         setUserDataLocal([])
       }
     }, [dispatch,id]);
-    console.log(userDataLocal);
     if(!userDataLocal){
       return (<></>)
     }else{
