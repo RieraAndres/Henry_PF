@@ -18,7 +18,6 @@ import {
   USER_LOGIN_SUCCESS,
   GET_USER_DATA,
   LOGIN_USER_GOOGLE,
-  LOGIN_USER_FACEBOOK,
   USER_LOGOUT,
   POST_DONATION,
   POST_DONATION_SUCCESS,
@@ -31,6 +30,7 @@ import {
   GET_ALL_REVIEWS,
   CHANGE_USER_TYPE,
   GET_ALL_USER_DATA,
+  DELETE_PET_DB,
 } from "./Actions";
 
 let initialState = {
@@ -212,13 +212,6 @@ export default function rootReducer(state = initialState, action) {
         userData: action.payload,
       };
 
-    case LOGIN_USER_FACEBOOK:
-      return {
-        ...state,
-        userLogedIn: true,
-        userData: action.payload,
-      };
-
     case USER_LOGOUT:
       return {
         ...state,
@@ -255,6 +248,13 @@ export default function rootReducer(state = initialState, action) {
       };
     }
     case CHANGE_USER_TYPE: {
+      return {
+        ...state,
+        alerts: action.payload,
+      };
+    }
+
+    case DELETE_PET_DB: {
       return {
         ...state,
         alerts: action.payload,

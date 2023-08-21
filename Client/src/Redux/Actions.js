@@ -23,7 +23,6 @@ export const GET_USER_DATA = "GET_USER_DATA";
 export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
 export const USER_LOGIN_FAILURE = "USER_LOGIN_FAILURE";
 export const LOGIN_USER_GOOGLE = "LOGIN_USER_GOOGLE";
-export const LOGIN_USER_FACEBOOK = "LOGIN_USER_FACEBOOK";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_UPDATE = "USER_UPDATE";
 export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
@@ -33,6 +32,7 @@ export const CLEAR_ALERTS_STATE = "CLEAR_ALERTS_STATE";
 export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
 export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
 export const GET_ALL_USER_DATA = "GET_ALL_USER_DATA";
+export const DELETE_PET_DB = "DELETE_PET_DB";
 
 export function getPets() {
   return async function (dispatch) {
@@ -299,24 +299,6 @@ export function loginUserGoogle(email, name, lastName) {
   };
 }
 
-export function loginUserFacebook(id, name, lastName) {
-  return async function (dispatch) {
-    try {
-      const randomNumber = Math.floor(Math.random() * 1000) + 1;
-      const userNameWithRandomNumber = name + lastName + randomNumber;
-      const response = await axios.get(
-        `/usuario/loginFacebook?id=${id}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
-      );
-      return dispatch({
-        type: LOGIN_USER_FACEBOOK,
-        payload: response.data,
-      });
-    } catch (error) {
-      return error.message;
-    }
-  };
-}
-
 export function postDonationAndMercadoPago(
   donationData,
   donationId,
@@ -524,6 +506,27 @@ export function getAllUserData(id) {
         type: GET_ALL_USER_DATA,
         payload: response.data,
       });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
+export function deletePetDb(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.delete(`/mascotas/delete/${id}`);
+      if (response.status === 200) {
+        return dispatch({
+          type: DELETE_PET_DB,
+          payload: response.data,
+        });
+      } else {
+        return dispatch({
+          type: DELETE_PET_DB,
+          payload: "Ocurrio un problema",
+        });
+      }
     } catch (error) {
       return error.message;
     }
