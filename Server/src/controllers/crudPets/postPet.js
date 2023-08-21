@@ -31,3 +31,4 @@ const postPet = async (name, gender, age, imageUrl, specie, size, location, desc
 };
 
 module.exports = postPet;
+
