@@ -8,7 +8,7 @@ import styles from './DashboardPerfil.module.css'
 import CardsComponent from "../../Components/Cards/cards";
 
 const DashboardPerfil = () => {
-    const [userDataLocal,setUserDataLocal] = useState([]) 
+    const [userDataLocal,setUserDataLocal] = useState({}) 
     const {id} = useParams()
 
     const dispatch = useDispatch()
@@ -20,21 +20,25 @@ const DashboardPerfil = () => {
         setUserDataLocal([])
       }
     }, [dispatch,id]);
-
-    const mascotas= {mascotas:userDataLocal.mascotas}
-  return (
-    <div>
-      <div>
-        <NavBar/>
-      </div>
-      <div className={styles.container}>
-        <p>PUBLICACIONES DE {userDataLocal.userName}</p>
-        <CardsComponent mascotas={mascotas}/>
-      </div>
-      <Footer/>
-    </div>
-    
-  );
+    console.log(userDataLocal);
+    if(!userDataLocal){
+      return (<></>)
+    }else{
+      return (
+        <div>
+          <div>
+            <NavBar/>
+          </div>
+          <div className={styles.container}>
+            <p>PUBLICACIONES DE {userDataLocal.userName}</p>
+            <CardsComponent mascotas={userDataLocal.mascotas}/>
+          </div>
+          <Footer/>
+        </div>
+        
+      );
+    }
+ 
 };
 
 export default DashboardPerfil;

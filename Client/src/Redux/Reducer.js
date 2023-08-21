@@ -31,7 +31,6 @@ import {
   GET_ALL_REVIEWS,
   CHANGE_USER_TYPE,
   GET_ALL_USER_DATA,
-  CLEAR_USER_ALL_DATA,
 } from "./Actions";
 
 let initialState = {

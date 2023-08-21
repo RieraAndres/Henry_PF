@@ -33,7 +33,6 @@ export const CLEAR_ALERTS_STATE = "CLEAR_ALERTS_STATE";
 export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
 export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
 export const GET_ALL_USER_DATA = "GET_ALL_USER_DATA";
-export const CLEAR_USER_ALL_DATA = "CLEAR_USER_ALL_DATA";
 
 export function getPets() {
   return async function (dispatch) {
@@ -204,7 +203,9 @@ export function updatePetStatus(id, status) {
   return async function (dispatch) {
     try {
       // Realiza la petición para cambiar el estado de la mascota en el servidor
-      await axios.put(`http://localhost:3001/mascotas/status/${id}`, { newStatus: status });
+      await axios.put(`http://localhost:3001/mascotas/status/${id}`, {
+        newStatus: status,
+      });
 
       // Despacha la acción para actualizar el estado de Redux con el nuevo estado de la mascota
       dispatch({
@@ -535,11 +536,6 @@ export function clearAlerts() {
   };
 }
 
-export function clearUserAllData() {
-  return {
-    type: CLEAR_USER_ALL_DATA,
-  };
-}
 export function clearAux() {
   //para limpiar AuxState al desmontar el detail
   return {

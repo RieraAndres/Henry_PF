@@ -1,11 +1,14 @@
 import styles from '../Card/Card.module.css'; // Importa los estilos del archivo CSS externo
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 
 function CardComponent({ mascota }) { //traigo mascota desde Cards 
-  const { name, imageUrl ,age,id} = mascota; //destructuro datos a renderizar en la Card
+  const location = useLocation()
+  const { name, imageUrl ,age,id,status} = mascota; //destructuro datos a renderizar en la Card
   return (
-      <NavLink to={`${id}`} style={{textDecoration: 'none'}}>
+    <div>
+      {location.pathname === "/home" ? (
+        <NavLink to={`${id}`} style={{textDecoration: 'none'}}>
         <div className={styles.card}>
           <div className={styles.divCard}>
             <div>
@@ -18,6 +21,25 @@ function CardComponent({ mascota }) { //traigo mascota desde Cards
           </div>
         </div>
       </NavLink>
+      ):(
+        <div className={styles.card}>
+          <div className={styles.divCard}>
+            <div>
+              <img src={imageUrl} alt=''></img>
+            </div>
+            <div >
+              <p style={{fontSize:"30px"}}>{name}</p>
+              <p style={{fontSize:"30px"}}>{age} años</p>
+              {status === true?(<p style={{fontSize:"30px"}}>Activa</p>):(<p style={{fontSize:"30px"}}>Inactiva</p>)}
+              <button>Eliminar</button>
+            </div>
+          </div>
+        </div>
+        
+      )}
+      
+    </div>
+      
     
    
   );
