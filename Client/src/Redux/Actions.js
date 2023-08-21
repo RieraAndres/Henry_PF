@@ -27,6 +27,10 @@ export const LOGIN_USER_FACEBOOK = "LOGIN_USER_FACEBOOK";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_UPDATE = "USER_UPDATE";
 export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
+export const GET_REVIEWS = "GET_REVIEWS";
+export const CREATE_REVIEW = "CREATE_REVIEW";
+export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
+
 
 export function getPets() {
   return async function (dispatch) {
@@ -449,3 +453,48 @@ export function clearAux() {
     type: "CLEAR_AUX_STATE",
   };
 }
+
+
+// Reviews
+
+export const createReview = ({puntuacion, comentario, userName}) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post("/review", {puntuacion, comentario, userName});
+      return dispatch({
+        type: CREATE_REVIEW,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getUserReviews = (id) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`/review/${id}`);
+      return dispatch({
+        type: GET_USER_REVIEWS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getAllReviews = (id) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`/review/`);
+      return dispatch({
+        type: GET_REVIEWS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

@@ -13,6 +13,7 @@ import Donaciones from "./Views/Donaciones/Donaciones";
 import DarAdopt from "./Views/DarAdopt/DarAdopt";
 import ErrorPage from "./Views/ErrorPage/ErrorPage";
 import Registro from "./Views/Registro/Registro";
+import Reviews from "./Views/Review/Review";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/profile/:id/mispublicaciones/editar/:id" element={<EditPet />} />
         <Route path="/donations" element={<Donaciones />} />
         <Route path="/adopt" element={<DarAdopt />} />
+        <Route path="/reviews" element={<Reviews />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
