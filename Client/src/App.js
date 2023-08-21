@@ -7,6 +7,8 @@ import Detail from "./Views/Detail/Detail";
 import Home from "./Views/Home/Home";
 import Info from "./Views/Info/Info";
 import Profile from "./Views/Profile/Profile";
+import MisPublicaciones from "./Views/MisPublicaciones/MisPublicaciones"
+import EditPet from "./Views/EditPet/EditPet"
 import Donaciones from "./Views/Donaciones/Donaciones";
 import DarAdopt from "./Views/DarAdopt/DarAdopt";
 import ErrorPage from "./Views/ErrorPage/ErrorPage";
@@ -25,6 +27,8 @@ function App() {
         <Route path="/home/:id" element={<Detail />} />
         <Route path="/info" element={<Info />} />
         <Route path="/profile/:id" element={<Profile />} />
+        <Route path="/profile/:id/mispublicaciones" element={<MisPublicaciones />} />
+        <Route path="/profile/:id/mispublicaciones/editar/:id" element={<EditPet />} />
         <Route path="/donations" element={<Donaciones />} />
         <Route path="/adopt" element={<DarAdopt />} />
         <Route path="/reviews" element={<Reviews />} />

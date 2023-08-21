@@ -140,20 +140,20 @@ export function updatePet(id, updatedFields) {
   };
 }
 
-export function disablePet(id) {
-  return async function (dispatch) {
-    try {
-      await axios.put(`http://localhost:3001/mascotas/disable/${id}`);
-      dispatch(disablePetSuccess(id)); // Pasar el id como argumento
+// export function disablePet(id) {
+//   return async function (dispatch) {
+//     try {
+//       await axios.put(`http://localhost:3001/mascotas/disable/${id}`);
+//       dispatch(disablePetSuccess(id)); // Pasar el id como argumento
 
-      // Cambiar el estado de status a false en el Redux Store
-      dispatch(updatePetStatus(id, false));
-    } catch (error) {
-      dispatch(disablePetFailure(error)); // Despachar fallo
-      throw error;
-    }
-  };
-}
+//       // Cambiar el estado de status a false en el Redux Store
+//       dispatch(updatePetStatus(id, false));
+//     } catch (error) {
+//       dispatch(disablePetFailure(error)); // Despachar fallo
+//       throw error;
+//     }
+//   };
+// }
 
 export function postUser(user) {
   return async function (dispatch) {
@@ -196,14 +196,27 @@ export function disablePetFailure(error) {
   };
 }
 
-// Agregar una nueva acción para actualizar el estado de status en el Redux Store
+// Actualiza el estado de una mascota para habilitarla o deshabilitarla
 export function updatePetStatus(id, status) {
-  return {
-    type: UPDATE_PET_STATUS,
-    payload: {
-      id,
-      status,
-    },
+  return async function (dispatch) {
+    try {
+      // Realiza la petición para cambiar el estado de la mascota en el servidor
+      await axios.put(`http://localhost:3001/mascotas/status/${id}`, { newStatus: status });
+
+      // Despacha la acción para actualizar el estado de Redux con el nuevo estado de la mascota
+      dispatch({
+        type: UPDATE_PET_STATUS,
+        payload: {
+          id,
+          status,
+        },
+      });
+
+      // Puedes realizar cualquier lógica adicional aquí después de cambiar el estado
+    } catch (error) {
+      console.error("Error al cambiar el estado de la mascota:", error);
+      throw error;
+    }
   };
 }
 

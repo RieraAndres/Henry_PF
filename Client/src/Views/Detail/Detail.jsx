@@ -67,7 +67,7 @@ function Detail() {
                     </Col>
                     <Col>
                         <div>
-                            <UpdateAndDelete mascota={id} />
+                            {/* <UpdateAndDelete mascota={id} /> */}
                         </div>
                     </Col>
                 </Row>      
