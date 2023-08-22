@@ -1,3 +1,9 @@
+.fondo {
+  background-image: url("../../Assets/Fondos/only\ patitas.png");
+  background-position-x: left, right;
+  
+}
+
 /* Estilos para el contenedor de las cards */
 .cardContainer {
     display: inline-block;
@@ -53,7 +59,7 @@
   .carouselSlide button {
     padding: 8px 16px;
     border: none;
-    background-color: #ff6b6b;
+    background-color: #eeb3e7;
     color: white;
     border-radius: 4px;
     cursor: pointer;
@@ -64,7 +70,7 @@
   .carouselSlide .button {
     padding: 8px 16px;
     border: none;
-    background-color: #4caf50;
+    background-color: #C8E6CA;
     color: white;
     border-radius: 4px;
     cursor: pointer;
@@ -73,7 +79,7 @@
   
   /* Estilos para el botón de editar deshabilitado */
   .carouselSlide .buttonDisabled {
-    background-color: grey;
+    background-color: #e3e1db;
   }
   
   /* Estilos para el texto de status */
@@ -104,14 +110,10 @@
       scroll-snap-type: x mandatory;
       gap: 10px;
     }
-  
-    .carouselSlide {
-      flex: 0 0 calc(100% - 10px);
-      scroll-snap-align: start;
-      margin-right: 0;
-    }
+
   }
 
+  
   /* @keyframes carousel {
     0% {
       transform: translateX(0px)

@@ -26,7 +26,8 @@ export const LOGIN_USER_GOOGLE = "LOGIN_USER_GOOGLE";
 export const LOGIN_USER_FACEBOOK = "LOGIN_USER_FACEBOOK";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_UPDATE = "USER_UPDATE";
-export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
+export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD"; 
+export const GET_MY_PETS = "GET_MY_PETS";
 
 export function getPets() {
   return async function (dispatch) {
@@ -439,6 +440,21 @@ export function createUserPassword(
       } else {
         window.alert(error.message);
       }
+    }
+  };
+}
+
+export function getMyPets(id){
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`/mascotas/mispublicaciones/${id}`);
+      console.log(response.data);
+      return dispatch({
+        type: "GET_MY_PETS",
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
     }
   };
 }

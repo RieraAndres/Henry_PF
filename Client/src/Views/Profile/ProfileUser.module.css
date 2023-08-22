@@ -28,6 +28,16 @@
     background-color: #f5b2d3;
 }
 
+.botonMisPublicaciones{
+  padding: 15px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  margin: 20px 5px 0px 44px !important;
+  /* width: 40%; */
+  background-color: #f5b2d3;
+}
+
 .DivFoto{
     border-radius: 20px;
 }

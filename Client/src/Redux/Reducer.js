@@ -27,6 +27,7 @@ import {
 
   USER_UPDATE,
   CREATE_USER_PASSWORD,
+  GET_MY_PETS,
 
 } from "./Actions";
 
@@ -34,6 +35,7 @@ let initialState = {
   allPets: [],
   petsCopy: [],
   auxState: [],
+  myPets:[],
   filters: { size: "", gender: "" },
 
   orden: { orden_age: "", orden_name: "",},
@@ -57,6 +59,12 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         auxState: action.payload,
       };
+
+      case GET_MY_PETS:
+      return {
+        ...state,
+        myPets: action.payload,
+      };
     case GET_PET_BY_NAME:
       return {
         ...state,
@@ -70,7 +78,7 @@ case UPDATE_PET_STATUS:
 
   return {
     ...state,
-    allPets: state.allPets.map((pet) =>
+    myPets: state.myPets.map((pet) =>
       pet.id === updatedPetId ? { ...pet, status: updatedPetStatus } : pet
     ),
   };
