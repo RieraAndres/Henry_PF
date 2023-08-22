@@ -2,9 +2,9 @@ import Table from 'react-bootstrap/Table';
 
 function DonationsTable({donations}) {
 
-      const totalDonationAmount = donations.reduce((total, donation) => {
-        return total + donation.amount;
-      }, 0);
+  const totalDonationAmount = donations.reduce((total, donation) => {
+    return total + parseFloat(donation.amount);
+  }, 0);
   return (
     <div>
       <Table bordered responsive>
