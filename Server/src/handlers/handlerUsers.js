@@ -223,7 +223,7 @@ const handleGetAllUsers = async (req, res) => {
 };
 
 const handleDeleteUser = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.query;
   try {
     if (!id) {
       return res.status(400).json("Ingrese un id");
