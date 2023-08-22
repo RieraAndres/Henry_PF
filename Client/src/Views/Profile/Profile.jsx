@@ -138,15 +138,29 @@ function ProfileUser(){
         <img src={userData.image} alt="Foto de perfil" />
       </div>
       <div className={styles.DivInput}>
-        <div >
-           
-          {isEditing ? (
-           <> <label>Foto de perfil:</label>
-           <input type="file" accept="image/*" name="image" /*value={userData.image}*/ onChange={handleImageChange} /> <br /> </>
-          ) : ( 
-            <span className={styles.spanPerfil}>Foto de Perfil</span>
+      <div>
+      {isEditing ? (
+  <>
+    <label>Foto de perfil:</label>
+    <br />
+    {/* Aplica el estilo personalizado al botón */}
+    <label className={styles.button2}>
+      &#8679; {/* Símbolo de carga */}
+      Seleccionar archivo
+      <input
+        type="file"
+        accept="image/*"
+        name="image"
+        onChange={handleImageChange}
+      />
+    </label>
+    {/* Muestra el nombre del archivo seleccionado */}
+    {isPhotoSelected && <p className={styles.file}>{cloudinaryImage}</p>}
+  </>
+): (
+            <></>
           )}
-        </div>
+      </div>
         <div >
           <label>Nombre:</label>
           {isEditing ? (
