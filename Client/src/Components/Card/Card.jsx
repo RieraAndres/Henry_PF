@@ -28,7 +28,7 @@ function CardComponent({ mascota }) { //traigo mascota desde Cards
   return (
     <div>
       {location.pathname === "/home" ? (
-        <NavLink to={`${id}`} style={{textDecoration: 'none'}}>
+        <NavLink to={`${id}`} style={{textDecoration: 'none'}} className="d-flex justify-content-center align-items-center">
         <div className={styles.card}>
           <div className={styles.divCard}>
             <div>

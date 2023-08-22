@@ -41,15 +41,15 @@ function CardsComponent({ mascotas }) {
   }
 
   return (
-    <div className={styles.CardsContainer}>
-      <Row xs={1} sm={2} md={2} lg={3} className="g-4">
-        {mascotas.map((mascota) => (
-          <Col key={mascota.id}>
-            <Card mascota={mascota} />
-          </Col>
-        ))}
-      </Row>
-    </div>
+      <div className={styles.CardsContainer}>
+        <Row xs={1} sm={2} md={2} lg={3} className="justify-content-center align-items-center" >
+          {mascotas.map((mascota) => (
+            <Col key={mascota.id} className={styles.Container}>
+              <Card mascota={mascota} />
+            </Col>
+          ))}
+        </Row>
+      </div>  
   );
 }
 
