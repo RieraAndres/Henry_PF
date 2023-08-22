@@ -364,6 +364,7 @@ export function updateUser(
   birthdate,
   address,
   numberPhone,
+  image,
   DBpassword,
   userActualPassword,
   userNewPassword
@@ -378,6 +379,7 @@ export function updateUser(
         birthdate,
         address,
         numberPhone,
+        image,
         DBpassword,
         userActualPassword,
         userNewPassword,

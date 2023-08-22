@@ -28,8 +28,10 @@
     background-color: #f5b2d3;
 }
 
-.DivFoto{
-    border-radius: 20px;
+.DivFoto img{
+    width: 20%;
+    height: 20%;
+    border-radius: 50%;
 }
 
 .DivInput div{

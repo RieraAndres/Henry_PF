@@ -1,15 +1,16 @@
 const { User } = require("../../db.js");
 const { comparePassword, hashPassword } = require("../../passwordUtils/passwordUtils.js");
 
-const modifyUser = async (email, name, lastName, userName, birthdate, address, numberPhone, DBpassword, userActualPassword, userNewPassword) => {
+const modifyUser = async (email, name, lastName, image, userName, birthdate, address, numberPhone, DBpassword, userActualPassword, userNewPassword) => {
     try {
         if (!DBpassword && !userActualPassword && !userNewPassword) {
             const [updatedRowsCount, updatedRows] = await User.update(
                 {
+                    image: image,
                     name: name,
                     lastName: lastName,
                     userName: userName,
-                    birthdate: birthdate,
+                    birthdate: birthdate,    
                     address: address,
                     numberPhone: numberPhone,
                 },
@@ -31,10 +32,11 @@ const modifyUser = async (email, name, lastName, userName, birthdate, address, n
                 const newDBpassword =  await hashPassword(userNewPassword);
                 const [updatedRowsCount, updatedRows] = await User.update(
                     {
+                        image: image, 
                         name: name,
                         lastName: lastName,
                         userName: userName,
-                        birthdate: birthdate,
+                        birthdate: birthdate, 
                         address: address,
                         numberPhone: numberPhone,
                         password: newDBpassword
