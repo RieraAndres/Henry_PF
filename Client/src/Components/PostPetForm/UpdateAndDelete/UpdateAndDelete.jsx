@@ -427,6 +427,8 @@ const handleCancel = () => {
                 <select
                   className={styles.selectOptions}
                   name="gender"
+                  id="gender"
+                  value={formData.gender}
                   onChange={handleGeneroSelect}
                   required
                 >
@@ -449,6 +451,8 @@ const handleCancel = () => {
                 <select
                   className={`${styles.selectOptions} ${styles.sizeList}`}
                   name="size"
+                  id="size"
+                  value={formData.size}
                   onChange={handleTamañoSelect}
                   required
                 >
@@ -486,6 +490,7 @@ const handleCancel = () => {
                 className={styles.inputFoto2}
                 name="imageUrl"
                 id="file"
+                // value={formData.imageUrl}
                 required
                 accept="image/*"
                 placeholder="Foto de la mascota"
@@ -652,8 +657,8 @@ const handleCancel = () => {
               <p className={styles.name}>
                   {formData.name}
               </p>
-              <div>{formData.numberPhone}</div>
-              <div>{formData.email}</div>
+              <div className={styles.numberPhonePrew}>{formData.numberPhone}</div>
+              <div className={styles.emailPrew}>{formData.email}</div>
               <div className={styles.decript}>{formData.description}</div>
               <div className={styles.prewUbi}>{formData.location}</div>
 

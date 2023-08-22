@@ -1,4 +1,133 @@
-.imgMisPublicaciones{
-    width: 350px;
-    height: 350px;
+/* Estilos para el contenedor de las cards */
+.cardContainer {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    padding: 20px;
+    margin-top: 150px;
+  }
+  
+  .card {
+    display: inline-flex;
+    width: 100%;
+    position: relative;
+    overflow-x: auto;
+    flex-wrap: nowrap; /* Evita que las cards se colapsen en una sola línea */
+
 }
+
+.carousel{
+    animation: carousel 20s linear infinite;
+}
+  
+  /* Estilos para cada card */
+  .carouselSlide {
+    flex: 0 0 250px; /* Tamaño fijo para cada card */
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 1s ease-in-out; /* Añadido para la transición de movimiento */
+    margin-right: 10px; /* Espacio entre las cards */
+  }
+  
+  /* Estilos para la imagen en cada card */
+  .carouselSlide .imgMisPublicaciones {
+    max-width: 100%;
+    height: 150px; /* Altura fija para las imágenes */
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: center top; /* Alinea la imagen al centro superior */
+  }
+  
+  /* Estilos para los botones */
+  .carouselSlide .buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  /* Estilos para el botón de habilitar/deshabilitar */
+  .carouselSlide button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #ff6b6b;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  
+  /* Estilos para el botón de editar */
+  .carouselSlide .button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  
+  /* Estilos para el botón de editar deshabilitado */
+  .carouselSlide .buttonDisabled {
+    background-color: grey;
+  }
+  
+  /* Estilos para el texto de status */
+  .carouselSlide p {
+    margin-top: 10px;
+  }
+  
+  /* Estilos para el enlace de editar */
+  .carouselSlide a {
+    text-decoration: none;
+  }
+  
+  /* Consultas de medios para adaptabilidad */
+
+  /* Estilos para el formato de PC web */
+@media (min-width: 1024px) {
+    .cardContainer {
+      width: 2090px;
+    }
+  }
+  @media (max-width: 768px) {
+    .cardContainer {
+      margin-top: 100px;
+    }
+  
+    .card {
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      gap: 10px;
+    }
+  
+    .carouselSlide {
+      flex: 0 0 calc(100% - 10px);
+      scroll-snap-align: start;
+      margin-right: 0;
+    }
+  }
+
+  /* @keyframes carousel {
+    0% {
+      transform: translateX(0px)
+    }
+    33.333% {
+      transform: translateX(-200px)
+    }
+    66.666% {
+      transform: translateX(-400px)
+    }
+    99.999% {
+      transform: translateX(-600px)
+    }
+    100% {
+      transform: translateX(0px)
+    }
+  } */
+  
+  

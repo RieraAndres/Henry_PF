@@ -1,11 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../MisPublicaciones/MisPublicaciones.module.css";
 import NavBar from "../../Components/NavBar/NavBar";
 import Footer from "../../Components/Footer/Footer";
-// import styles from "../Home/Home.module.css";
-// import UpdatePetForm from "../../Components/PostPetForm/UpdateAndDelete/UpdateAndDelete"
 import { useParams } from "react-router-dom";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPets, updatePetStatus, getPetDetail } from "../../Redux/Actions";
 import { NavLink } from "react-router-dom";
@@ -13,12 +10,10 @@ import { NavLink } from "react-router-dom";
 function MisPublicaciones() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const allPets = useSelector(state => state.allPets);
+  const allPets = useSelector((state) => state.allPets);
   const mascota = useSelector((state) => state.auxState);
-  const [showEditForm, setShowEditForm] = useState(false);
+
   const [selectedPet, setSelectedPet] = useState(null);
-  console.log("Mis publicaiones: Mascota", mascota);
-  console.log("Mis publicaciones: Allpets: ", allPets);
 
   useEffect(() => {
     dispatch(getPets());
@@ -26,48 +21,104 @@ function MisPublicaciones() {
 
   useEffect(() => {
     dispatch(getPetDetail(id));
+  }, [dispatch, id]);
 
-}, [dispatch, id]);
+  const enabledPets = allPets.filter((pet) => pet.status === true);
+  const disabledPets = allPets.filter((pet) => pet.status === false);
 
-  const handleStatusToggle = (id, currentStatus) => {
+  const handleStatusToggle = async (id, currentStatus) => {
     const status = !currentStatus;
-    dispatch(updatePetStatus(id, status)); // Llama a la acción de habilitar aquí
+    await dispatch(updatePetStatus(id, status));
+    if (!status) {
+      const petToMove = enabledPets.find((pet) => pet.id === id);
+      setSelectedPet(petToMove);
+    } else {
+      setSelectedPet(null);
+    }
   };
 
   const handleEditClick = (pet) => {
     setSelectedPet(pet);
-    setShowEditForm(true);
   };
-
-  console.log(allPets);
 
   return (
     <div>
       <NavBar />
       <h2>Mis Publicaciones</h2>
-      <div className={styles.container}>
-        <div className={styles.pagination}>
-  
-      {allPets.map((pet) => (
-        <div key={pet.id} className={styles.content}>
-          <div className="imgBx">
-            <img className={styles.imgMisPublicaciones} src={pet.imageUrl} alt={pet.name} />
-            {/* <p>className={styles.content}{pet.description}</p> */}
-          </div>
-          <p>{pet.name}</p>
-          <p>Status: {pet.status ? "Habilitado" : "Deshabilitado"}</p>
-          <button onClick={() => handleStatusToggle(pet.id, pet.status)}>
-            {pet.status ? "Deshabilitar" : "Habilitar"}
-          </button>
-          <NavLink to={`/profile/${id}/mispublicaciones/editar/${pet.id}`}>
-            <button className={styles.button} onClick={() => handleEditClick(pet)}>Editar</button> {/* Botón para mostrar el formulario de edición */}
-          </NavLink>
+      <div className={styles.cardContainer}>
+      <h3>Habilitados</h3>
+      <div className={styles.carousel}>
+        <div className={styles.card}>
+          {enabledPets.map((pet) => (
+            <div
+              key={pet.id}
+              className={`${styles.carouselSlide} ${styles.content}`}
+            >
+              {/* Contenido de la tarjeta */}
+              <div className="imgBx">
+                <img
+                  className={styles.imgMisPublicaciones}
+                  src={pet.imageUrl}
+                  alt={pet.name}
+                />
+              </div>
+              <p>{pet.name}</p>
+              <p>
+                Status: {pet.status === true ? "Habilitado" : "Deshabilitado"}
+              </p>
+              <div className="buttons">
+                <button onClick={() => handleStatusToggle(pet.id, pet.status)}>
+                  {pet.status ? "Deshabilitar" : "Habilitar"}
+                </button>
+                <NavLink to={`/profile/${id}/mispublicaciones/editar/${pet.id}`}>
+                  <button
+                    className={styles.button}
+                    onClick={() => handleEditClick(pet)}
+                  >
+                    Editar
+                  </button>
+                </NavLink>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-      {/* {showEditForm && ( // Mostrar el formulario de edición si showEditForm es true
-        <UpdatePetForm petData={mascota} />
-      )} */}
-      </div>
+        </div>
+        <h3>Deshabilitados</h3>
+        <div className={styles.card}>
+          {disabledPets.map((pet) => (
+            <div
+              key={pet.id}
+              className={`${styles.carouselSlide} ${styles.content}`}
+            >
+              {/* Contenido de la tarjeta */}
+              <div className="imgBx">
+                <img
+                  className={styles.imgMisPublicaciones}
+                  src={pet.imageUrl}
+                  alt={pet.name}
+                />
+              </div>
+              <p>{pet.name}</p>
+              <p>
+                Status: {pet.status === true ? "Habilitado" : "Deshabilitado"}
+              </p>
+              <div className="buttons">
+                <button onClick={() => handleStatusToggle(pet.id, pet.status)}>
+                  {pet.status ? "Deshabilitar" : "Habilitar"}
+                </button>
+                <NavLink to={`/profile/${id}/mispublicaciones/editar/${pet.id}`}>
+                  <button
+                    className={styles.buttonDisabled}
+                    onClick={() => handleEditClick(pet)}
+                    disabled={!pet.status} // Deshabilita el botón si la mascota está deshabilitada
+                  >
+                    Editar
+                  </button>
+                </NavLink>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
       <Footer />
     </div>

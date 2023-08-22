@@ -65,6 +65,10 @@ const PostPetForm = () => {
     return googleMapsUrlRegex.test(url);
   };
 
+  const isValidLocation = (location) => {
+    return location.trim() !== ""; // Puedes agregar más validaciones si es necesario
+  };
+
   const validateForm = () => {
     const { name, numberPhone, email, description } = formData;
     const newErrors = {};
@@ -104,8 +108,8 @@ const PostPetForm = () => {
       newErrors.size = "Por favor, seleccione un tamaño";
     }
 
-    if (!isValidGoogleMapsUrl(formData.location)) {
-      newErrors.location = "Por favor, ingrese una ubicación válida de Google Maps";
+    if (!isValidLocation(formData.location)) {
+      newErrors.location = "Por favor, ingrese una ubicación válida";
       setIsLocationValid(false);
     } else {
       setIsLocationValid(true);
@@ -118,9 +122,7 @@ const PostPetForm = () => {
   };
 
   const validateLocation = (locationValue) => {
-    if (!locationValue) {
-      setIsLocationValid(true);
-    } else if (googleMapsUrlRegex.test(locationValue)) {
+    if (isValidLocation(locationValue)) {
       setIsLocationValid(true);
     } else {
       setIsLocationValid(false);

@@ -63,6 +63,18 @@ export default function rootReducer(state = initialState, action) {
         allPets: action.payload,
       };
 
+      // Maneja la actualización del estado de una mascota
+case UPDATE_PET_STATUS:
+  const updatedPetId = action.payload.id;
+  const updatedPetStatus = action.payload.status;
+
+  return {
+    ...state,
+    allPets: state.allPets.map((pet) =>
+      pet.id === updatedPetId ? { ...pet, status: updatedPetStatus } : pet
+    ),
+  };
+
     case POST_PET_SUCCESS:
       return {
         ...state,
@@ -141,15 +153,7 @@ export default function rootReducer(state = initialState, action) {
         allPets: updatedAllPetsAfterDisable,
       };
 
-    case UPDATE_PET_STATUS:
-      return {
-        ...state,
-        petsCopy: state.petsCopy.map((pet) =>
-          pet.id === action.payload.id
-            ? { ...pet, status: action.payload.status }
-            : pet
-        ),
-      };
+
 
     case POST_USER_SUCCESS:
       return {
