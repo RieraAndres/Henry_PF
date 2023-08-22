@@ -42,7 +42,7 @@ function CardsComponent({ mascotas }) {
 
   return (
     <div className={styles.CardsContainer}>
-      <Row xs={1} md={3} className="g-4">
+      <Row xs={1} sm={2} md={2} lg={3} className="g-4">
         {mascotas.map((mascota) => (
           <Col key={mascota.id}>
             <Card mascota={mascota} />

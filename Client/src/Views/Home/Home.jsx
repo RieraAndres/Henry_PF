@@ -67,7 +67,7 @@ function Home() {
   return (
     <div className={styles.fondo}>
       <NavBar />
-      <div style={{ paddingTop: "90px" }}>
+      <div style={{ paddingTop: "110px" }}>
         <FiltersComponent setCurrentPage={setCurrentPage} setActivePage={setActivePage}/>
         <CardsComponents mascotas={currentCards} />
         <div className={styles.pagination}>
