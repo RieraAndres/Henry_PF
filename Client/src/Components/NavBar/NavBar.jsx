@@ -10,7 +10,6 @@ import Col from 'react-bootstrap/Col';
 import Logo from '../../Assets/Logo/logo_PF.png';
 import Menu from '../../Assets/Menu/menu_desplegable.png';
 import SearchBar from '../SearchBar/SearchBar';
-import Reviews from '../../Views/Review/Review';
 import { useDispatch,useSelector } from 'react-redux';
 import { logOutUser } from '../../Redux/Actions';
 
@@ -53,10 +52,12 @@ function NavBar() {
               )}
             </Col>
           </Row>
-          <Row className={styles.welcome}>
-            <Col>
-              <p >Bienvenido {LoggedData.userName}</p>
+          <Row>
+            <Col className={styles.welcome}>
+                <p >Bienvenido {LoggedData.userName}</p>
             </Col>
+          </Row>
+          <Row >
             <Col>
               <Navbar.Toggle aria-controls="navbar-dark-example" />
               <Navbar.Collapse id="navbar-dark-example">
