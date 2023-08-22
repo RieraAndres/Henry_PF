@@ -7,8 +7,8 @@ const modifyUser = require("../controllers/crudUser/putModifyProfileUser.js");
 const createUserPassword = require("../controllers/crudUser/putCreateUserPassword.js");
 const getAllUsers = require("../controllers/crudUser/getAllUsers.js");
 const deleteUser = require("../controllers/crudUser/deleteUser.js");
-const getAllPetsOfUser = require('../controllers/crudUser/getAllPetsOfUser.js');
-const setAdminUser = require('../controllers/crudUser/setAdminUser.js');
+const getAllPetsOfUser = require("../controllers/crudUser/getAllPetsOfUser.js");
+const setAdminUser = require("../controllers/crudUser/setAdminUser.js");
 
 const handlerRegisterUser = async (req, res) => {
   const {
@@ -145,12 +145,12 @@ const handleUserLoginFacebook = async (req, res) => {
 const handlerModifyUser = async (req, res) => {
   let {
     email,
+    image,
     name,
     lastName,
     userName,
     birthdate,
     address,
-    image,
     numberPhone,
     DBpassword,
     userActualPassword,
@@ -162,12 +162,12 @@ const handlerModifyUser = async (req, res) => {
     } else {
       let modifiedUser = await modifyUser(
         email,
+        image,
         name,
         lastName,
         userName,
         birthdate,
         address,
-        image,
         numberPhone,
         DBpassword,
         userActualPassword,
@@ -242,8 +242,10 @@ const handleDeleteUser = async (req, res) => {
 const handleGetAllPetsOfUser = async (req, res) => {
   try {
     const pets = await getAllPetsOfUser();
-    if(pets === null || pets.length === 0){
-      return res.status(404).json({ error: 'Usuario no encontrado, o no ha posteado mascotas'})
+    if (pets === null || pets.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "Usuario no encontrado, o no ha posteado mascotas" });
     }
     return res.status(200).json(pets);
   } catch (error) {
@@ -255,13 +257,13 @@ const handleGetAllPetsOfUser = async (req, res) => {
 const handleSetAdminUser = async (req, res) => {
   const { id } = req.params;
   try {
-    const adminUser = await setAdminUser(id)
+    const adminUser = await setAdminUser(id);
     return res.status(200).json(adminUser);
-  } catch(error) {
-    console.error('Ocurrió un error al actualizar el tipo de usuario');
+  } catch (error) {
+    console.error("Ocurrió un error al actualizar el tipo de usuario");
     return res.status(500).json({ error: error.message });
   }
-}
+};
 
 module.exports = {
   handlerRegisterUser,
