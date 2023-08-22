@@ -3,7 +3,7 @@ const getAllAdoptInfo = require('../controllers/crudAdopt/getAdoptInfo')
 const { User, Mascota } = require('../db');
 
 const handlerAdoptPet = async (req, res) => {
-    const { name, numberPhone, email, birthdate, addressAdoption, dateAdoption, comment } = req.body;
+    const { nameUser, numberPhone, email, birthdate, addressAdoption, dateAdoption,comment } = req.body;
     const { id } = req.params; // ID de la mascota
     try {
         // Verificar si el usuario ya existe en la base de datos
@@ -12,9 +12,10 @@ const handlerAdoptPet = async (req, res) => {
         if (!existingUser) { 
             return res.status(400).json({ error: 'Usuario no registrado. Regístrese antes de Realizar una solicitud de adopción.' });
         }
-        const petToAdopt = await Mascota.findOne({ where: { id : id} });
-        // Crear la solicitud de adopción usando los datos del usuario y los datos específicos de la adopción
-        const createAdopt = await postAdoptPet(id,name, numberPhone, email, birthdate, addressAdoption, dateAdoption, comment);
+        const petInfo = await Mascota.findOne({ where: { id: id } });
+        
+        const createAdopt = await postAdoptPet(id, petInfo.name, petInfo.age, petInfo.location, petInfo.size, petInfo.description, 
+            petInfo.user_id, nameUser, numberPhone, email, birthdate, addressAdoption,dateAdoption, comment);
 
         return res.status(201).json({ message: 'Solicitud de adopción creada exitosamente', data: createAdopt });
     } catch (error) {
