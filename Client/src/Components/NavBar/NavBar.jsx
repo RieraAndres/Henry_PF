@@ -17,6 +17,7 @@ function NavBar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const LoggedData = useSelector(state=>state.userData)
+  console.log(LoggedData);
   
   // Aplica la clase de posición fija solo si estás en la página exacta "/home"
   const isHomePage = location.pathname === '/home';
@@ -51,10 +52,12 @@ function NavBar() {
               )}
             </Col>
           </Row>
-          <Row className={styles.welcome}>
-            <Col>
-              <p >Bienvenido {LoggedData.userName}</p>
+          <Row>
+            <Col className={styles.welcome}>
+                <p >Bienvenido {LoggedData.userName}</p>
             </Col>
+          </Row>
+          <Row >
             <Col>
               <Navbar.Toggle aria-controls="navbar-dark-example" />
               <Navbar.Collapse id="navbar-dark-example">
@@ -75,6 +78,12 @@ function NavBar() {
                     </NavLink>
                     <NavLink to={'/info'} className="dropdown-item"  activeClassName="active">
                      ¿Como adoptar?
+                    </NavLink>
+                    {LoggedData.typeUser === "Admin" && 
+                    <NavLink to={'/admindashboard'} className="dropdown-item" activeClassName="active">Dashboard</NavLink>
+                  }
+                    <NavLink to={'/reviews'} className="dropdown-item"  activeClassName="active">
+                     Reseñas
                     </NavLink>
                     <NavDropdown.Item onClick={HandleLogOut}>Salir</NavDropdown.Item>
                   </NavDropdown>

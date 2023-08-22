@@ -1,67 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { updatePet, disablePet, getPetDetail, clearAux } from "../../../Redux/Actions";
+import { updatePet } from "../../../Redux/Actions";
 import styles from '../../../Components/PostPetForm/PostPetForm.module.css';
 import miniPerroImage from "../AssetsForm/miniGato.jpg";
 import miniGatoImage from "../AssetsForm/miniGato.jpg";
 import axios from 'axios';
 
-const UpdatePetForm = () => {
-  const { id } = useParams();
+const UpdatePetForm = ({ petData }) => {
+    const { id } = useParams();
   const navigate = useNavigate(); // Obtenemos el objeto history
   const dispatch = useDispatch();
-  const mascota = useSelector((state) => state.auxState);
+  
+  const user = useSelector((state) => state.userData);
 
-  useEffect(() => {
-    dispatch(getPetDetail(id))
-    return() => {
-      dispatch(clearAux());
-    };
-  }, [dispatch, id])
-
-  useEffect(() => {
-  if (mascota) {
-
-    setFormData({
-      name: mascota.name || '',
-      numberPhone: mascota.numberPhone || '',
-      email: mascota.email || '',
-      description: mascota.description || '',
-      location: mascota.location || '',
-      age: mascota.age || '',
-      imageUrl: mascota.imageUrl || '',
-      specie: mascota.specie || '',
-      gender: mascota.gender || '',
-      size: mascota.size || '',
-    });
-    // Autocompletar campos de "email" y "numberPhone"
-  setFormData((prevFormData) => ({
-    ...prevFormData,
-    email: mascota.email || prevFormData.email,
-    numberPhone: mascota.numberPhone || prevFormData.numberPhone,
-  }));
-  }
-}, [mascota]);
-
-
-  const [formData, setFormData] = useState({});
-   /* name: mascota.name || '',
-    numberPhone: mascota.numberPhone || '',
-    email: mascota.email || '',
-    description: mascota.description || '',
-    location: mascota.location || '',
-    age: mascota.age || '',
-    imageUrl: mascota.imageUrl || '',
-    specie: mascota.specie || '',
-    gender: mascota.gender || '',
-    size: mascota.size || '',
-  });*/
+  const [formData, setFormData] = useState({
+    name: petData.name || '',
+    numberPhone: user.numberPhone || '',
+    email: user.email || '',
+    description: petData.description || '',
+    location: petData.location || '',
+    age: petData.age || '',
+    imageUrl: petData.imageUrl || '',
+    specie: petData.specie || '',
+    gender: petData.gender || '',
+    size: petData.size || '',
+  });
 
   // const [nameChange, setNameChange] = useState(petData.name);
-  const [especieSelect, setEspecieSelect] = useState(mascota.specie || '');
-  const [generoSelect, setGeneroSelect] = useState(mascota.gender || '');
-  const [tamañoSelect, setTamañoSelect] = useState(mascota.size || '');
+  const [especieSelect, setEspecieSelect] = useState(petData.specie || '');
+  const [generoSelect, setGeneroSelect] = useState(petData.gender || '');
+  const [tamañoSelect, setTamañoSelect] = useState(petData.size || '');
   const [isAgeModified, setIsAgeModified] = useState(false);
   const [isLocationValid, setIsLocationValid] = useState(true);
   const [isPhotoChange, setIsPhotoChange] = useState(false);
@@ -90,22 +59,24 @@ const UpdatePetForm = () => {
   
 
   useEffect(() => {
-    if (!mascota.status) {
-      setIsDisabled(false);
+    // console.log(petData.status)
+    if (!petData.status) {
+    //   console.log("Esto es dentro de  petData.status:",setIsDisabled);
+      setIsDisabled(true);
     }
 
     // Actualiza las opciones seleccionadas con los valores de petData
-  setEspecieSelect(mascota.specie || ''); // Opción por defecto
-  setGeneroSelect(mascota.gender || ''); // Opción por defecto
-  setTamañoSelect(mascota.size || '');   // Opción por defecto
+  setEspecieSelect(petData.specie || ''); // Opción por defecto
+  setGeneroSelect(petData.gender || ''); // Opción por defecto
+  setTamañoSelect(petData.size || '');   // Opción por defecto
 
   // Autocompletar campos de "email" y "numberPhone"
   setFormData((prevFormData) => ({
     ...prevFormData,
-    email: mascota.email || prevFormData.email,
-    numberPhone: mascota.numberPhone || prevFormData.numberPhone,
+    email: user.email || prevFormData.email,
+    numberPhone: user.numberPhone || prevFormData.numberPhone,
   }));
-}, [mascota.status, mascota.specie, mascota.gender, mascota.size, mascota.email, mascota.numberPhone]);
+}, [petData.status, petData.specie, petData.gender, petData.size, user.email, user.numberPhone]);
 
 
 useEffect(() => {
@@ -317,6 +288,8 @@ useEffect(() => {
       validateLocation(value);
     }
 
+    
+
     // if (name === "name") {
     //   setNameChange(value); // Actualiza el estado nameChange
     // }
@@ -328,7 +301,7 @@ useEffect(() => {
   const handleUpdate = async (e) => {
     e.preventDefault();
   
-
+    console.log("handleUpdate antes: ",isDisabled);
   if (isDisabled) {
     alert("Esta mascota está deshabilitada y no puede ser actualizada.");
     return;
@@ -351,7 +324,7 @@ useEffect(() => {
     };
 
     try {
-      dispatch(updatePet(mascota.id, updatedFields));
+      dispatch(updatePet(petData.id, updatedFields));
       setFormSubmitted(true);
       console.log("Pet updated successfully"); // Add this line
       alert("Mascota actualizada exitosamente");
@@ -365,21 +338,21 @@ useEffect(() => {
   }
 };
 
-const handleDisable = async () => {
-  try {
-    await dispatch(disablePet(mascota.id));
-    setIsDisabled(true);
-    console.log("Pet disabled successfully");
-    alert("Mascota desactivada exitosamente");
-    // Puedes realizar cualquier lógica adicional aquí después de cambiar el estado
-  } catch (error) {
-    console.log("Error disabling pet:", error);
-  }
-};
+// const handleDisable = async () => {
+//   try {
+//     await dispatch(disablePet(petData.id));
+//     setIsDisabled(true);
+//     console.log("Pet disabled successfully");
+//     alert("Mascota desactivada exitosamente");
+//     // Puedes realizar cualquier lógica adicional aquí después de cambiar el estado
+//   } catch (error) {
+//     console.log("Error disabling pet:", error);
+//   }
+// };
 
 const handleCancel = () => {
   // Regresar a la página de detalles
-  navigate(-1);
+  navigate(`/profile/${id}/mispublicaciones`);
 };
 
   const selectStyle = {
@@ -652,9 +625,9 @@ const handleCancel = () => {
   {submitButtonText}
 </button>
 
-<button onClick={handleDisable} className={styles.createBtn}>
+{/* <button onClick={handleDisable} className={styles.createBtn}>
   Desactivar Mascota
-</button>
+</button> */}
 <button onClick={handleCancel} className={styles.createBtn}>
   Cancelar
 </button>
