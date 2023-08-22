@@ -75,5 +75,16 @@ export function validate(userData) {
   if (userData.name.length < 2 || userData.name.length > 50) {
     errors.name = "El nombre de tener entre 2 y 50 caracteres";
   }
+
+  //valida image
+  if (!userData.image) {
+    errors.image = "Por favor, inserte una imagen";
+  } else {
+    const allowedTypes = ["image/jpeg", "image/png", "image/psd", "image/gif", "text"];
+    if(!allowedTypes.includes(userData.image.type)) {
+      errors.image = "El formato de imagen debe ser: .jpg, .png, .psd o .gif";
+    }
+  }
+
   return errors;
 }

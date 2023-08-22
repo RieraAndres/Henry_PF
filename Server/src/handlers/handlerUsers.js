@@ -145,6 +145,7 @@ const handleUserLoginFacebook = async (req, res) => {
 const handlerModifyUser = async (req, res) => {
   let {
     email,
+    image,
     name,
     lastName,
     userName,
@@ -161,6 +162,7 @@ const handlerModifyUser = async (req, res) => {
     } else {
       let modifiedUser = await modifyUser(
         email,
+        image,
         name,
         lastName,
         userName,
