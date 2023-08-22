@@ -1,23 +1,31 @@
-const { User, Mascota } = require('../../db.js');
+const { User, Mascota, Donacion, Review } = require("../../db.js");
 
-const getAllPetsOfUser = async() => {
+const getAllDataOfUser = async (id) => {
   try {
-    const users =  await User.findAll({
-      include: {
-        model: Mascota,
-        as: 'mascotas',
-        required: true
-      }  
+    const user = await User.findOne({
+      where: { id },
+      include: [
+        {
+          model: Mascota,
+          as: "mascotas",
+          require: false,
+        },
+        {
+          model: Donacion,
+          as: "donaciones",
+          require: false,
+        },
+      ],
     });
-    
-    if(!users){
-    	return null;
+
+    if (!user) {
+      return null;
     }
 
-    return users
+    return user;
   } catch (error) {
     console.log(error);
-  } 
-}
+  }
+};
 
-module.exports = getAllPetsOfUser;
+module.exports = getAllDataOfUser;

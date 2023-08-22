@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from '../Profile/ProfileUser.module.css';
 import NavBar from "../../Components/NavBar/NavBar";
 import Footer from "../../Components/Footer/Footer";
+import { NavLink } from "react-router-dom"
 import { useSelector,useDispatch } from 'react-redux';
 import { createUserPassword, updateUser } from '../../Redux/Actions';
 import { validate } from './formValidator';
@@ -308,7 +309,10 @@ function ProfileUser(){
            {user.password && <button className={styles.boton} onClick={handleShowClick}>Editar</button>} 
           </div>    
         )}
-      <div> 
+      <div>
+      <NavLink to={`/profile/${user.id}/mispublicaciones`} style={{ color: 'blue', fontWeight: 'bold' }}>
+    <button>Mis Publicaciones</button>
+  </NavLink> 
         </div>
       </div>
       <Footer className={styles.Footer}/>

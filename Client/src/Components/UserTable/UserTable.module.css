@@ -1,0 +1,16 @@
+.delete{
+    background-color: rgb(146, 33, 33);
+    width: 80%;
+    color: white;
+}
+
+.see{
+    background-color: rgb(28, 65, 28);
+    width: 80%;
+    color: white;
+}
+
+.type{
+    background-color: orange;
+    width: 80%;
+}

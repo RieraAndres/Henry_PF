@@ -7,8 +7,8 @@ function Inicio() {
         <p className={styles.paragraphAdopt}>
         ¿ESTÁS INTERESADO EN ADOPTAR?
       </p>
-      <NavLink to="/home" className={styles.buttonAdopt}> Mascotas en adopcion </NavLink>
-      <NavLink to="/adopt" className={styles.buttonGive}>Dar en adopcion</NavLink>
+      <NavLink to="/home" className={styles.buttonAdopt}> Mascotas en adopción </NavLink>
+      <NavLink to="/adopt" className={styles.buttonGive}>Dar en adopción</NavLink>
       <p className={styles.paragraphGive}>
         EL AMOR NO SE PUEDE COMPRAR
       </p>

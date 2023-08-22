@@ -7,7 +7,7 @@ const modifyUser = require("../controllers/crudUser/putModifyProfileUser.js");
 const createUserPassword = require("../controllers/crudUser/putCreateUserPassword.js");
 const getAllUsers = require("../controllers/crudUser/getAllUsers.js");
 const deleteUser = require("../controllers/crudUser/deleteUser.js");
-const getAllPetsOfUser = require("../controllers/crudUser/getAllPetsOfUser.js");
+const getAllDataOfUser = require("../controllers/crudUser/getAllPetsOfUser.js");
 const setAdminUser = require("../controllers/crudUser/setAdminUser.js");
 
 const handlerRegisterUser = async (req, res) => {
@@ -230,24 +230,24 @@ const handleDeleteUser = async (req, res) => {
     }
     const user = await deleteUser(id);
     if (user === 1) {
-      return res.status(200).json("Usuario eliminado");
+      return res.status(200).json(`Usuario con ID:${id} eliminado`);
     } else {
-      return res.status(200).json("Eliminacion fallida");
+      return res.status(400).json("Eliminacion fallida");
     }
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
 
-const handleGetAllPetsOfUser = async (req, res) => {
+const handleGetAllDataOfUser = async (req, res) => {
+  const { id } = req.query;
   try {
-    const pets = await getAllPetsOfUser();
+    const pets = await getAllDataOfUser(id);
     if (pets === null || pets.length === 0) {
-      return res
-        .status(404)
-        .json({ error: "Usuario no encontrado, o no ha posteado mascotas" });
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    } else {
+      return res.status(200).json(pets);
     }
-    return res.status(200).json(pets);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: error.message });
@@ -255,7 +255,7 @@ const handleGetAllPetsOfUser = async (req, res) => {
 };
 
 const handleSetAdminUser = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.body;
   try {
     const adminUser = await setAdminUser(id);
     return res.status(200).json(adminUser);
@@ -275,6 +275,6 @@ module.exports = {
   handleCreateUserPassword,
   handleGetAllUsers,
   handleDeleteUser,
-  handleGetAllPetsOfUser,
+  handleGetAllDataOfUser,
   handleSetAdminUser,
 };
