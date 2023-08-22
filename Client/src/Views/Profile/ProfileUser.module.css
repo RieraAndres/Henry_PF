@@ -206,3 +206,8 @@
   .error{
     color: red;
   }
+
+  /* Estilo personalizado para el input de tipo file */
+input[type="file"] {
+  display: none; /* Ocultar el input real */
+}
