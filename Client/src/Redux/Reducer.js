@@ -18,16 +18,27 @@ import {
   USER_LOGIN_SUCCESS,
   GET_USER_DATA,
   LOGIN_USER_GOOGLE,
-  LOGIN_USER_FACEBOOK,
   USER_LOGOUT,
-
   POST_DONATION,
   POST_DONATION_SUCCESS,
   POST_DONATION_FAILURE,
-
   USER_UPDATE,
   CREATE_USER_PASSWORD,
+
   GET_MY_PETS,
+
+
+  GET_ALL_USERS,
+  DELETE_USER,
+  CLEAR_ALERTS_STATE,
+  GET_ALL_REVIEWS,
+  CHANGE_USER_TYPE,
+  GET_ALL_USER_DATA,
+  DELETE_PET_DB,
+  GET_ALL_DONATIONS,
+  GET_REVIEWS,
+  CREATE_REVIEW,
+  GET_USER_REVIEWS,
 
 } from "./Actions";
 
@@ -37,12 +48,18 @@ let initialState = {
   auxState: [],
   myPets:[],
   filters: { size: "", gender: "" },
+  userCreated: false,
+  orden: { orden_age: "", orden_name: "" },
+  userData: {},
+  userLogedIn: null,
+  donations: [],
+  allUsers: [],
+  alerts: "",
+  allReviews: [],
+  allDonations: [],
+  createReview: {},
+  UserReviews:[],
 
-  orden: { orden_age: "", orden_name: "",},
-  userCreated:false,
-  userData:{},
-  userLogedIn:null,
-  donations: []
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -171,8 +188,8 @@ case UPDATE_PET_STATUS:
     case POST_USER_FAILURE:
       return {
         ...state, // al haber error seteo en false el estado
-        userCreated:false
-      }
+        userCreated: false,
+      };
 
     case POST_DONATION_SUCCESS:
       return {
@@ -180,7 +197,7 @@ case UPDATE_PET_STATUS:
         donationCreated: true,
         error: null,
         donations: action.payload,
-      }
+      };
 
     case POST_DONATION:
       return {
@@ -188,7 +205,7 @@ case UPDATE_PET_STATUS:
         donationCreated: true,
         error: null,
         donations: action.payload,
-      }
+      };
 
     case POST_DONATION_FAILURE:
       return {
@@ -196,30 +213,23 @@ case UPDATE_PET_STATUS:
         donationCreated: false,
         error: action.payload,
         donations: [],
-      }
-   
+      };
+
     case USER_LOGIN_SUCCESS:
       return {
         ...state,
         userLogedIn: true,
         userData: action.payload,
       };
-      
-    case GET_USER_DATA:
-      return{
-        ...state,
-        userLogedIn: true,
-        userData: action.payload
-      }
 
-    case LOGIN_USER_GOOGLE:
+    case GET_USER_DATA:
       return {
         ...state,
         userLogedIn: true,
         userData: action.payload,
       };
 
-    case LOGIN_USER_FACEBOOK:
+    case LOGIN_USER_GOOGLE:
       return {
         ...state,
         userLogedIn: true,
@@ -243,6 +253,75 @@ case UPDATE_PET_STATUS:
         userData: action.payload,
       };
     }
+
+    case GET_ALL_USERS: {
+      return {
+        ...state,
+        allUsers: action.payload,
+      };
+    }
+    case DELETE_USER: {
+      return {
+        ...state,
+        alerts: action.payload,
+      };
+    }
+    case GET_ALL_REVIEWS: {
+      return {
+        ...state,
+        allReviews: action.payload,
+      };
+    }
+    case CHANGE_USER_TYPE: {
+      return {
+        ...state,
+        alerts: action.payload,
+      };
+    }
+
+    case DELETE_PET_DB: {
+      return {
+        ...state,
+        alerts: action.payload,
+      };
+    }
+
+    case GET_ALL_USER_DATA: {
+      return {
+        ...state,
+        auxState: action.payload,
+      };
+    }
+
+    case GET_ALL_DONATIONS: {
+      return {
+        ...state,
+        allDonations: action.payload,
+      };
+    }
+
+    case CLEAR_ALERTS_STATE: {
+      return {
+        ...state,
+        alerts: "",
+      };
+    }
+    case GET_REVIEWS:
+      return {
+        ...state,
+        allReviews: action.payload,
+      };
+    case CREATE_REVIEW:
+      return {
+        ...state,
+        createReview: action.payload,
+      }
+    case GET_USER_REVIEWS:
+      return {
+        ...state,
+        UserReviews: action.payload,
+      };
+    
     default:
       return {
         ...state,

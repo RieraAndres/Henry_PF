@@ -30,6 +30,10 @@
     width: 100%;
 }
 
+.welcome{
+    margin-top: 10%;
+}
+
 @media screen and (max-width: 768px){
     .SearchBarColum{
         width: 80%;
@@ -37,12 +41,20 @@
     .logo{
         width: 25px;
     }
+
+    .welcome p{
+        font-size: 12px ;
+    }
 }
 
-.welcome{
-    margin-top: 2%;
-    margin-right: -10%;
+@media screen and (max-width: 450px){
+    
+
+    .welcome p{
+        font-size: 10px ;
+    }
 }
+
 
 
 

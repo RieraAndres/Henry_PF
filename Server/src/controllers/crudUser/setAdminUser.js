@@ -1,22 +1,21 @@
-const { User } = require('../../db');
+const { User } = require("../../db");
 
 const setAdminUser = async (id) => {
-	const user = await User.findOne({
-		where: {
-			typeUser: 'Adopter',
-		}
-	});
+  const user = await User.findOne({
+    where: {
+      id: id,
+    },
+  });
 
-	if(!user){
-		throw new Error('Usuario no encontrado');
-	}
+  if (!user) {
+    throw new Error("Usuario no encontrado");
+  } else if (user.typeUser === "Admin") {
+    await user.update({ typeUser: "Adopter" });
+  } else {
+    await user.update({ typeUser: "Admin" });
+  }
 
-	if (user.typeUser === 'Admin') {
-      throw new Error('El usuario ya es un administrador.');
-    }
-
-	await user.update({ typeUser: 'Admin' });
-	return user
-}
+  return user;
+};
 
 module.exports = setAdminUser;

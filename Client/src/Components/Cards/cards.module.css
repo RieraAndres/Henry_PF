@@ -1,5 +1,6 @@
-.CardsContainer{
-    margin-left: 13%;
-    margin-right: 10%;
-    margin-top: 0%;
+.Container{
+    display: block;
+    width: 400px;
 }
+
+

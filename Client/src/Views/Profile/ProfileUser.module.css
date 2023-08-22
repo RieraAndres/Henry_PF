@@ -28,6 +28,7 @@
     background-color: #f5b2d3;
 }
 
+
 .botonMisPublicaciones{
   padding: 15px;
   border: none;
@@ -40,6 +41,12 @@
 
 .DivFoto{
     border-radius: 20px;
+
+.DivFoto img{
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+
 }
 
 .DivInput div{
@@ -63,6 +70,15 @@
 
 .DivInput div span{
     margin-left: 6px;
+}
+
+.DivInput .spanPerfil{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
 .BotonActualizar {
@@ -205,3 +221,8 @@
   .error{
     color: red;
   }
+
+  /* Estilo personalizado para el input de tipo file */
+input[type="file"] {
+  display: none; /* Ocultar el input real */
+}
