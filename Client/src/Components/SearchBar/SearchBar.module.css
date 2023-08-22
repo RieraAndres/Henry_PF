@@ -41,3 +41,14 @@
         font-size: 15px;
     }
 }
+
+@media screen and (max-width: 450px) {
+    .textBox{
+        width: 60%;
+        height: 15px;
+        font-size: 10px;
+    }
+    .button{
+        font-size: 10px;
+    }
+}
