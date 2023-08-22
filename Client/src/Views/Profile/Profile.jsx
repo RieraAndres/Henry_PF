@@ -143,7 +143,7 @@ function ProfileUser(){
            <> <label>Foto de perfil:</label>
            <input type="file" accept="image/*" name="image" /*value={userData.image}*/ onChange={handleImageChange} /> <br /> </>
           ) : ( 
-            <span>Foto de Perfil</span>
+            <span className={styles.spanPerfil}>Foto de Perfil</span>
           )}
         </div>
         <div >
