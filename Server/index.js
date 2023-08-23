@@ -2,7 +2,7 @@ const server = require('./src/app')
 const express = require('express');
 const { conn } = require('./src/db') //conexion con la DB
 
-const port = process.env.PORT || 3012
+const port = process.env.PORT || 3001
 
 conn.sync({ force: false }).then(() => {
     server.listen(port, () => {
