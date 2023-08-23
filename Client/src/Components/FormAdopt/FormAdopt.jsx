@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "../FormAdopt/FormAdopt.module.css";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { submitAdoptionRequest } from '../../Redux/Actions';
 
 const FormAdopt = ({petId}) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.userData);
-  
   const [formData, setFormData] = useState({
     nameUser: "",
     numberPhone: user.numberPhone || '',
@@ -329,6 +327,7 @@ const FormAdopt = ({petId}) => {
                 style={{ resize: "none" }} // Bloquear el estiramiento del textarea
                 minLength="10"
                 maxLength="300"
+                //className={styles.input}
                 required
                 autoComplete="off"
                 placeholder="¿Por qué quieres adoptar?"

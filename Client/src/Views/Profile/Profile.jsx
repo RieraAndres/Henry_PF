@@ -255,14 +255,13 @@ function ProfileUser(){
           </div>
         ) : (
           <div>
-           {user.password && <button className={styles.boton} onClick={handleShowClick}>Editar</button>}
-           <NavLink to={`/profile/${user.id}/mispublicaciones`} style={{ color: 'blue', fontWeight: 'bold' }}>
-    <button className={styles.botonMisPublicaciones}>Mis Publicaciones</button>
-  </NavLink>  
+           {user.password && <button className={styles.boton} onClick={handleShowClick}>Editar</button>} 
           </div>    
         )}
       <div>
-      
+      <NavLink to={`/profile/${user.id}/mispublicaciones`} style={{ color: 'blue', fontWeight: 'bold' }}>
+    <button>Mis Publicaciones</button>
+  </NavLink> 
         </div>
       </div>
       <Footer className={styles.Footer}/>

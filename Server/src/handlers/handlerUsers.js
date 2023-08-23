@@ -251,15 +251,15 @@ const handleGetAllPetsOfUser = async (req, res) => {
 };
 
 const handleSetAdminUser = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.body;
   try {
-    const adminUser = await setAdminUser(id)
+    const adminUser = await setAdminUser(id);
     return res.status(200).json(adminUser);
-  } catch(error) {
-    console.error('Ocurrió un error al actualizar el tipo de usuario');
+  } catch (error) {
+    console.error("Ocurrió un error al actualizar el tipo de usuario");
     return res.status(500).json({ error: error.message });
   }
-}
+};
 
 module.exports = {
   handlerRegisterUser,

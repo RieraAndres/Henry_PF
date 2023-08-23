@@ -20,22 +20,29 @@ import {
   LOGIN_USER_GOOGLE,
   LOGIN_USER_FACEBOOK,
   USER_LOGOUT,
-
   POST_DONATION,
   POST_DONATION_SUCCESS,
   POST_DONATION_FAILURE,
-
   USER_UPDATE,
   CREATE_USER_PASSWORD,
   GET_MY_PETS,
-
+  GET_ALL_USERS,
+  DELETE_USER,
+  CLEAR_ALERTS_STATE,
+  GET_ALL_REVIEWS,
+  CHANGE_USER_TYPE,
+  GET_ALL_USER_DATA,
+  DELETE_PET_DB,
+  GET_ALL_DONATIONS,
+  GET_REVIEWS,
+  CREATE_REVIEW,
+  GET_USER_REVIEWS,
 } from "./Actions";
 
 let initialState = {
   allPets: [],
   petsCopy: [],
   auxState: [],
-  myPets:[],
   filters: { size: "", gender: "" },
 
   orden: { orden_age: "", orden_name: "",},
@@ -59,29 +66,11 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         auxState: action.payload,
       };
-
-      case GET_MY_PETS:
-      return {
-        ...state,
-        myPets: action.payload,
-      };
     case GET_PET_BY_NAME:
       return {
         ...state,
         allPets: action.payload,
       };
-
-      // Maneja la actualización del estado de una mascota
-case UPDATE_PET_STATUS:
-  const updatedPetId = action.payload.id;
-  const updatedPetStatus = action.payload.status;
-
-  return {
-    ...state,
-    myPets: state.myPets.map((pet) =>
-      pet.id === updatedPetId ? { ...pet, status: updatedPetStatus } : pet
-    ),
-  };
 
     case POST_PET_SUCCESS:
       return {
@@ -161,7 +150,15 @@ case UPDATE_PET_STATUS:
         allPets: updatedAllPetsAfterDisable,
       };
 
-
+    case UPDATE_PET_STATUS:
+      return {
+        ...state,
+        petsCopy: state.petsCopy.map((pet) =>
+          pet.id === action.payload.id
+            ? { ...pet, status: action.payload.status }
+            : pet
+        ),
+      };
 
     case POST_USER_SUCCESS:
       return {
