@@ -20,11 +20,13 @@ function EditPet() {
 
     return (
         <div className={styles.fondo}>
-            <NavBar />
-            {selectedPet && ( // Mostrar el formulario de edición solo si hay una mascota seleccionada
-                <UpdatePetForm petId={id} petData={selectedPet} />
-            )}
-            <Footer />
+                <NavBar />
+            <div className={styles.container}>
+                {selectedPet && ( // Mostrar el formulario de edición solo si hay una mascota seleccionada
+                    <UpdatePetForm petId={id} petData={selectedPet} />
+                )}
+                <Footer />
+            </div>
         </div>
     );
 }
