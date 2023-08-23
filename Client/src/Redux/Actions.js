@@ -43,7 +43,7 @@ export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
 export function getPets() {
   return async function (dispatch) {
     try {
-      const response = await axios(`http://localhost:3001/mascotas`); //traigo todas las mascotas
+      const response = await axios(`/mascotas`); //traigo todas las mascotas
       return dispatch({
         type: "GET_PETS",
         payload: response.data,
@@ -58,7 +58,7 @@ export function getPetDetail(id) {
   //para traer por id y renderizar los datos en detail
   return async function (dispatch) {
     try {
-      const response = await axios.get(`http://localhost:3001/mascotas/${id}`);
+      const response = await axios.get(`/mascotas/${id}`);
       return dispatch({
         type: "GET_PET_DETAIL",
         payload: response.data,
@@ -73,7 +73,7 @@ export function getPetsByName(name) {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        `http://localhost:3001/mascotas?name=${name}`
+        `/mascotas?name=${name}`
       );
       return dispatch({
         type: "GET_PET_BY_NAME",
@@ -89,7 +89,7 @@ export function getPetsByName(name) {
 export function postPet(formData) {
   return async function (dispatch) {
     try {
-      await axios.post("http://localhost:3001/mascotas", formData);
+      await axios.post("/mascotas", formData);
       dispatch({
         type: POST_PET_SUCCESS,
       });
@@ -118,7 +118,7 @@ export const applyFilters = (filters, orden) => {
   return async function (dispatch) {
     try {
       const queryString = `specie=${filters.specie}&size=${filters.size}&gender=${filters.gender}&orden=${orden.orden}`;
-      const response = await axios.get(`http://localhost:3001/mascotas/filter?${queryString}`, {
+      const response = await axios.get(`/mascotas/filter?${queryString}`, {
         ...filters,
         ...orden,
       });
@@ -143,7 +143,7 @@ export const applyFilters = (filters, orden) => {
 export function updatePet(id, updatedFields) {
   return async function (dispatch) {
     try {
-      await axios.put(`http://localhost:3001/mascotas/${id}`, updatedFields);
+      await axios.put(`/mascotas/${id}`, updatedFields);
       console.log("Pet updated successfully"); // Add this line
       // Puedes realizar cualquier lógica adicional aquí después de la actualización
     } catch (error) {
@@ -171,7 +171,7 @@ export function updatePet(id, updatedFields) {
 export function postUser(user) {
   return async function (dispatch) {
     try {
-      const response = await axios.post("http://localhost:3001/usuario/userLog", user);
+      const response = await axios.post("/usuario/userLog", user);
       
       // Si el servidor devuelve un código de estado 201 (creado), muestra el mensaje de éxito
       if (response.status === 201) {
@@ -219,7 +219,7 @@ export function updatePetStatus(id, status) {
   return async function (dispatch) {
     try {
       // Realiza la petición para cambiar el estado de la mascota en el servidor
-      await axios.put(`http://localhost:3001/mascotas/status/${id}`, {
+      await axios.put(`/mascotas/status/${id}`, {
         newStatus: status,
       });
 
@@ -252,7 +252,7 @@ export function logInUser(userName, password) {
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        `http://localhost:3001/loginAuth/login`,
+        `/loginAuth/login`,
         { userName, password }
       );
 
@@ -264,7 +264,7 @@ export function logInUser(userName, password) {
       }
       // Ahora, obtenemos los datos del usuario logueado utilizando la ruta userData
       const userResponse = await axios.get(
-        `http://localhost:3001/usuario/userData?userName=${userName}`
+        `/usuario/userData?userName=${userName}`
       );
       dispatch({
         type: GET_USER_DATA,
@@ -291,7 +291,7 @@ export function logOutUser() {
 
 export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
   try {
-    await axios.post(`http://localhost:3001/mascotas/${petId}/adopt`, formData);
+    await axios.post(`/mascotas/${petId}/adopt`, formData);
     // Puedes realizar cualquier lógica adicional aquí después de enviar la solicitud
   } catch (error) {
     throw error;
@@ -303,7 +303,7 @@ export function loginUserGoogle(email, name, lastName) {
     try {
       const randomNumber = Math.floor(Math.random() * 1000) + 1;
       const userNameWithRandomNumber = name + lastName + randomNumber;
-      const response = await axios.get(`http://localhost:3001/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`)
+      const response = await axios.get(`/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`)
       return dispatch({
         type: LOGIN_USER_GOOGLE,
         payload: response.data
@@ -324,7 +324,7 @@ export function postDonationAndMercadoPago(
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        `http://localhost:3001/donations/payment`,
+        `/donations/payment`,
         donationData
       );
       const { preferenceId, donate } = response.data;
@@ -344,7 +344,7 @@ export function postDonationAndMercadoPago(
 
       if (mp_payment_id && mp_status) {
         const resMpago = await axios.post(
-          `http://localhost:3001/donations/success`,
+          `/donations/success`,
           {
             donationId: donate.id,
             mp_payment_id,
