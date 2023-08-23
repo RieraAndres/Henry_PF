@@ -96,3 +96,10 @@
   transform: translateY(0px);
   transition-duration: 0.3s;
 }
+
+
+.tamaño{
+  font-size: 25px;
+  color: #000000;
+  font-weight: bold;
+}
