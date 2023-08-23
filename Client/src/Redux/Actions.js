@@ -1,7 +1,5 @@
 import axios from "axios";
 
-
-
 export const GET_PETS = "GET_PETS";
 export const GET_PET_DETAIL = "GET_PET_DETAIL";
 export const GET_PET_BY_NAME = "GET_PET_BY_NAME";
@@ -28,17 +26,7 @@ export const LOGIN_USER_GOOGLE = "LOGIN_USER_GOOGLE";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_UPDATE = "USER_UPDATE";
 export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
-export const GET_ALL_USERS = "GET_ALL_USERS";
-export const DELETE_USER = "DELETE_USER";
-export const CLEAR_ALERTS_STATE = "CLEAR_ALERTS_STATE";
-export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
-export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
-export const GET_ALL_USER_DATA = "GET_ALL_USER_DATA";
-export const DELETE_PET_DB = "DELETE_PET_DB";
-export const GET_ALL_DONATIONS = "GET_ALL_DONATIONS";
-export const GET_REVIEWS = "GET_REVIEWS";
-export const CREATE_REVIEW = "CREATE_REVIEW";
-export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
+export const GET_MY_PETS = "GET_MY_PETS";
 
 export function getPets() {
   return async function (dispatch) {
@@ -72,9 +60,7 @@ export function getPetDetail(id) {
 export function getPetsByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(
-        `/mascotas?name=${name}`
-      );
+      const response = await axios.get(`/mascotas?name=${name}`);
       return dispatch({
         type: "GET_PET_BY_NAME",
         payload: response.data,
@@ -137,9 +123,6 @@ export const applyFilters = (filters, orden) => {
   };
 };
 
-
-
-
 export function updatePet(id, updatedFields) {
   return async function (dispatch) {
     try {
@@ -156,7 +139,7 @@ export function updatePet(id, updatedFields) {
 // export function disablePet(id) {
 //   return async function (dispatch) {
 //     try {
-//       await axios.put(`http://localhost:3001/mascotas/disable/${id}`);
+//       await axios.put(`/mascotas/disable/${id}`);
 //       dispatch(disablePetSuccess(id)); // Pasar el id como argumento
 
 //       // Cambiar el estado de status a false en el Redux Store
@@ -172,31 +155,26 @@ export function postUser(user) {
   return async function (dispatch) {
     try {
       const response = await axios.post("/usuario/userLog", user);
-      
+
       // Si el servidor devuelve un código de estado 201 (creado), muestra el mensaje de éxito
       if (response.status === 201) {
         dispatch({
           type: POST_USER_SUCCESS, //para setear userCreated en true y redireccionar a la view login
-        })
+        });
         window.alert(response.data.message); // Accedemos al mensaje en response.data
-        
       }
-      
     } catch (error) {
       if (error.response && error.response.status === 409) {
         dispatch({
-          type: POST_USER_FAILURE,// para setear userCreated en false y mantenerme en la view de registro
-        })
+          type: POST_USER_FAILURE, // para setear userCreated en false y mantenerme en la view de registro
+        });
         window.alert(error.response.data.error); // Muestra el mensaje personalizado del servidor en caso de un error 409
       } else {
         window.alert(error.message);
       }
-
     }
   };
 }
-
-
 
 export function disablePetSuccess(id) {
   return {
@@ -272,21 +250,20 @@ export function logInUser(userName, password) {
       });
       console.log(userResponse);
     } catch (error) {
-      if(error.response && error.response.status === 400 ){
-        window.alert(error.response.data.error)
-      }else{
-        window.alert(error.message)
+      if (error.response && error.response.status === 400) {
+        window.alert(error.response.data.error);
+      } else {
+        window.alert(error.message);
       }
     }
-  }
-
+  };
 }
 
 export function logOutUser() {
   localStorage.removeItem("authUser"); //al cerrar la sesion elimina su almacenamiento
   return {
-    type: USER_LOGOUT
-  }
+    type: USER_LOGOUT,
+  };
 }
 
 export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
@@ -303,16 +280,17 @@ export function loginUserGoogle(email, name, lastName) {
     try {
       const randomNumber = Math.floor(Math.random() * 1000) + 1;
       const userNameWithRandomNumber = name + lastName + randomNumber;
-      const response = await axios.get(`/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`)
+      const response = await axios.get(
+        `/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
+      );
       return dispatch({
         type: LOGIN_USER_GOOGLE,
-        payload: response.data
-      })
+        payload: response.data,
+      });
     } catch (error) {
       return error.message;
-      
     }
-  }
+  };
 }
 
 export function postDonationAndMercadoPago(
@@ -344,7 +322,7 @@ export function postDonationAndMercadoPago(
 
       if (mp_payment_id && mp_status) {
         const resMpago = await axios.post(
-          `/donations/success`,
+          `http://localhost:3001/donations/success`,
           {
             donationId: donate.id,
             mp_payment_id,
@@ -451,6 +429,21 @@ export function createUserPassword(
   };
 }
 
+
+export function getMyPets(id){
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(/mascotas/mispublicaciones/${id});
+      console.log(response.data);
+      return dispatch({
+        type: "GET_MY_PETS",
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
 export function getAllUsers() {
   return async function (dispatch) {
     try {
@@ -468,7 +461,7 @@ export function getAllUsers() {
 export function deleteUser(id) {
   return async function (dispatch) {
     try {
-      const response = await axios.delete(`usuario/deleteUser?id=${id}`);
+      const response = await axios.delete(`/usuario/deleteUser?id=${id}`);
       return dispatch({
         type: DELETE_USER,
         payload: response.data,
@@ -570,6 +563,7 @@ export function clearAlerts() {
     type: CLEAR_ALERTS_STATE,
   };
 }
+
 
 export function clearAux() {
   //para limpiar AuxState al desmontar el detail

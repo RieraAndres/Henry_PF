@@ -24,6 +24,7 @@ import {
   POST_DONATION_FAILURE,
   USER_UPDATE,
   CREATE_USER_PASSWORD,
+  GET_MY_PETS,
   GET_ALL_USERS,
   DELETE_USER,
   CLEAR_ALERTS_STATE,
@@ -41,6 +42,7 @@ let initialState = {
   allPets: [],
   petsCopy: [],
   auxState: [],
+  myPets: [],
   filters: { size: "", gender: "" },
   userCreated: false,
   orden: { orden_age: "", orden_name: "" },
@@ -53,7 +55,6 @@ let initialState = {
   allDonations: [],
   createReview: {},
   UserReviews:[],
-
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -70,10 +71,28 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         auxState: action.payload,
       };
+
+    case GET_MY_PETS:
+      return {
+        ...state,
+        myPets: action.payload,
+      };
     case GET_PET_BY_NAME:
       return {
         ...state,
         allPets: action.payload,
+      };
+
+    // Maneja la actualización del estado de una mascota
+    case UPDATE_PET_STATUS:
+      const updatedPetId = action.payload.id;
+      const updatedPetStatus = action.payload.status;
+
+      return {
+        ...state,
+        myPets: state.myPets.map((pet) =>
+          pet.id === updatedPetId ? { ...pet, status: updatedPetStatus } : pet
+        ),
       };
 
     case POST_PET_SUCCESS:
@@ -154,16 +173,6 @@ export default function rootReducer(state = initialState, action) {
         allPets: updatedAllPetsAfterDisable,
       };
 
-    case UPDATE_PET_STATUS:
-      return {
-        ...state,
-        petsCopy: state.petsCopy.map((pet) =>
-          pet.id === action.payload.id
-            ? { ...pet, status: action.payload.status }
-            : pet
-        ),
-      };
-
     case POST_USER_SUCCESS:
       return {
         ...state,
@@ -172,8 +181,8 @@ export default function rootReducer(state = initialState, action) {
     case POST_USER_FAILURE:
       return {
         ...state, // al haber error seteo en false el estado
-        userCreated:false
-      }
+        userCreated: false,
+      };
 
     case POST_DONATION_SUCCESS:
       return {
