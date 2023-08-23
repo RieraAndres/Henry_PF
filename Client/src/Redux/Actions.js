@@ -273,7 +273,7 @@ export function logInUser(userName, password) {
 export function logOutUser() {
   localStorage.removeItem("authUser"); //al cerrar la sesion elimina su almacenamiento
   localStorage.setItem("userLogedIn", "false");
-  return {
+    return {
     type: USER_LOGOUT,
   };
 }

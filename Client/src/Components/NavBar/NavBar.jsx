@@ -25,7 +25,7 @@ function NavBar() {
 
   const HandleLogOut = (e)=>{
     e.preventDefault();
-    dispatch(logOutUser)
+    dispatch(logOutUser())
     window.location.href = "/"
   }
 
