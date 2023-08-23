@@ -54,8 +54,11 @@ function LoginForm() {
 
   function handleSubmit(e){ // al dar submit despachara la action de logInUser
     e.preventDefault();
-    dispatch(logInUser(user.userName,user.password))
-    navigate("/inicio");  
+    if(user.userName && user.password){
+      dispatch(logInUser(user.userName,user.password))
+      navigate("/inicio");  
+    }
+    
   }
   
   useEffect(() => {

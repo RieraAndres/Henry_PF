@@ -137,7 +137,7 @@ function RegisterForm() {
           max="2023-01-01"
           onChange={handleChange} 
           className={`form-control ${errors.birthdate ? styles.errorInput : ""}`}/>
-          {errors.birthdate && <p className={styles.errorMsg}>{errors.birthdate}</p>}
+          {errors.birthdate && <p className={styles.errorMsg} style={{marginTop:"10px"}}>{errors.birthdate}</p>}
         </div>
 
         {/* Campo Teléfono */}
