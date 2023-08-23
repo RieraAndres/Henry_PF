@@ -260,12 +260,12 @@ export function logInUser(userName, password) {
         type: GET_USER_DATA,
         payload: userResponse.data,
       });
+      return { success: true}
     } catch (error) {
       if (error.response && error.response.status === 400) {
         window.alert(error.response.data.error);
-      } else {
-        window.alert(error.message);
-      }
+      } 
+      return { success: false }; // Indica que el inicio de sesión falló
     }
   };
 }
@@ -302,7 +302,8 @@ export function loginUserGoogle(email, name, lastName) {
       });
       return { success: true };
     } catch (error) {
-      return error.message;
+      return { success: false}
+      // return error.message;
     }
   };
 }
