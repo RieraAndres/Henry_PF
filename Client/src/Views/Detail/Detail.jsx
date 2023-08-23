@@ -11,10 +11,6 @@ import styles from '../Detail/Detail.module.css';
 import GoolgeMaps from '../../Assets/Logo/googleMaps.png';
 import FormAdopt from "../../Components/FormAdopt/FormAdopt";
 
-
-
-
-
 function Detail() {
     const { id } = useParams();
     const dispatch = useDispatch();

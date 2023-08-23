@@ -9,7 +9,7 @@ import UpdatePetForm from "../../Components/PostPetForm/UpdateAndDelete/UpdateAn
 
 function EditPet() {
     const { id } = useParams();
-    const mascotas = useSelector((state) => state.myPets);
+    const mascotas = useSelector((state) => state.allPets);
     const [selectedPet, setSelectedPet] = useState(null);
 
     useEffect(() => {
