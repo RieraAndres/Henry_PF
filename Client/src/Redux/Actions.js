@@ -248,6 +248,7 @@ export function logInUser(userName, password) {
       if (response.status === 200) {
         const responseData = response.data;
         localStorage.setItem("authUser", JSON.stringify(responseData)); //guarda el token en aplicación-storage
+        localStorage.setItem("userLogedIn", "true")
         dispatch(dispatch(loginUserSuccess(response.data.userData)));
         window.alert("TE LOGUEASTE CON EXITO");
       }
@@ -259,7 +260,6 @@ export function logInUser(userName, password) {
         type: GET_USER_DATA,
         payload: userResponse.data,
       });
-      console.log(userResponse);
     } catch (error) {
       if (error.response && error.response.status === 400) {
         window.alert(error.response.data.error);
@@ -272,6 +272,7 @@ export function logInUser(userName, password) {
 
 export function logOutUser() {
   localStorage.removeItem("authUser"); //al cerrar la sesion elimina su almacenamiento
+  localStorage.setItem("userLogedIn", "false");
   return {
     type: USER_LOGOUT,
   };
@@ -294,10 +295,12 @@ export function loginUserGoogle(email, name, lastName) {
       const response = await axios.get(
         `/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
       );
-      return dispatch({
+      localStorage.setItem("userLogedIn", "true")
+      dispatch({
         type: LOGIN_USER_GOOGLE,
         payload: response.data,
       });
+      return { success: true };
     } catch (error) {
       return error.message;
     }

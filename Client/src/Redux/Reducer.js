@@ -37,7 +37,7 @@ import {
   CREATE_REVIEW,
   GET_USER_REVIEWS,
 } from "./Actions";
-
+const userLogedIn = localStorage.getItem("userLogedIn") === "false";
 let initialState = {
   allPets: [],
   petsCopy: [],
@@ -47,7 +47,7 @@ let initialState = {
   userCreated: false,
   orden: { orden_age: "", orden_name: "" },
   userData: {},
-  userLogedIn: null,
+  userLogedIn: userLogedIn,
   donations: [],
   allUsers: [],
   alerts: "",

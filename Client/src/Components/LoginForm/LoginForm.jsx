@@ -6,13 +6,12 @@ import {gapi} from 'gapi-script'
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./LoginForm.module.css";
 import { GoogleLogin } from '@react-oauth/google';
-import { logInUser, loginUserGoogle } from "../../Redux/Actions";
+import { logInUser,loginUserSuccess, loginUserGoogle } from "../../Redux/Actions";
 
 
 function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userLogedIn = useSelector(state=>state.userLogedIn)
   const userDataStorage = useSelector(state => state.userData)
   
 
@@ -55,12 +54,10 @@ function LoginForm() {
 
   function handleSubmit(e){ // al dar submit despachara la action de logInUser
     e.preventDefault();
-    dispatch(logInUser(user.userName,user.password))   
+    dispatch(logInUser(user.userName,user.password))
+    navigate("/inicio");  
   }
   
-  if(userLogedIn){ //si el usuario esta logueado que navegue a inicio
-    navigate("/inicio")
-  } 
   useEffect(() => {
     // Verifica si el usuario ya está autenticado
     const authToken = localStorage.getItem("authUser");
@@ -75,6 +72,12 @@ function LoginForm() {
     const [, payload, ] = token.split(".");
     const decodedPayload = JSON.parse(atob(payload));
     dispatch(loginUserGoogle(decodedPayload.email,decodedPayload.given_name,decodedPayload.family_name))
+    .then((response) => {
+      if (response.success) {
+        navigate("/inicio"); // Redirige al inicio si el inicio de sesión con Google fue exitoso
+      }
+    });
+  
   }
 
   const googleError = ()=>{
