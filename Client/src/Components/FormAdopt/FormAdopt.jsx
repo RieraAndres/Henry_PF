@@ -9,8 +9,8 @@ const FormAdopt = ({petId}) => {
   
   const [formData, setFormData] = useState({
     nameUser: "",
-    numberPhone: user.numberPhone || '',
-    email: user.email || '',
+    numberPhone: "",
+    email: "",
     addressAdoption:"",
     birthdate: "",
     comment: "",
@@ -238,6 +238,7 @@ const FormAdopt = ({petId}) => {
               <div>
                 {errors.email && (
                   <span className={styles.errorText}>{errors.email}</span>
+                  // <span className={styles.errorTextEmail}>{errors.email}</span>
                 )}
               </div>
             </div>
@@ -268,6 +269,23 @@ const FormAdopt = ({petId}) => {
                 Fecha de Nacimiento:
               </label>
               <div className={styles.customDateInput}>
+                {/* <input
+        type="date"
+        name="birthdate"
+        id="fecha"
+        min="1905-01-01" max="2023-08-05"
+        className={`${styles.input} ${styles.centerDate}`}
+        required
+        autoComplete="off"
+        value={formData.birthdate}
+        onChange={handleChange}
+        onBlur={(e) => {
+          const { name, value } = e.target;
+          const errorMessage = validarbirthdate(value);
+          setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
+        }}
+      /> */}
+      
                 <div>
                   <label></label>
                   <select
