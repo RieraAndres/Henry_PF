@@ -6,7 +6,7 @@ import { submitAdoptionRequest } from '../../Redux/Actions';
 const FormAdopt = ({petId}) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    name: "",
+    nameUser: "",
     numberPhone: "",
     email: "",
     addressAdoption:"",
@@ -100,14 +100,14 @@ const FormAdopt = ({petId}) => {
   };
 
   const validateForm = () => {
-    const { name, numberPhone, email, comment, birthdate } = formData;
+    const { nameUser, numberPhone, email, comment, birthdate } = formData;
 
     const newErrors = {};
 
-    if (!name) {
-      newErrors.name = "El nombre es obligatorio";
-    } else if (!nameRegex.test(name)) {
-      newErrors.name = "El nombre no es válido";
+    if (!nameUser) {
+      newErrors.nameUser = "El nombre es obligatorio";
+    } else if (!nameRegex.test(nameUser)) {
+      newErrors.nameUser = "El nombre no es válido";
     }
 
     if (!numberPhone) {
@@ -160,7 +160,7 @@ const FormAdopt = ({petId}) => {
   if (isFormValid) {
     dispatch(
       submitAdoptionRequest({
-        name: formData.name,
+        nameUser: formData.nameUser,
         numberPhone: formData.numberPhone,
         email: formData.email,
         addressAdoption: formData.addressAdoption,
@@ -182,21 +182,21 @@ const FormAdopt = ({petId}) => {
           <form className={styles.form} onSubmit={handleSubmit}>
             {/* Name */}
             <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="name">
+              <label className={styles.label} htmlFor="nameUser">
                 {/* Nombre Completo: */}
               </label>
               <input
                 type="text"
                 className={styles.input}
-                name="name"
+                name="nameUser"
                 required
                 autoComplete="off"
                 placeholder="Nombre completo"
-                value={formData.name}
+                value={formData.nameUser}
                 onChange={handleChange}
               />
-              {errors.name && (
-                <p className={styles.errorText}>{errors.name}</p>
+              {errors.nameUser && (
+                <p className={styles.errorText}>{errors.nameUser}</p>
               )}
             </div>
 
