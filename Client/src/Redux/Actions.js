@@ -14,16 +14,30 @@ export const UPDATE_PET = "UPDATE_PET";
 export const UPDATE_PET_STATUS = "UPDATE_PET_STATUS";
 export const DISABLE_PET_SUCCESS = "DISABLE_PET_SUCCESS";
 export const DISABLE_PET_FAILURE = "DISABLE_PET_FAILURE";
+export const POST_DONATION = "POST_DONATION";
+export const POST_DONATION_SUCCESS = "POST_DONATION_SUCCESS";
+export const POST_DONATION_FAILURE = "POST_DONATION_FAILURE";
 export const POST_USER_SUCCESS = "POST_USER_SUCCES";
 export const POST_USER_FAILURE = "POST_USER_FAILURE";
 export const GET_USER_DATA = "GET_USER_DATA";
 export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
 export const USER_LOGIN_FAILURE = "USER_LOGIN_FAILURE";
 export const LOGIN_USER_GOOGLE = "LOGIN_USER_GOOGLE";
-export const LOGIN_USER_FACEBOOK = "LOGIN_USER_FACEBOOK";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_UPDATE = "USER_UPDATE";
 export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
+export const GET_MY_PETS = "GET_MY_PETS";
+export const GET_ALL_USERS = "GET_ALL_USERS";
+export const DELETE_USER = "DELETE_USER";
+export const CLEAR_ALERTS_STATE = "CLEAR_ALERTS_STATE";
+export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
+export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
+export const GET_ALL_USER_DATA = "GET_ALL_USER_DATA";
+export const DELETE_PET_DB = "DELETE_PET_DB";
+export const GET_ALL_DONATIONS = "GET_ALL_DONATIONS";
+export const GET_REVIEWS = "GET_REVIEWS";
+export const CREATE_REVIEW = "CREATE_REVIEW";
+export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
 
 export function getPets() {
   return async function (dispatch) {
@@ -123,7 +137,7 @@ export const applyFilters = (filters, orden) => {
 export function updatePet(id, updatedFields) {
   return async function (dispatch) {
     try {
-      await axios.put(`http://localhost:3001/mascotas/${id}`, updatedFields);
+      await axios.put(`/mascotas/${id}`, updatedFields);
       console.log("Pet updated successfully"); // Add this line
       // Puedes realizar cualquier lógica adicional aquí después de la actualización
     } catch (error) {
@@ -133,20 +147,20 @@ export function updatePet(id, updatedFields) {
   };
 }
 
-export function disablePet(id) {
-  return async function (dispatch) {
-    try {
-      await axios.put(`http://localhost:3001/mascotas/disable/${id}`);
-      dispatch(disablePetSuccess(id)); // Pasar el id como argumento
+// export function disablePet(id) {
+//   return async function (dispatch) {
+//     try {
+//       await axios.put(`/mascotas/disable/${id}`);
+//       dispatch(disablePetSuccess(id)); // Pasar el id como argumento
 
-      // Cambiar el estado de status a false en el Redux Store
-      dispatch(updatePetStatus(id, false));
-    } catch (error) {
-      dispatch(disablePetFailure(error)); // Despachar fallo
-      throw error;
-    }
-  };
-}
+//       // Cambiar el estado de status a false en el Redux Store
+//       dispatch(updatePetStatus(id, false));
+//     } catch (error) {
+//       dispatch(disablePetFailure(error)); // Despachar fallo
+//       throw error;
+//     }
+//   };
+// }
 
 export function postUser(user) {
   return async function (dispatch) {
@@ -189,30 +203,63 @@ export function disablePetFailure(error) {
   };
 }
 
-// Agregar una nueva acción para actualizar el estado de status en el Redux Store
+// Actualiza el estado de una mascota para habilitarla o deshabilitarla
 export function updatePetStatus(id, status) {
-  return {
-    type: UPDATE_PET_STATUS,
-    payload: {
-      id,
-      status,
-    },
+  return async function (dispatch) {
+    try {
+      // Realiza la petición para cambiar el estado de la mascota en el servidor
+      await axios.put(`/mascotas/status/${id}`, {
+        newStatus: status,
+      });
+
+      // Despacha la acción para actualizar el estado de Redux con el nuevo estado de la mascota
+      dispatch({
+        type: UPDATE_PET_STATUS,
+        payload: {
+          id,
+          status,
+        },
+      });
+
+      // Puedes realizar cualquier lógica adicional aquí después de cambiar el estado
+    } catch (error) {
+      console.error("Error al cambiar el estado de la mascota:", error);
+      throw error;
+    }
   };
 }
+
+//LOGIN LOCAL
+export const loginUserSuccess = (userData) => {
+  return {
+    type: USER_LOGIN_SUCCESS,
+    payload: userData,
+  };
+};
 
 export function logInUser(userName, password) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(
-        `/usuario/userLogin?userName=${userName}&password=${password}`
-      );
+      const response = await axios.post(`/loginAuth/login`, {
+        userName,
+        password,
+      });
+
       if (response.status === 200) {
-        dispatch({
-          type: USER_LOGIN_SUCCESS,
-          payload: response.data,
-        });
+        const responseData = response.data;
+        localStorage.setItem("authUser", JSON.stringify(responseData)); //guarda el token en aplicación-storage
+        dispatch(dispatch(loginUserSuccess(response.data.userData)));
         window.alert("TE LOGUEASTE CON EXITO");
       }
+      // Ahora, obtenemos los datos del usuario logueado utilizando la ruta userData
+      const userResponse = await axios.get(
+        `/usuario/userData?userName=${userName}`
+      );
+      dispatch({
+        type: GET_USER_DATA,
+        payload: userResponse.data,
+      });
+      console.log(userResponse);
     } catch (error) {
       if (error.response && error.response.status === 400) {
         window.alert(error.response.data.error);
@@ -224,6 +271,7 @@ export function logInUser(userName, password) {
 }
 
 export function logOutUser() {
+  localStorage.removeItem("authUser"); //al cerrar la sesion elimina su almacenamiento
   return {
     type: USER_LOGOUT,
   };
@@ -237,22 +285,6 @@ export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
     throw error;
   }
 };
-
-export function getUserData(userName) {
-  return async function (dispatch) {
-    try {
-      const response = await axios.get(
-        `/usuario/userData?userName=${userName}`
-      );
-      return dispatch({
-        type: GET_USER_DATA,
-        payload: response.data,
-      });
-    } catch (error) {
-      return error.message;
-    }
-  };
-}
 
 export function loginUserGoogle(email, name, lastName) {
   return async function (dispatch) {
@@ -272,20 +304,59 @@ export function loginUserGoogle(email, name, lastName) {
   };
 }
 
-export function loginUserFacebook(id, name, lastName) {
+export function postDonationAndMercadoPago(
+  donationData,
+  donationId,
+  mp_payment_id,
+  mp_status
+) {
   return async function (dispatch) {
     try {
-      const randomNumber = Math.floor(Math.random() * 1000) + 1;
-      const userNameWithRandomNumber = name + lastName + randomNumber;
-      const response = await axios.get(
-        `/usuario/loginFacebook?id=${id}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
-      );
-      return dispatch({
-        type: LOGIN_USER_FACEBOOK,
-        payload: response.data,
+      const response = await axios.post(`/donations/payment`, donationData);
+      const { preferenceId, donate } = response.data;
+
+      dispatch({
+        type: POST_DONATION,
+        payload: donate,
       });
+
+      window.alert("Serás redirigido a Mercado Pago");
+      window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference_id=${preferenceId}`;
+
+      // Esperar el retorno de Mercado Pago y obtener mp_payment_id y mp_status
+      const urlParams = new URLSearchParams(window.location.search);
+      const mp_payment_id = urlParams.get("mp_payment_id");
+      const mp_status = urlParams.get("mp_status");
+
+      if (mp_payment_id && mp_status) {
+        const resMpago = await axios.post(
+          `http://localhost:3001/donations/success`,
+          {
+            donationId: donate.id,
+            mp_payment_id,
+            mp_status,
+          }
+        );
+
+        dispatch({
+          type: POST_DONATION_SUCCESS,
+          payload: resMpago.data,
+        });
+        window.alert("Gracias por tu granito de arena!");
+      } else {
+        dispatch({
+          type: POST_DONATION_FAILURE,
+          payload: "Error al obtener los datos de pago de Mercado Pago",
+        });
+
+        window.alert("Error al obtener los datos de pago de Mercado Pago.");
+      }
     } catch (error) {
-      return error.message;
+      dispatch({
+        type: POST_DONATION_FAILURE,
+        payload: error.message,
+      });
+      window.alert(error.message);
     }
   };
 }
@@ -298,6 +369,7 @@ export function updateUser(
   birthdate,
   address,
   numberPhone,
+  image,
   DBpassword,
   userActualPassword,
   userNewPassword
@@ -312,6 +384,7 @@ export function updateUser(
         birthdate,
         address,
         numberPhone,
+        image,
         DBpassword,
         userActualPassword,
         userNewPassword,
@@ -364,9 +437,191 @@ export function createUserPassword(
   };
 }
 
+export function getMyPets(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`/mascotas/mispublicaciones/${id}`);
+      console.log(response.data);
+      return dispatch({
+        type: "GET_MY_PETS",
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+export function getAllUsers() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get("/usuario/users");
+      return dispatch({
+        type: GET_ALL_USERS,
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
+export function deleteUser(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.delete(`/usuario/deleteUser?id=${id}`);
+      return dispatch({
+        type: DELETE_USER,
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
+export function getAllReviws() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get("/review");
+      return dispatch({
+        type: GET_ALL_REVIEWS,
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
+export function changeUserType(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put("/usuario/changeType", { id });
+      if (response.status === 200) {
+        return dispatch({
+          type: CHANGE_USER_TYPE,
+          payload: "Tipo de usuario cambiado",
+        });
+      } else {
+        return dispatch({
+          type: CHANGE_USER_TYPE,
+          payload: "Error al cambiar tipo de usuario",
+        });
+      }
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
+export function getAllUserData(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`/usuario/dataOfUser`, {
+        params: { id },
+      });
+      return dispatch({
+        type: GET_ALL_USER_DATA,
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
+export function deletePetDb(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.delete(`/mascotas/delete/${id}`);
+      if (response.status === 200) {
+        return dispatch({
+          type: DELETE_PET_DB,
+          payload: response.data,
+        });
+      } else {
+        return dispatch({
+          type: DELETE_PET_DB,
+          payload: "Ocurrio un problema",
+        });
+      }
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
+export function getAllDonations() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get("/donations/all");
+      return dispatch({
+        type: GET_ALL_DONATIONS,
+        payload: response.data,
+      });
+    } catch (error) {
+      return error.message;
+    }
+  };
+}
+
+export function clearAlerts() {
+  return {
+    type: CLEAR_ALERTS_STATE,
+  };
+}
+
 export function clearAux() {
   //para limpiar AuxState al desmontar el detail
   return {
     type: "CLEAR_AUX_STATE",
   };
 }
+
+// Reviews
+
+export const createReview = ({ puntuacion, comentario, userName }) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post("/review", {
+        puntuacion,
+        comentario,
+        userName,
+      });
+      return dispatch({
+        type: CREATE_REVIEW,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getUserReviews = (id) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`/review/${id}`);
+      return dispatch({
+        type: GET_USER_REVIEWS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getAllReviews = (id) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`/review/`);
+      return dispatch({
+        type: GET_REVIEWS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

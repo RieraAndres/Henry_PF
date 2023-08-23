@@ -13,6 +13,8 @@ function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userLogedIn = useSelector(state=>state.userLogedIn)
+  const userDataStorage = useSelector(state => state.userData)
+  
 
 
   const  ClientID = '933461258445-6obss3psoedlvnceq9d6d1kt0fa47tfm.apps.googleusercontent.com'
@@ -60,11 +62,12 @@ function LoginForm() {
     navigate("/inicio")
   } 
   useEffect(() => {
-    if (userLogedIn) {
-      // Si el usuario ha iniciado sesión con éxito, navegar a la página de inicio
-      navigate("/inicio");
+    // Verifica si el usuario ya está autenticado
+    const authToken = localStorage.getItem("authUser");
+    if (authToken) {
+      navigate("/inicio"); // Redirige al inicio si el usuario ya está autenticado
     }
-  }, [userLogedIn, navigate]);
+  }, [navigate]);
 
   //GOOGLE
   const googleSuccess = (credentialResponse)=>{

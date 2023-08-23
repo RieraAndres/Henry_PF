@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../Components/PostPetForm/PostPetForm.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postPet } from "../../Redux/Actions";
 import miniPerroImage from "./AssetsForm/miniPerro.jpg";
 import miniGatoImage from "./AssetsForm/miniGato.jpg";
@@ -9,11 +9,12 @@ import axios from "axios"; // Importar axios para realizar la solicitud HTTP
 
 const PostPetForm = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.userData);
 
   const [formData, setFormData] = useState({
     name: "",
-    numberPhone: "",
-    email: "",
+    numberPhone: user.numberPhone || '',
+    email: user.email || '',
     description: "",
     location: "",
     age: "",
@@ -64,6 +65,10 @@ const PostPetForm = () => {
     return googleMapsUrlRegex.test(url);
   };
 
+  const isValidLocation = (location) => {
+    return location.trim() !== ""; // Puedes agregar más validaciones si es necesario
+  };
+
   const validateForm = () => {
     const { name, numberPhone, email, description } = formData;
     const newErrors = {};
@@ -103,8 +108,8 @@ const PostPetForm = () => {
       newErrors.size = "Por favor, seleccione un tamaño";
     }
 
-    if (!isValidGoogleMapsUrl(formData.location)) {
-      newErrors.location = "Por favor, ingrese una ubicación válida de Google Maps";
+    if (!isValidLocation(formData.location)) {
+      newErrors.location = "Por favor, ingrese una ubicación válida";
       setIsLocationValid(false);
     } else {
       setIsLocationValid(true);
@@ -117,9 +122,7 @@ const PostPetForm = () => {
   };
 
   const validateLocation = (locationValue) => {
-    if (!locationValue) {
-      setIsLocationValid(true);
-    } else if (googleMapsUrlRegex.test(locationValue)) {
+    if (isValidLocation(locationValue)) {
       setIsLocationValid(true);
     } else {
       setIsLocationValid(false);
@@ -267,7 +270,7 @@ const PostPetForm = () => {
 
       setFormData({
         name: "",
-        numberPhone: "",
+        numberPhone: user.numberPhone || '',
         email: "",
         description: "",
         location: "",

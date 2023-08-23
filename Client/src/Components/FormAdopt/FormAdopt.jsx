@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from "../FormAdopt/FormAdopt.module.css";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { submitAdoptionRequest } from '../../Redux/Actions';
 
 const FormAdopt = ({petId}) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.userData);
+  
   const [formData, setFormData] = useState({
-    name: "",
+    nameUser: "",
     numberPhone: "",
     email: "",
     addressAdoption:"",
@@ -20,7 +22,6 @@ const FormAdopt = ({petId}) => {
 
   const nameRegex = /^[a-zA-Z\s]+$/;
   const numberPhoneRegex = /^[0-9]+$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   useEffect(() => {
     setIsFormValid(Object.keys(errors).length === 0);
@@ -99,15 +100,19 @@ const FormAdopt = ({petId}) => {
     return "";
   };
 
+
+  const isValidLocation = (location) => {
+    return location.trim() !== ""; // Puedes agregar más validaciones si es necesario
+  };
   const validateForm = () => {
-    const { name, numberPhone, email, comment, birthdate } = formData;
+    const { nameUser, numberPhone, email, comment, birthdate } = formData;
 
     const newErrors = {};
 
-    if (!name) {
-      newErrors.name = "El nombre es obligatorio";
-    } else if (!nameRegex.test(name)) {
-      newErrors.name = "El nombre no es válido";
+    if (!nameUser) {
+      newErrors.nameUser = "El nombre es obligatorio";
+    } else if (!nameRegex.test(nameUser)) {
+      newErrors.nameUser = "El nombre no es válido";
     }
 
     if (!numberPhone) {
@@ -116,13 +121,7 @@ const FormAdopt = ({petId}) => {
       newErrors.numberPhone = "El teléfono debe ser un número";
     }
 
-    if (!email) {
-      newErrors.email = "Por favor, ingrese un email válido";
-    } else if (!emailRegex.test(email)) {
-      newErrors.email = "Ingrese un email válido";
-    }
-
-    // Validar fecha de nacimiento
+       // Validar fecha de nacimiento
     const birthdateError = validarbirthdate(birthdate);
     if (birthdateError) {
       newErrors.birthdate = birthdateError;
@@ -160,7 +159,7 @@ const FormAdopt = ({petId}) => {
   if (isFormValid) {
     dispatch(
       submitAdoptionRequest({
-        name: formData.name,
+        nameUser: formData.nameUser,
         numberPhone: formData.numberPhone,
         email: formData.email,
         addressAdoption: formData.addressAdoption,
@@ -182,21 +181,21 @@ const FormAdopt = ({petId}) => {
           <form className={styles.form} onSubmit={handleSubmit}>
             {/* Name */}
             <div className={styles.sectionInputCG}>
-              <label className={styles.label} htmlFor="name">
+              <label className={styles.label} htmlFor="nameUser">
                 {/* Nombre Completo: */}
               </label>
               <input
                 type="text"
                 className={styles.input}
-                name="name"
+                name="nameUser"
                 required
                 autoComplete="off"
                 placeholder="Nombre completo"
-                value={formData.name}
+                value={formData.nameUser}
                 onChange={handleChange}
               />
-              {errors.name && (
-                <p className={styles.errorText}>{errors.name}</p>
+              {errors.nameUser && (
+                <p className={styles.errorText}>{errors.nameUser}</p>
               )}
             </div>
 
@@ -345,7 +344,6 @@ const FormAdopt = ({petId}) => {
                 style={{ resize: "none" }} // Bloquear el estiramiento del textarea
                 minLength="10"
                 maxLength="300"
-                //className={styles.input}
                 required
                 autoComplete="off"
                 placeholder="¿Por qué quieres adoptar?"
