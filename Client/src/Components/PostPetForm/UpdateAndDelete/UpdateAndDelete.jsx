@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { updatePet } from "../../../Redux/Actions";
-import styles from '../../../Components/PostPetForm/PostPetForm.module.css';
+import styles from '../../../Components/PostPetForm/UpdateAndDelete/UpdateAndDelete.module.css';
 import miniPerroImage from "../AssetsForm/miniGato.jpg";
 import miniGatoImage from "../AssetsForm/miniGato.jpg";
 import axios from 'axios';
 
 const UpdatePetForm = ({ petData }) => {
-    const { id } = useParams();
+
   const navigate = useNavigate(); // Obtenemos el objeto history
   const dispatch = useDispatch();
   
   const user = useSelector((state) => state.userData);
+
 
   const [formData, setFormData] = useState({
     name: petData.name || '',
@@ -110,6 +111,10 @@ useEffect(() => {
     return googleMapsUrlRegex.test(url);
   };
 
+  const isValidLocation = (location) => {
+    return location.trim() !== ""; // Puedes agregar más validaciones si es necesario
+  };
+
   const validateForm = () => {
     const { name, numberPhone, email, description } = formData;
     const newErrors = {};
@@ -149,8 +154,8 @@ useEffect(() => {
       newErrors.size = "Por favor, seleccione un tamaño";
     }
 
-    if (!isValidGoogleMapsUrl(formData.location)) {
-      newErrors.location = "Por favor, ingrese una ubicación válida de Google Maps";
+    if (!isValidLocation(formData.location)) {
+      newErrors.location = "Por favor, ingrese una ubicación válida";
       setIsLocationValid(false);
     } else {
       setIsLocationValid(true);
@@ -163,9 +168,7 @@ useEffect(() => {
   };
 
   const validateLocation = (locationValue) => {
-    if (!locationValue) {
-      setIsLocationValid(true);
-    } else if (googleMapsUrlRegex.test(locationValue)) {
+    if (isValidLocation(locationValue)) {
       setIsLocationValid(true);
     } else {
       setIsLocationValid(false);
@@ -352,7 +355,7 @@ useEffect(() => {
 
 const handleCancel = () => {
   // Regresar a la página de detalles
-  navigate(`/profile/${id}/mispublicaciones`);
+  navigate(`/profile/${user.id}/mispublicaciones`);
 };
 
   const selectStyle = {
@@ -427,6 +430,8 @@ const handleCancel = () => {
                 <select
                   className={styles.selectOptions}
                   name="gender"
+                  id="gender"
+                  value={formData.gender}
                   onChange={handleGeneroSelect}
                   required
                 >
@@ -449,6 +454,8 @@ const handleCancel = () => {
                 <select
                   className={`${styles.selectOptions} ${styles.sizeList}`}
                   name="size"
+                  id="size"
+                  value={formData.size}
                   onChange={handleTamañoSelect}
                   required
                 >
@@ -486,6 +493,7 @@ const handleCancel = () => {
                 className={styles.inputFoto2}
                 name="imageUrl"
                 id="file"
+                // value={formData.imageUrl}
                 required
                 accept="image/*"
                 placeholder="Foto de la mascota"
@@ -652,8 +660,8 @@ const handleCancel = () => {
               <p className={styles.name}>
                   {formData.name}
               </p>
-              <div>{formData.numberPhone}</div>
-              <div>{formData.email}</div>
+              <div className={styles.numberPhonePrew}>{formData.numberPhone}</div>
+              <div className={styles.emailPrew}>{formData.email}</div>
               <div className={styles.decript}>{formData.description}</div>
               <div className={styles.prewUbi}>{formData.location}</div>
 

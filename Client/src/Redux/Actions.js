@@ -1,7 +1,5 @@
 import axios from "axios";
 
-
-
 export const GET_PETS = "GET_PETS";
 export const GET_PET_DETAIL = "GET_PET_DETAIL";
 export const GET_PET_BY_NAME = "GET_PET_BY_NAME";
@@ -28,19 +26,8 @@ export const LOGIN_USER_GOOGLE = "LOGIN_USER_GOOGLE";
 export const LOGIN_USER_FACEBOOK = "LOGIN_USER_FACEBOOK";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_UPDATE = "USER_UPDATE";
-export const GET_MY_PETS = "GET_MY_PETS";
 export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
-export const GET_ALL_USERS = "GET_ALL_USERS";
-export const DELETE_USER = "DELETE_USER";
-export const CLEAR_ALERTS_STATE = "CLEAR_ALERTS_STATE";
-export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
-export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
-export const GET_ALL_USER_DATA = "GET_ALL_USER_DATA";
-export const DELETE_PET_DB = "DELETE_PET_DB";
-export const GET_ALL_DONATIONS = "GET_ALL_DONATIONS";
-export const GET_REVIEWS = "GET_REVIEWS";
-export const CREATE_REVIEW = "CREATE_REVIEW";
-export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
+export const GET_MY_PETS = "GET_MY_PETS";
 
 export function getPets() {
   return async function (dispatch) {
@@ -74,9 +61,7 @@ export function getPetDetail(id) {
 export function getPetsByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(
-        `/mascotas?name=${name}`
-      );
+      const response = await axios.get(`/mascotas?name=${name}`);
       return dispatch({
         type: "GET_PET_BY_NAME",
         payload: response.data,
@@ -139,13 +124,10 @@ export const applyFilters = (filters, orden) => {
   };
 };
 
-
-
-
 export function updatePet(id, updatedFields) {
   return async function (dispatch) {
     try {
-      await axios.put(`/mascotas/${id}`, updatedFields);
+      await axios.put(`http://localhost:3001/mascotas/${id}`, updatedFields);
       console.log("Pet updated successfully"); // Add this line
       // Puedes realizar cualquier lógica adicional aquí después de la actualización
     } catch (error) {
@@ -174,31 +156,26 @@ export function postUser(user) {
   return async function (dispatch) {
     try {
       const response = await axios.post("/usuario/userLog", user);
-      
+
       // Si el servidor devuelve un código de estado 201 (creado), muestra el mensaje de éxito
       if (response.status === 201) {
         dispatch({
           type: POST_USER_SUCCESS, //para setear userCreated en true y redireccionar a la view login
-        })
+        });
         window.alert(response.data.message); // Accedemos al mensaje en response.data
-        
       }
-      
     } catch (error) {
       if (error.response && error.response.status === 409) {
         dispatch({
-          type: POST_USER_FAILURE,// para setear userCreated en false y mantenerme en la view de registro
-        })
+          type: POST_USER_FAILURE, // para setear userCreated en false y mantenerme en la view de registro
+        });
         window.alert(error.response.data.error); // Muestra el mensaje personalizado del servidor en caso de un error 409
       } else {
         window.alert(error.message);
       }
-
     }
   };
 }
-
-
 
 export function disablePetSuccess(id) {
   return {
@@ -221,7 +198,10 @@ export function updatePetStatus(id, status) {
   return async function (dispatch) {
     try {
       // Realiza la petición para cambiar el estado de la mascota en el servidor
-      await axios.put(`http://localhost:3001/mascotas/status/${id}`, { newStatus: status });
+      await axios.put(`http://localhost:3001/mascotas/status/${id}`, {
+        newStatus: status,
+      });
+
       // Despacha la acción para actualizar el estado de Redux con el nuevo estado de la mascota
       dispatch({
         type: UPDATE_PET_STATUS,
@@ -251,7 +231,7 @@ export function logInUser(userName, password) {
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        `/loginAuth/login`,
+        `http://localhost:3001/loginAuth/login`,
         { userName, password }
       );
 
@@ -263,7 +243,7 @@ export function logInUser(userName, password) {
       }
       // Ahora, obtenemos los datos del usuario logueado utilizando la ruta userData
       const userResponse = await axios.get(
-        `/usuario/userData?userName=${userName}`
+        `http://localhost:3001/usuario/userData?userName=${userName}`
       );
       dispatch({
         type: GET_USER_DATA,
@@ -271,21 +251,20 @@ export function logInUser(userName, password) {
       });
       console.log(userResponse);
     } catch (error) {
-      if(error.response && error.response.status === 400 ){
-        window.alert(error.response.data.error)
-      }else{
-        window.alert(error.message)
+      if (error.response && error.response.status === 400) {
+        window.alert(error.response.data.error);
+      } else {
+        window.alert(error.message);
       }
     }
-  }
-
+  };
 }
 
 export function logOutUser() {
   localStorage.removeItem("authUser"); //al cerrar la sesion elimina su almacenamiento
   return {
-    type: USER_LOGOUT
-  }
+    type: USER_LOGOUT,
+  };
 }
 
 export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
@@ -302,16 +281,17 @@ export function loginUserGoogle(email, name, lastName) {
     try {
       const randomNumber = Math.floor(Math.random() * 1000) + 1;
       const userNameWithRandomNumber = name + lastName + randomNumber;
-      const response = await axios.get(`/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`)
+      const response = await axios.get(
+        `/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
+      );
       return dispatch({
         type: LOGIN_USER_GOOGLE,
-        payload: response.data
-      })
+        payload: response.data,
+      });
     } catch (error) {
       return error.message;
-      
     }
-  }
+  };
 }
 
 export function loginUserFacebook(id, name, lastName) {
@@ -341,7 +321,7 @@ export function postDonationAndMercadoPago(
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        `/donations/payment`,
+        `http://localhost:3001/donations/payment`,
         donationData
       );
       const { preferenceId, donate } = response.data;
@@ -361,7 +341,7 @@ export function postDonationAndMercadoPago(
 
       if (mp_payment_id && mp_status) {
         const resMpago = await axios.post(
-          `/donations/success`,
+          `http://localhost:3001/donations/success`,
           {
             donationId: donate.id,
             mp_payment_id,
@@ -389,8 +369,8 @@ export function postDonationAndMercadoPago(
       });
       window.alert(error.message);
     }
-  }
-};
+  };
+}
 
 export function updateUser(
   email,
@@ -466,11 +446,10 @@ export function createUserPassword(
   };
 }
 
-
-export function getMyPets(id){
+export function getMyPets(id) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(/mascotas/mispublicaciones/${id});
+      const response = await axios.get(`/mascotas/mispublicaciones/${id}`);
       console.log(response.data);
       return dispatch({
         type: "GET_MY_PETS",
@@ -479,126 +458,6 @@ export function getMyPets(id){
     } catch (error) {
       return error.message;
     }
-  };
-}
-
-export function getAllUsers() {
-  return async function (dispatch) {
-    try {
-      const response = await axios.get("/usuario/users");
-      return dispatch({
-        type: GET_ALL_USERS,
-        payload: response.data,
-      });
-    } catch (error) {
-      return error.message;
-    }
-  };
-}
-
-export function deleteUser(id) {
-  return async function (dispatch) {
-    try {
-      const response = await axios.delete(`usuario/deleteUser?id=${id}`);
-      return dispatch({
-        type: DELETE_USER,
-        payload: response.data,
-      });
-    } catch (error) {
-      return error.message;
-    }
-  };
-}
-
-export function getAllReviws() {
-  return async function (dispatch) {
-    try {
-      const response = await axios.get("/review");
-      return dispatch({
-        type: GET_ALL_REVIEWS,
-        payload: response.data,
-      });
-    } catch (error) {
-      return error.message;
-    }
-  };
-}
-
-export function changeUserType(id) {
-  return async function (dispatch) {
-    try {
-      const response = await axios.put("/usuario/changeType", { id });
-      if (response.status === 200) {
-        return dispatch({
-          type: CHANGE_USER_TYPE,
-          payload: "Tipo de usuario cambiado",
-        });
-      } else {
-        return dispatch({
-          type: CHANGE_USER_TYPE,
-          payload: "Error al cambiar tipo de usuario",
-        });
-      }
-    } catch (error) {
-      return error.message;
-    }
-  };
-}
-
-export function getAllUserData(id) {
-  return async function (dispatch) {
-    try {
-      const response = await axios.get(`/usuario/dataOfUser`, {
-        params: { id },
-      });
-      return dispatch({
-        type: GET_ALL_USER_DATA,
-        payload: response.data,
-      });
-    } catch (error) {
-      return error.message;
-    }
-  };
-}
-
-export function deletePetDb(id) {
-  return async function (dispatch) {
-    try {
-      const response = await axios.delete(`/mascotas/delete/${id}`);
-      if (response.status === 200) {
-        return dispatch({
-          type: DELETE_PET_DB,
-          payload: response.data,
-        });
-      } else {
-        return dispatch({
-          type: DELETE_PET_DB,
-          payload: "Ocurrio un problema",
-        });
-      }
-    } catch (error) {
-      return error.message;
-    }
-  };
-}
-
-export function getAllDonations() {
-  return async function (dispatch) {
-    try {
-      const response = await axios.get("/donations/all");
-      return dispatch({
-        type: GET_ALL_DONATIONS,
-        payload: response.data,
-      });
-    } catch (error) {
-      return error.message;
-    }
-  };
-}
-
-export function clearAlerts() {
-  return {
-    type: CLEAR_ALERTS_STATE,
   };
 }
 

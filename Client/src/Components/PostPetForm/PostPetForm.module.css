@@ -139,7 +139,7 @@
   font-family: "Tilt Neon", cursive;
   font-size: 13px;
   padding: 10px;
-  width: 100%;
+  /* width: 100%; */
   max-width: 400px;
   background-color: #ff69b4;
   color: #ffffff;
