@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import NavBar from "../../Components/NavBar/NavBar";
@@ -9,13 +9,13 @@ import { postDonationAndMercadoPago } from '../../Redux/Actions.js';
 
 function Donaciones () {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.userData);
 
   const [donationData, setDonationData] = useState({
     nameDonante: "",
-    numberPhone: "",
-    email: "",
+    numberPhone: user.numberPhone,
     description: "",
-    receiver: "",
+    receiver: "Patitas sin Hogar",
     amount: "",
   });
 
@@ -26,29 +26,15 @@ function Donaciones () {
   const [formSuccess, setFormSuccess] = useState(false);
 
   const nameRegex = /^[a-zA-Z\s]+$/;
-  const numberPhoneRegex = /^[0-9]+$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const validateForm = () => {
-    const { nameDonante, numberPhone, email, description, receiver, amount } = donationData;
+    const { nameDonante, description, receiver, amount } = donationData;
     const newErrors = {};
 
     if (!nameDonante) {
       newErrors.nameDonante = "El nombre es obligatorio";
     } else if (!nameRegex.test(nameDonante)) {
       newErrors.nameDonante = "El nombre no es válido";
-    }
-
-    if (!numberPhone) {
-      newErrors.numberPhone = "Por favor, ingrese número de teléfono";
-    } else if (!numberPhoneRegex.test(numberPhone)) {
-      newErrors.numberPhone = "El teléfono debe ser un número";
-    }
-
-    if (!email) {
-      newErrors.email = "Por favor, ingrese un email válido";
-    } else if (!emailRegex.test(email)) {
-      newErrors.email = "Ingrese un email válido";
     }
 
     if (!receiver) {
@@ -82,14 +68,6 @@ function Donaciones () {
       case "nameDonante":
         if (!value) return "El nombre es obligatorio";
         if (!nameRegex.test(value)) return "El nombre no es válido";
-        break;
-      case "numberPhone":
-        if (!value) return "Por favor, ingrese número de teléfono";
-        if (!numberPhoneRegex.test(value)) return "El teléfono debe ser un número";
-        break;
-      case "email":
-        if (!value) return "Por favor, ingrese un email válido";
-        if (!emailRegex.test(value)) return "Ingrese un email válido";
         break;
       case "description":
         if (!value || value.length < 10) return "Ingrese una descripción con al menos 10 caracteres";
@@ -133,8 +111,6 @@ function Donaciones () {
 
       setDonationData({
         nameDonante: "",
-        numberPhone: "",
-        email: "",
         description: "",
         receiver: "",
         amount: "",
@@ -169,40 +145,16 @@ function Donaciones () {
             />
             {errors.nameDonante && <p className={styles.errorText}>{errors.nameDonante}</p>}
           </>
-          <>
-            <Form.Label htmlFor="numberPhone" >Teléfono:</Form.Label>
-            <Form.Control 
-             type="text" 
-             className={`${styles.input} ${
-                 errors.numberPhone ? styles.errorBorder : ""
-              } ${errors.numberPhone ? styles.shakeAnimation : ""}`}
-              placeholder="Teléfono de contacto"
-              required
-              autoComplete="off"
-              name="numberPhone"
-              value={donationData.numberPhone}
-             onChange={handleChange}
-            />
-            {errors.numberPhone && (
-              <p className={styles.errorText}>{errors.numberPhone}</p>
-            )}
-          </>
-          <>
-            <Form.Label htmlFor="email" >Email:</Form.Label>
-            <Form.Control 
-              type="text"
-              className={`${styles.input} ${
-                  errors.email ? styles.errorBorder : ""
-              } ${errors.email ? styles.shakeAnimation : ""}`}
-              placeholder="Email"
-              required
-              autoComplete="off"
-              name="email"
-              value={donationData.email}
-              onChange={handleChange}
-            />
-            {errors.email && <p className={styles.errorText}>{errors.email}</p>}
-          </>
+          <div className={styles.userData}>
+            <div >
+              <label >Número de teléfono: </label>
+              <span> {user.numberPhone}</span>
+            </div>
+            <div className={styles.email}>
+              <label>Correo Electrónico: </label>
+              <span> {user.email}</span>
+           </div>
+          </div>
           <>
             <Form.Label htmlFor="receiver" >Destino:</Form.Label>
             <Form.Control 

@@ -188,8 +188,8 @@ case UPDATE_PET_STATUS:
     case POST_USER_FAILURE:
       return {
         ...state, // al haber error seteo en false el estado
-        userCreated: false,
-      };
+        userCreated:false
+      }
 
     case POST_DONATION_SUCCESS:
       return {

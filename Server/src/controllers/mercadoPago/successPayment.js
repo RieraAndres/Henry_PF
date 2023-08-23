@@ -2,7 +2,7 @@ const { Donacion } = require('../../db.js');
 
 const successPayment = async (req, res) => {
   try{
-    const { donacionId, mp_preference_id, mp_payment_id, mp_status } = req.body;
+    const { donacionId, mp_preference_id, mp_payment_id, mp_status } = req.query;
 
     const donacion = await Donacion.findByPk(donacionId);
 

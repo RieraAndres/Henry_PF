@@ -255,7 +255,7 @@ const handleGetAllDataOfUser = async (req, res) => {
 };
 
 const handleSetAdminUser = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.query;
   try {
     const adminUser = await setAdminUser(id);
     return res.status(200).json(adminUser);

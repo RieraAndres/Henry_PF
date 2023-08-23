@@ -1,5 +1,7 @@
 import axios from "axios";
 
+
+
 export const GET_PETS = "GET_PETS";
 export const GET_PET_DETAIL = "GET_PET_DETAIL";
 export const GET_PET_BY_NAME = "GET_PET_BY_NAME";
@@ -75,7 +77,9 @@ export function getPetDetail(id) {
 export function getPetsByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`/mascotas?name=${name}`);
+      const response = await axios.get(
+        `/mascotas?name=${name}`
+      );
       return dispatch({
         type: "GET_PET_BY_NAME",
         payload: response.data,
@@ -138,10 +142,13 @@ export const applyFilters = (filters, orden) => {
   };
 };
 
+
+
+
 export function updatePet(id, updatedFields) {
   return async function (dispatch) {
     try {
-      await axios.put(`http://localhost:3001/mascotas/${id}`, updatedFields);
+      await axios.put(`/mascotas/${id}`, updatedFields);
       console.log("Pet updated successfully"); // Add this line
       // Puedes realizar cualquier lógica adicional aquí después de la actualización
     } catch (error) {
@@ -170,26 +177,31 @@ export function postUser(user) {
   return async function (dispatch) {
     try {
       const response = await axios.post("/usuario/userLog", user);
-
+      
       // Si el servidor devuelve un código de estado 201 (creado), muestra el mensaje de éxito
       if (response.status === 201) {
         dispatch({
           type: POST_USER_SUCCESS, //para setear userCreated en true y redireccionar a la view login
-        });
+        })
         window.alert(response.data.message); // Accedemos al mensaje en response.data
+        
       }
+      
     } catch (error) {
       if (error.response && error.response.status === 409) {
         dispatch({
-          type: POST_USER_FAILURE, // para setear userCreated en false y mantenerme en la view de registro
-        });
+          type: POST_USER_FAILURE,// para setear userCreated en false y mantenerme en la view de registro
+        })
         window.alert(error.response.data.error); // Muestra el mensaje personalizado del servidor en caso de un error 409
       } else {
         window.alert(error.message);
       }
+
     }
   };
 }
+
+
 
 export function disablePetSuccess(id) {
   return {
@@ -212,7 +224,7 @@ export function updatePetStatus(id, status) {
   return async function (dispatch) {
     try {
       // Realiza la petición para cambiar el estado de la mascota en el servidor
-      await axios.put(`http://localhost:3001/mascotas/status/${id}`, {
+      await axios.put(`/mascotas/status/${id}`, {
         newStatus: status,
       });
 
@@ -245,7 +257,7 @@ export function logInUser(userName, password) {
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        `http://localhost:3001/loginAuth/login`,
+        `/loginAuth/login`,
         { userName, password }
       );
 
@@ -257,7 +269,7 @@ export function logInUser(userName, password) {
       }
       // Ahora, obtenemos los datos del usuario logueado utilizando la ruta userData
       const userResponse = await axios.get(
-        `http://localhost:3001/usuario/userData?userName=${userName}`
+        `/usuario/userData?userName=${userName}`
       );
       dispatch({
         type: GET_USER_DATA,
@@ -265,20 +277,21 @@ export function logInUser(userName, password) {
       });
       console.log(userResponse);
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        window.alert(error.response.data.error);
-      } else {
-        window.alert(error.message);
+      if(error.response && error.response.status === 400 ){
+        window.alert(error.response.data.error)
+      }else{
+        window.alert(error.message)
       }
     }
-  };
+  }
+
 }
 
 export function logOutUser() {
   localStorage.removeItem("authUser"); //al cerrar la sesion elimina su almacenamiento
   return {
-    type: USER_LOGOUT,
-  };
+    type: USER_LOGOUT
+  }
 }
 
 export const submitAdoptionRequest = (formData, petId) => async (dispatch) => {
@@ -295,17 +308,16 @@ export function loginUserGoogle(email, name, lastName) {
     try {
       const randomNumber = Math.floor(Math.random() * 1000) + 1;
       const userNameWithRandomNumber = name + lastName + randomNumber;
-      const response = await axios.get(
-        `/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
-      );
+      const response = await axios.get(`/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`)
       return dispatch({
         type: LOGIN_USER_GOOGLE,
-        payload: response.data,
-      });
+        payload: response.data
+      })
     } catch (error) {
       return error.message;
+      
     }
-  };
+  }
 }
 
 export function postDonationAndMercadoPago(
@@ -317,7 +329,7 @@ export function postDonationAndMercadoPago(
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        `http://localhost:3001/donations/payment`,
+        `/donations/payment`,
         donationData
       );
       const { preferenceId, donate } = response.data;
@@ -337,7 +349,7 @@ export function postDonationAndMercadoPago(
 
       if (mp_payment_id && mp_status) {
         const resMpago = await axios.post(
-          `http://localhost:3001/donations/success`,
+          `/donations/success`,
           {
             donationId: donate.id,
             mp_payment_id,
