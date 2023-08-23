@@ -5,7 +5,9 @@
     align-items: center;
 
 }
-
+.contenido{
+    padding-top: 50px;
+}
 .form {
     background-color: #f8ccf2af;
     max-width: 900px;

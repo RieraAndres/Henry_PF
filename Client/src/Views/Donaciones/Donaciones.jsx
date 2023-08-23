@@ -127,7 +127,8 @@ function Donaciones () {
   return(
     <div className={styles.fondo}>
         <NavBar/>
-      <Form className={styles.form}>
+        <div className={styles.contenido}>
+        <Form className={styles.form}>
         <Form.Group className="mb-3" controlId="formDonation">
           <>
             <Form.Label htmlFor="nameDonante" >Nombre Completo:</Form.Label>
@@ -223,6 +224,8 @@ function Donaciones () {
             )}
           </>       
       </Form>
+        </div>
+      
       <Footer/>
     </div>
   )
