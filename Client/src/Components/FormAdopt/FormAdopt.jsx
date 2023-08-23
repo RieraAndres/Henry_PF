@@ -20,7 +20,7 @@ const FormAdopt = ({petId}) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 
-  const nameUserRegex = /^[a-zA-Z\s]+$/;
+  const nameRegex = /^[a-zA-Z\s]+$/;
   const numberPhoneRegex = /^[0-9]+$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -108,7 +108,7 @@ const FormAdopt = ({petId}) => {
 
     if (!nameUser) {
       newErrors.nameUser = "El nombre es obligatorio";
-    } else if (!nameUserRegex.test(nameUser)) {
+    } else if (!nameRegex.test(nameUser)) {
       newErrors.nameUser = "El nombre no es válido";
     }
 
@@ -143,14 +143,14 @@ const FormAdopt = ({petId}) => {
   };
 
   const handleChange = (e) => {
-    const { nameUser, value } = e.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [nameUser]: value }));
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     setFormSubmitted(false); // Añade esta línea para habilitar el botón nuevamente al cambiar un campo
 
     // Validar campo de fecha al cambiar su valor
-    if (nameUser === "birthdate") {
+    if (name === "birthdate") {
       const errorMessage = validarbirthdate(value);
-      setErrors((prevErrors) => ({ ...prevErrors, [nameUser]: errorMessage }));
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
     }
   };
 
@@ -178,19 +178,19 @@ const FormAdopt = ({petId}) => {
   };
 
   return (
-    <div classnameUser={styles.createDog}>
-      <div classnameUser={styles.container}>
-        <div classnameUser={styles.createDogContainer}>
-          <form classnameUser={styles.form} onSubmit={handleSubmit}>
-            {/* nameUser */}
-            <div classnameUser={styles.sectionInputCG}>
-              <label classnameUser={styles.label} htmlFor="nameUser">
+    <div className={styles.createDog}>
+      <div className={styles.container}>
+        <div className={styles.createDogContainer}>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            {/* Name */}
+            <div className={styles.sectionInputCG}>
+              <label className={styles.label} htmlFor="nameUser">
                 {/* Nombre Completo: */}
               </label>
               <input
                 type="text"
-                classnameUser={styles.input}
-                nameUser="nameUser"
+                className={styles.input}
+                name="nameUser"
                 required
                 autoComplete="off"
                 placeholder="Nombre completo"
@@ -198,19 +198,19 @@ const FormAdopt = ({petId}) => {
                 onChange={handleChange}
               />
               {errors.nameUser && (
-                <p classnameUser={styles.errorText}>{errors.nameUser}</p>
+                <p className={styles.errorText}>{errors.nameUser}</p>
               )}
             </div>
 
             {/* numberPhone */}
-            <div classnameUser={styles.sectionInputCG}>
-              <label classnameUser={styles.label} htmlFor="numberPhone">
+            <div className={styles.sectionInputCG}>
+              <label className={styles.label} htmlFor="numberPhone">
                 {/* Teléfono: */}
               </label>
               <input
                 type="text"
-                classnameUser={styles.input}
-                nameUser="numberPhone"
+                className={styles.input}
+                name="numberPhone"
                 required
                 autoComplete="off"
                 placeholder="Teléfono"
@@ -218,19 +218,19 @@ const FormAdopt = ({petId}) => {
                 onChange={handleChange}
               />
               {errors.numberPhone && (
-                <p classnameUser={styles.errorText}>{errors.numberPhone}</p>
+                <p className={styles.errorText}>{errors.numberPhone}</p>
               )}
             </div>
 
             {/* Email */}
-            <div classnameUser={styles.sectionInputCG}>
-              <label classnameUser={styles.label} htmlFor="email">
+            <div className={styles.sectionInputCG}>
+              <label className={styles.label} htmlFor="email">
                 {/* Email: */}
               </label>
               <input
                 type="email"
-                classnameUser={styles.input}
-                nameUser="email"
+                className={styles.input}
+                name="email"
                 required
                 autoComplete="off"
                 placeholder="Ingrese un email válido"
@@ -240,20 +240,20 @@ const FormAdopt = ({petId}) => {
               />
               <div>
                 {errors.email && (
-                  <span classnameUser={styles.errorText}>{errors.email}</span>
+                  <span className={styles.errorText}>{errors.email}</span>
                 )}
               </div>
             </div>
-            <div classnameUser={styles.sectionInputCG}>
-              <label classnameUser={styles.label} htmlFor="addressAdoption">
+            <div className={styles.sectionInputCG}>
+              <label className={styles.label} htmlFor="addressAdoption">
                 Ubicación:
               </label>
               <input
                 type="text"
-                classnameUser={`${styles.input} ${
+                className={`${styles.input} ${
                   errors.location ? styles.errorBorder : ""
                 }`}
-                nameUser="addressAdoption"
+                name="addressAdoption"
                 required
                 autoComplete="off"
                 placeholder="Ubicación"
@@ -261,20 +261,20 @@ const FormAdopt = ({petId}) => {
                 onChange={handleChange}
               />
               {errors.location && (
-                <p classnameUser={styles.errorText}>{errors.location}</p>
+                <p className={styles.errorText}>{errors.location}</p>
               )}
             </div>
 
             {/* Fecha de Nacimiento */}
-            <div classnameUser={styles.sectionInputCG}>
-              <label classnameUser={styles.label} htmlFor="birthdate">
+            <div className={styles.sectionInputCG}>
+              <label className={styles.label} htmlFor="birthdate">
                 Fecha de Nacimiento:
               </label>
-              <div classnameUser={styles.customDateInput}>
+              <div className={styles.customDateInput}>
                 <div>
                   <label></label>
                   <select
-                    classnameUser={styles.formGroup}
+                    className={styles.formGroup}
                     value={day}
                     onChange={(e) => setDay(e.target.value)}
                   >
@@ -287,7 +287,7 @@ const FormAdopt = ({petId}) => {
 
                   <label></label>
                   <select
-                    classnameUser={styles.formGroup}
+                    className={styles.formGroup}
                     value={month}
                     onChange={(e) => setMonth(e.target.value)}
                   >
@@ -300,7 +300,7 @@ const FormAdopt = ({petId}) => {
 
                   <label></label>
                   <select
-                    classnameUser={styles.formGroup}
+                    className={styles.formGroup}
                     value={year}
                     onChange={(e) => setYear(e.target.value)}
                   >
@@ -312,18 +312,18 @@ const FormAdopt = ({petId}) => {
                   </select>
                 </div>
                 {errors.birthdate && (
-                  <p classnameUser={styles.errorText}>{errors.birthdate}</p>
+                  <p className={styles.errorText}>{errors.birthdate}</p>
                 )}
               </div>
             </div>
 
             {/* comment */}
-            <div classnameUser={styles.sectionInputCG}>
-              <label classnameUser={styles.label} htmlFor="comment">
+            <div className={styles.sectionInputCG}>
+              <label className={styles.label} htmlFor="comment">
                 Razones para adoptar:
               </label>
               <textarea
-                nameUser="comment"
+                name="comment"
                 id="commentCG"
                 rows="4"
                 style={{ resize: "none" }} // Bloquear el estiramiento del textarea
@@ -336,14 +336,14 @@ const FormAdopt = ({petId}) => {
                 onChange={handleChange}
               ></textarea>
               {errors.comment && (
-                <p classnameUser={styles.errorText}>{errors.comment}</p>
+                <p className={styles.errorText}>{errors.comment}</p>
               )}
             </div>
 
             {/* Botón submit */}
             <button
               type="submit"
-              classnameUser={`${styles.createBtn} ${
+              className={`${styles.createBtn} ${
                 formSubmitted && !isFormValid ? styles.disabled : ""
               }`}
               disabled={formSubmitted && !isFormValid}
