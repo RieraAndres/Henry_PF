@@ -106,8 +106,15 @@ function ProfileUser(){
       if(userData.userNewPassword !== userData.userNewPasswordToDispatch){
         alert("Las contraseñas no coinciden")
       }else{
-        console.log(userData.image)
+        setIsEditing(true)
         dispatch(updateUser( user.email,userData.name,userData.lastName,userData.userName,userData.birthdate,userData.address,userData.numberPhone,userData.image,user.password,userData.userActualPassword,userData.userNewPassword))
+        const updatedUserData = {
+          ...userData,
+          userNewPassword: "",  // Setear a cadena vacía
+          userNewPasswordToDispatch: "",  // Setear a cadena vacía
+          userActualPassword: ""  // Setear a cadena vacía
+      };
+      setUserData(updatedUserData)
       }
     }else {
       dispatch(updateUser( user.email,userData.name,userData.lastName,userData.userName,userData.birthdate,userData.address,userData.numberPhone, userData.image))
