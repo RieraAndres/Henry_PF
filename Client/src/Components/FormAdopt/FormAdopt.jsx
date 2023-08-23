@@ -105,7 +105,7 @@ const FormAdopt = ({petId}) => {
   };
 
   const validateForm = () => {
-    const { nameUser, numberPhone, email, comment, birthdate } = formData;
+    const { nameUser, numberPhone, comment, birthdate } = formData;
 
     const newErrors = {};
 
@@ -151,7 +151,7 @@ const FormAdopt = ({petId}) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const isFormValid = validateForm();
