@@ -393,7 +393,7 @@ const handleCancel = () => {
               name="name"
               required
               autoComplete="off"
-              placeholder="Nombre completo"
+              placeholder="Nombre"
               value={formData.name}
               onChange={handleChange}
             />
@@ -570,7 +570,7 @@ const handleCancel = () => {
               } ${!isLocationValid ? styles.shakeAnimation : ""}`}
               name="location"
               autoComplete="off"
-              placeholder="Ubicación (Google Maps URL)"
+              placeholder="Ubicación"
               value={formData.location}
               onChange={handleLocationChange}
             />
