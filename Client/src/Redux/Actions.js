@@ -27,6 +27,17 @@ export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_UPDATE = "USER_UPDATE";
 export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
 export const GET_MY_PETS = "GET_MY_PETS";
+export const GET_ALL_USERS = "GET_ALL_USERS";
+export const DELETE_USER = "DELETE_USER";
+export const CLEAR_ALERTS_STATE = "CLEAR_ALERTS_STATE";
+export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
+export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
+export const GET_ALL_USER_DATA = "GET_ALL_USER_DATA";
+export const DELETE_PET_DB = "DELETE_PET_DB";
+export const GET_ALL_DONATIONS = "GET_ALL_DONATIONS";
+export const GET_REVIEWS = "GET_REVIEWS";
+export const CREATE_REVIEW = "CREATE_REVIEW";
+export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
 
 export function getPets() {
   return async function (dispatch) {
@@ -229,10 +240,10 @@ export const loginUserSuccess = (userData) => {
 export function logInUser(userName, password) {
   return async function (dispatch) {
     try {
-      const response = await axios.post(
-        `/loginAuth/login`,
-        { userName, password }
-      );
+      const response = await axios.post(`/loginAuth/login`, {
+        userName,
+        password,
+      });
 
       if (response.status === 200) {
         const responseData = response.data;
@@ -301,10 +312,7 @@ export function postDonationAndMercadoPago(
 ) {
   return async function (dispatch) {
     try {
-      const response = await axios.post(
-        `/donations/payment`,
-        donationData
-      );
+      const response = await axios.post(`/donations/payment`, donationData);
       const { preferenceId, donate } = response.data;
 
       dispatch({
@@ -429,11 +437,10 @@ export function createUserPassword(
   };
 }
 
-
-export function getMyPets(id){
+export function getMyPets(id) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(/mascotas/mispublicaciones/${id});
+      const response = await axios.get(`/mascotas/mispublicaciones/${id}`);
       console.log(response.data);
       return dispatch({
         type: "GET_MY_PETS",
@@ -564,7 +571,6 @@ export function clearAlerts() {
   };
 }
 
-
 export function clearAux() {
   //para limpiar AuxState al desmontar el detail
   return {
@@ -572,13 +578,16 @@ export function clearAux() {
   };
 }
 
-
 // Reviews
 
-export const createReview = ({puntuacion, comentario, userName}) => {
+export const createReview = ({ puntuacion, comentario, userName }) => {
   return async function (dispatch) {
     try {
-      const response = await axios.post("/review", {puntuacion, comentario, userName});
+      const response = await axios.post("/review", {
+        puntuacion,
+        comentario,
+        userName,
+      });
       return dispatch({
         type: CREATE_REVIEW,
         payload: response.data,
