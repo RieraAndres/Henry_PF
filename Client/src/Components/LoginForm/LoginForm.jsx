@@ -54,13 +54,22 @@ function LoginForm() {
 
   function handleSubmit(e){ // al dar submit despachara la action de logInUser
     e.preventDefault();
-    if(user.userName && user.password){
-      dispatch(logInUser(user.userName,user.password))
-      navigate("/inicio");  
-    }
-    
+
+    dispatch(logInUser(user.userName, user.password))
+    .then((result) => {
+      if (result.success) {
+        navigate("/inicio"); // Redirige solo si el inicio de sesión fue exitoso
+      } else {
+        // Muestra un mensaje de error al usuario en caso de inicio de sesión fallido
+        window.alert("Inicio de sesión fallido. Verifica tus credenciales.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error en el inicio de sesión:", error);
+    }); 
+
   }
-  
+  const [isGoogleLogin, setIsGoogleLogin] = useState(false);
   useEffect(() => {
     // Verifica si el usuario ya está autenticado
     const authToken = localStorage.getItem("authUser");
@@ -78,8 +87,11 @@ function LoginForm() {
     .then((response) => {
       if (response.success) {
         navigate("/inicio"); // Redirige al inicio si el inicio de sesión con Google fue exitoso
+      } else {
+        throw Error('Ingrese usuario valido')
       }
     });
+    setIsGoogleLogin(true);
   
   }
 
