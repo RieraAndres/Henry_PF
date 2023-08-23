@@ -54,6 +54,7 @@ function LoginForm() {
 
   function handleSubmit(e){ // al dar submit despachara la action de logInUser
     e.preventDefault();
+
     dispatch(logInUser(user.userName, user.password))
     .then((result) => {
       if (result.success) {
@@ -66,6 +67,7 @@ function LoginForm() {
     .catch((error) => {
       console.error("Error en el inicio de sesión:", error);
     }); 
+
   }
   const [isGoogleLogin, setIsGoogleLogin] = useState(false);
   useEffect(() => {

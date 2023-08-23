@@ -20,9 +20,9 @@ const donationsPays = async (req, res) => {
 				},
 			],
 			back_urls: {
-				success: "http://localhost:3000/donations",
-				failure: "http://localhost:3000/donations/failure",
-				webhook: "http://localhost:3000/donations/webhook",
+				success: "https://henry-pf-git-main-rieraandres.vercel.app/donations",
+				failure: "https://henry-pf-git-main-rieraandres.vercel.app/failure",
+				webhook: "https://henry-pf-git-main-rieraandres.vercel.app/webhook",
 			},
 			auto_return: "approved",
 		});

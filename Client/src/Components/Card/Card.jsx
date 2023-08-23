@@ -13,7 +13,7 @@ function CardComponent({ mascota }) { //traigo mascota desde Cards
   const alert = useSelector(state=>state.alerts)
   const location = useLocation()
   const dispatch = useDispatch()
-  const { name, imageUrl ,age,id,status} = mascota; //destructuro datos a renderizar en la Card
+  const { name, imageUrl ,age,id,status ,size} = mascota; //destructuro datos a renderizar en la Card
 
   const handleDeletePet = (id)=>{
     dispatch(deletePetDb(id))
@@ -37,6 +37,9 @@ function CardComponent({ mascota }) { //traigo mascota desde Cards
             <div className={styles.info}>
               <p className={styles.nombre}>{name}</p>
               <p className={styles.edad}><b>{age}</b> años</p>
+            </div>
+            <div>
+              <p className={styles.tamaño}>{size}</p>
             </div>
           </div>
         </div>

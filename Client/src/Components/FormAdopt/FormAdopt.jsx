@@ -2,17 +2,21 @@ import React, { useState, useEffect } from "react";
 import styles from "../FormAdopt/FormAdopt.module.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { submitAdoptionRequest } from '../../Redux/Actions';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 const FormAdopt = ({petId}) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userData);
-  
+
   const [formData, setFormData] = useState({
-    nameUser: "",
-    numberPhone: "",
-    email: "",
-    addressAdoption:"",
-    birthdate: "",
+    nameUser: `${user.name} ${user.lastName}` || "",
+    numberPhone: user.numberPhone || "",
+    email: user.email || "",
+    addressAdoption: user.address || "",
+    birthdate: user.birthdate || "1905-01-01",
     comment: "",
   });
 
@@ -33,12 +37,12 @@ const FormAdopt = ({petId}) => {
 
   useEffect(() => {
     // Actualizar el valor de birthdate en el estado del formulario
-    if (day && month && year) {
+    if (day || month || year) {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        birthdate: `${year}-${month.toString().padStart(2, "0")}-${day
+        birthdate: `${year}-${month.toString().padStart(2, "01")}-${day
           .toString()
-          .padStart(2, "0")}`,
+          .padStart(2, "01")}`,
       }));
     }
   }, [day, month, year]);
@@ -100,12 +104,8 @@ const FormAdopt = ({petId}) => {
     return "";
   };
 
-
-  const isValidLocation = (location) => {
-    return location.trim() !== ""; // Puedes agregar más validaciones si es necesario
-  };
   const validateForm = () => {
-    const { nameUser, numberPhone, email, comment, birthdate } = formData;
+    const { nameUser, numberPhone, comment, birthdate } = formData;
 
     const newErrors = {};
 
@@ -156,22 +156,38 @@ const FormAdopt = ({petId}) => {
 
     const isFormValid = validateForm();
 
-  if (isFormValid) {
-    dispatch(
-      submitAdoptionRequest({
-        nameUser: formData.nameUser,
-        numberPhone: formData.numberPhone,
-        email: formData.email,
-        addressAdoption: formData.addressAdoption,
-        birthdate: formData.birthdate,
-        comment: formData.comment,
-      },
-      petId
-      )
-    );
+    if (isFormValid) {
+      // Envía el formulario
+      // Muestra una notificación de éxito usando react-toastify
+      toast.success("Formulario enviado con éxito", {
+        position: "top-center",
+        autoClose: 3000, // Cierra la notificación después de 3 segundos
+        onClose: () => {
+          // Redirige a la página /home después de cerrar la notificación
+          navigate("/home");
+        },
+      });
+      try {
+        dispatch(
+          submitAdoptionRequest({
+            nameUser: formData.nameUser,
+            numberPhone: formData.numberPhone,
+            email: formData.email,
+            addressAdoption: formData.addressAdoption,
+            birthdate: formData.birthdate,
+            comment: formData.comment,
+          },
+            petId
+          )
+        );
 
-    setFormSubmitted(true);
-  }
+        setFormSubmitted(true);
+
+      } catch (error) {
+        // Maneja los errores de envío del formulario aquí
+        console.error("Error al enviar el formulario:", error);
+      }
+    }
   };
 
   return (
@@ -269,23 +285,6 @@ const FormAdopt = ({petId}) => {
                 Fecha de Nacimiento:
               </label>
               <div className={styles.customDateInput}>
-                {/* <input
-        type="date"
-        name="birthdate"
-        id="fecha"
-        min="1905-01-01" max="2023-08-05"
-        className={`${styles.input} ${styles.centerDate}`}
-        required
-        autoComplete="off"
-        value={formData.birthdate}
-        onChange={handleChange}
-        onBlur={(e) => {
-          const { name, value } = e.target;
-          const errorMessage = validarbirthdate(value);
-          setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
-        }}
-      /> */}
-      
                 <div>
                   <label></label>
                   <select
@@ -365,9 +364,7 @@ const FormAdopt = ({petId}) => {
             >
               Enviar formulario
             </button>
-
-            {/* Mostrar un mensaje de éxito después de enviar el formulario */}
-            {formSubmitted && <p>Formulario enviado con éxito.</p>}
+          <ToastContainer />
           </form>
         </div>
       </div>

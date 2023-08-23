@@ -353,7 +353,7 @@ export function postDonationAndMercadoPago(
           payload: "Error al obtener los datos de pago de Mercado Pago",
         });
 
-        window.alert("Error al obtener los datos de pago de Mercado Pago.");
+        /*window.alert("Error al obtener los datos de pago de Mercado Pago.");*/
       }
     } catch (error) {
       dispatch({
