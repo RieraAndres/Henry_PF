@@ -6,15 +6,11 @@ import { NavLink } from "react-router-dom"
 import { useSelector,useDispatch } from 'react-redux';
 import { createUserPassword, updateUser } from '../../Redux/Actions';
 import { validate } from './formValidator';
-import axios from 'axios';
-import moment from 'moment';
 
 function ProfileUser(){
 
     const [isEditing, setIsEditing] = useState(false);
     const [editPassword, setEditPassword] = useState(false);
-    const [cloudinaryImage, setCloudinaryImage] = useState("");
-    const [isPhotoSelected, setIsPhotoSelected] = useState(false);
 
     const [errors, setErrors] = useState({
       name:"",
@@ -23,13 +19,14 @@ function ProfileUser(){
       userNewPassword:"",
       createdPassword:"",
       createdPasswordToDispatch:"",
-      userName:"",
+      userName:""
     });
 
+    
+    
     const user = useSelector((state) => state.userData);
     const dispatch = useDispatch();
     const [userData, setUserData] = useState({
-      image: user.image,
       name: user.name || "",
       lastName: user.lastName || "",
       birthdate: user.birthdate || "01/01/1905",
@@ -46,52 +43,14 @@ function ProfileUser(){
       createdPasswordToDispatch: user.createdPasswordToDispatch || "",
       createdEmail: user.createdEmail || ""
     });
-
-  const handleImageUpload = async (file) => {
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "profile");
-  
-      const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/dtovejlec/image/upload",
-        formData
-      );
-  
-      const image = response.data.secure_url;
-      setUserData((prevUserData) => ({
-        ...prevUserData,
-        image: image,
-      }));
-    } catch (error) {
-      console.error("Error al cargar la imagen a Cloudinary:", error);
-    }
-  };
-
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      try {
-        await handleImageUpload(file); // Llamar a la función para cargar la imagen a Cloudinary
-        setIsPhotoSelected(true);
-        setCloudinaryImage(file.name);
-      } catch (error) {
-        console.error("Error al cargar la imagen:", error);
-      }
-    } else {
-      setIsPhotoSelected(false);
-      setCloudinaryImage("");
-    }
-  };
     
-  const handleInputChange = async (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({ ...prevData, [name]: value }));
     if (['createdEmail', 'userNewPasswordToDispatch', 'userNewPassword', 'createdPassword', 'createdPasswordToDispatch', 'userName'].includes(name)) {
       setErrors(validate({ ...userData, [name]: value }))  
       }
   };
-
   const handleShowClick = () => {
     setIsEditing(true);
   };
@@ -106,11 +65,10 @@ function ProfileUser(){
       if(userData.userNewPassword !== userData.userNewPasswordToDispatch){
         alert("Las contraseñas no coinciden")
       }else{
-        console.log(userData.image)
-        dispatch(updateUser( user.email,userData.name,userData.lastName,userData.userName,userData.birthdate,userData.address,userData.numberPhone,userData.image,user.password,userData.userActualPassword,userData.userNewPassword))
+        dispatch(updateUser( user.email,userData.name,userData.lastName,userData.userName,userData.birthdate,userData.address,userData.numberPhone,user.password,userData.userActualPassword,userData.userNewPassword))
       }
     }else {
-      dispatch(updateUser( user.email,userData.name,userData.lastName,userData.userName,userData.birthdate,userData.address,userData.numberPhone, userData.image))
+      dispatch(updateUser( user.email,userData.name,userData.lastName,userData.userName,userData.birthdate,userData.address,userData.numberPhone))
     }
   };
   const handleShowEditPassword = ()=>{
@@ -135,32 +93,9 @@ function ProfileUser(){
     <div className={styles.BigCont}>
     <div className={styles.container}>
       <div className={styles.DivFoto}>
-        <img src={userData.image} alt="Foto de perfil" />
+        <img src={userData.photo} alt="Foto de perfil" />
       </div>
       <div className={styles.DivInput}>
-      <div>
-      {isEditing ? (
-  <>
-    <label>Foto de perfil:</label>
-    <br />
-    {/* Aplica el estilo personalizado al botón */}
-    <label className={styles.button2}>
-      &#8679; {/* Símbolo de carga */}
-      Seleccionar archivo
-      <input
-        type="file"
-        accept="image/*"
-        name="image"
-        onChange={handleImageChange}
-      />
-    </label>
-    {/* Muestra el nombre del archivo seleccionado */}
-    {isPhotoSelected && <p className={styles.file}>{cloudinaryImage}</p>}
-  </>
-): (
-            <></>
-          )}
-      </div>
         <div >
           <label>Nombre:</label>
           {isEditing ? (

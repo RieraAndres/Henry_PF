@@ -8,7 +8,7 @@ const getAllAdoptInfo = async() => {
             include: {
                 model: User,
                 as: 'adoptante',
-                attributes: ['email', 'name', 'numberPhone', 'birthdate'],
+                attributes: ['email'],
             }})
         return allAdoptInfo
     } catch (error) {

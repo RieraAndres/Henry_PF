@@ -33,7 +33,7 @@ const handlerIdReview = async(req, res) => {
         if (reviewUser.length === 0) {
             return res.status(400).json("No existen reseñas para el usuario especificado");
         } else {
-            return res.json(reviewUser)
+            return res.json({Reviews: reviewUser})
         }
     } catch (error) {
        return res.status(500).json(error.message)

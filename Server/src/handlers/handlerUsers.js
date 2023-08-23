@@ -7,8 +7,8 @@ const modifyUser = require("../controllers/crudUser/putModifyProfileUser.js");
 const createUserPassword = require("../controllers/crudUser/putCreateUserPassword.js");
 const getAllUsers = require("../controllers/crudUser/getAllUsers.js");
 const deleteUser = require("../controllers/crudUser/deleteUser.js");
-const getAllDataOfUser = require("../controllers/crudUser/getAllPetsOfUser.js");
-const setAdminUser = require("../controllers/crudUser/setAdminUser.js");
+const getAllPetsOfUser = require('../controllers/crudUser/getAllPetsOfUser.js');
+const setAdminUser = require('../controllers/crudUser/setAdminUser.js');
 
 const handlerRegisterUser = async (req, res) => {
   const {
@@ -145,7 +145,6 @@ const handleUserLoginFacebook = async (req, res) => {
 const handlerModifyUser = async (req, res) => {
   let {
     email,
-    image,
     name,
     lastName,
     userName,
@@ -162,7 +161,6 @@ const handlerModifyUser = async (req, res) => {
     } else {
       let modifiedUser = await modifyUser(
         email,
-        image,
         name,
         lastName,
         userName,
@@ -223,31 +221,29 @@ const handleGetAllUsers = async (req, res) => {
 };
 
 const handleDeleteUser = async (req, res) => {
-  const { id } = req.query;
+  const { id } = req.body;
   try {
     if (!id) {
       return res.status(400).json("Ingrese un id");
     }
     const user = await deleteUser(id);
     if (user === 1) {
-      return res.status(200).json(`Usuario con ID:${id} eliminado`);
+      return res.status(200).json("Usuario eliminado");
     } else {
-      return res.status(400).json("Eliminacion fallida");
+      return res.status(200).json("Eliminacion fallida");
     }
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
 
-const handleGetAllDataOfUser = async (req, res) => {
-  const { id } = req.query;
+const handleGetAllPetsOfUser = async (req, res) => {
   try {
-    const pets = await getAllDataOfUser(id);
-    if (pets === null || pets.length === 0) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
-    } else {
-      return res.status(200).json(pets);
+    const pets = await getAllPetsOfUser();
+    if(pets === null || pets.length === 0){
+      return res.status(404).json({ error: 'Usuario no encontrado, o no ha posteado mascotas'})
     }
+    return res.status(200).json(pets);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: error.message });
@@ -255,7 +251,7 @@ const handleGetAllDataOfUser = async (req, res) => {
 };
 
 const handleSetAdminUser = async (req, res) => {
-  const { id } = req.query;
+  const { id } = req.body;
   try {
     const adminUser = await setAdminUser(id);
     return res.status(200).json(adminUser);
@@ -275,6 +271,6 @@ module.exports = {
   handleCreateUserPassword,
   handleGetAllUsers,
   handleDeleteUser,
-  handleGetAllDataOfUser,
+  handleGetAllPetsOfUser,
   handleSetAdminUser,
 };

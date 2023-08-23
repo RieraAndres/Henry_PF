@@ -1,25 +1,15 @@
-const { Mascota, User } = require("../../db");
+const { Mascota, User } = require('../../db');
 
-const postPet = async (
-  name,
-  gender,
-  age,
-  imageUrl,
-  specie,
-  size,
-  location,
-  description,
-  email,
-  numberPhone
-) => {
+const postPet = async (name, gender, age, imageUrl, specie, size, location, description, email, numberPhone) => {
   try {
     // Verificar si el usuario ya existe
     let ownerPet = await User.findOne({
       where: {
         email,
+        numberPhone,
       },
     });
-
+    
     // Crear la mascota y asignarla al usuario
     const newPet = await Mascota.create({
       name,
@@ -35,9 +25,10 @@ const postPet = async (
 
     return newPet;
   } catch (error) {
-    console.error("Error al crear la mascota:", error);
+    console.error('Error al crear la mascota:', error);
     throw error;
   }
 };
 
 module.exports = postPet;
+

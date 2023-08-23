@@ -3,16 +3,49 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 
-  up: async (queryInterface, Sequelize) => {
-    
-    await queryInterface.addColumn('Users', 'image', {
-      type: Sequelize.STRING,
-      allowNull: true,
-    });
+  down: async(queryInterface, Sequelize) => {
+    /*await queryInterface.removeColumn('Donacions', 'date');
+    await queryInterface.removeColumn('Donacions', 'nameDonante');*/
   },
 
-  down: async(queryInterface, Sequelize) => {
-    await queryInterface.removeColumn('Users', 'idFacebook');
+  up: async (queryInterface, Sequelize) => {
+    /*await queryInterface.addColumn('Donacions', 'nameDonante', {
+      type: Sequelize.STRING,
+      allowNull: true,
+    });*/
+
+    /*await queryInterface.addColumn('Donacions', 'date', {
+      type: Sequelize.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.NOW,
+    });*/
+
+    await queryInterface.addColumn('Donacions', 'numberPhone', {
+      type: Sequelize.STRING,
+    });
+
+    await queryInterface.addColumn('Donacions', 'email', {
+      type: Sequelize.STRING,
+      allowNull: true,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
+    });
+
+    await queryInterface.addColumn('Donacions', 'mp_preference_id', {
+      type: Sequelize.STRING,
+      unique: true,
+    });
+
+    await queryInterface.addColumn('Donacions', 'mp_payment_id', {
+      type: Sequelize.STRING,
+      unique: true,
+    });
+
+    await queryInterface.addColumn('Donacions', 'mp_status', {
+      type: Sequelize.STRING,
+    });
   }
 };
 /* tener instalada dependencia sequelize-cli, luego crear una carpeta "config" en raíz de server, y adentro crear un archivo "config.json" con el siguiente contenido;

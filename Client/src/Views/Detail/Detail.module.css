@@ -14,10 +14,7 @@
 }
 
 
-.contenido h4{
-    word-wrap: break-word;
 
-}
 .contenido{
     text-align: left;
 }
@@ -31,7 +28,6 @@
     font-size: 20px;
     font-weight: 500;
     width:100%;
-    word-wrap: break-word;
 }
 
 

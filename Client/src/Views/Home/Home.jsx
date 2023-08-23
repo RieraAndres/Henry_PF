@@ -61,13 +61,13 @@ function Home() {
 
   function paginate(pageNumber) {
     setCurrentPage(pageNumber);
-    setActivePage(pageNumber);
+    setActivePage(pageNumber)
   }
 
   return (
     <div className={styles.fondo}>
       <NavBar />
-      <div style={{ paddingTop: "110px" }}>
+      <div style={{ paddingTop: "90px" }}>
         <FiltersComponent setCurrentPage={setCurrentPage} setActivePage={setActivePage}/>
         <CardsComponents mascotas={currentCards} />
         <div className={styles.pagination}>

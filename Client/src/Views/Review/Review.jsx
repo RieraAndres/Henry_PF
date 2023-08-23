@@ -1,10 +1,4 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createReview, getUserReviews, getAllReviews } from "../../Redux/Actions";
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { useState } from "react";
 import NavBar from "../../Components/NavBar/NavBar";
 import Footer from "../../Components/Footer/Footer";
 
@@ -12,73 +6,32 @@ import styles from "./Review.module.css"
 
 
 function Reviews() {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.userData);
-  console.log(user)
-  const [UserReviewsLocal, setUserReviewsLocal] = useState([]);
-  const allReviews = useSelector((state) => state.allReviews);
-  const [rating, setRating] = useState("");
-  const [comment, setComment] = useState("");
-
-  const handleRatingChange = (value) => {
-    setRating(value);
-  };
-
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
-
-  const handleCreateReview = () => {
-    if (!comment) {
-      toast.error("Por favor, escribe un comentario antes de crear la reseña", {
-        position: "top-center",
-        autoClose: 3000, // Tiempo en milisegundos para cerrar automáticamente la notificación
-      });
-      return;
-    }
-
-    if (!rating) {
-      toast.error("Por favor, selecciona una valoración antes de crear la reseña.", {
-        position: "top-center",
-        autoClose: 3000, // Tiempo en milisegundos para cerrar automáticamente la notificación
-      });
-      return;
-    }
-
-    const reviewData = {
-      puntuacion: rating,
-      comentario: comment,
-      userName: user.userName,
+    const [rating, setRating] = useState(1);
+    const [comment, setComment] = useState("");
+    const [reviews, setReviews] = useState([]);
+    const [filter, setFilter] = useState("all"); // Puede ser 'all' o un valor numérico
+  
+    const handleRatingChange = (value) => {
+      setRating(value);
     };
-    
-    dispatch(createReview(reviewData)).then(() => {
-      UserReviewsLocal.push(reviewData);
-      dispatch(getUserReviews(user.id));
+  
+    const handleCommentChange = (event) => {
+      setComment(event.target.value);
+    };
+  
+    const handleCreateReview = () => {
+      const newReview = {
+        rating: rating,
+        comment: comment,
+      };
+  
+      setReviews([...reviews, newReview]);
+      setRating(1);
       setComment("");
-      window.location.reload();
-    });
-  };
-
-  useEffect(() => {
-    dispatch(getUserReviews(user.id)).then((data) => {
-      if(data && data.payload) {
-        setUserReviewsLocal(data.payload);
-      } else {
-        setUserReviewsLocal([])
-      }
-      });
-  }, [dispatch, user.id]);
-
-  useEffect(() => {
-    dispatch(getAllReviews())
-  }, [dispatch]);
-
-      
-  // Filtrar las reseñas del usuario actual en "Mis reseñas"
-  const userReviews = allReviews.filter(
-    (review) => review.reviewer.userName === user.userName
-  );
-
+    };
+  
+    const filteredReviews = filter === "all" ? reviews : reviews.filter(review => review.rating === parseInt(filter));
+  
     return (
         <div className={styles.reviewsContainer}>
             <NavBar />
@@ -98,66 +51,39 @@ function Reviews() {
                 <input value={1} name="rating" id="star1" type="radio" />
                 <label htmlFor="star1"></label>
             </div>
+            <h4>Comentario: </h4>
             <div>
                 <textarea className={styles.commentTextarea} value={comment} onChange={handleCommentChange}></textarea>
             </div>
             <button className={styles.createButton} onClick={handleCreateReview}>Crear reseña</button>
             </div>
-
-          {/* Zona para ver mis reviews */}
-          <div className={styles.myReviews}>
-            <h2>Mis reseñas</h2>
-            {userReviews.length > 0 ? (
-              <div className={styles.reviewContainer}>
-              {userReviews.map((review, index) => (
-                <div className={styles.reviewCard} key={index}>
-                  <div className={styles['star-rating']}>
-                    {[...Array(5)].map((_, index) => (
-                      <span
-                        key={index}
-                        className={index < review.puntuacion ? styles['star-filled'] : styles['star-empty']}
-                      >
-                        &#9733; {/* Unicode star character */}
-                      </span>
-                    ))}
-                  </div>
-                  <p>{review.comentario}</p>
-                  <h3>{review.reviewer.userName}</h3>
-                </div>
-              ))}
-            </div>
-            ) : (
-              <p>Aún no has dejado ninguna reseña.</p>
-            )}
-          </div>
-
-          {/* Zona para ver todas las reviews */}
-          <div className={styles.allReviews}>
+    
+            {/* Zona para ver todas las reviews */}
+            <div className={styles.allReviews}>
             <h2>Todas las reseñas</h2>
-            <div className={styles.reviewContainer}>
-              {allReviews.map((review, index) => (
-                <div className={styles.reviewCard} key={index}>
-                  <div className={styles['star-rating']}>
-                    {[...Array(5)].map((_, index) => (
-                      <span
-                        key={index}
-                        className={index < review.puntuacion ? styles['star-filled'] : styles['star-empty']}
-                      >
-                        &#9733; {/* Unicode star character */}
-                      </span>
-                    ))}
-                  </div>
-                  <p>{review.comentario}</p>
-                  <h3>{review.reviewer.userName}</h3>
-                </div>
-              ))}
+            <div>
+                <label>Filtrar por: </label>
+                <select className={styles.filterSelect} value={filter} onChange={(e) => setFilter(e.target.value)}>
+                <option value="all">Valoración</option>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+                </select>
             </div>
-          </div>
-          <Footer className={styles.Footer}/>
-          <ToastContainer />
-          </div>
+            <ul className={styles.reviewList}>
+                {filteredReviews.map((review, index) => (
+                <li key={index} className={styles.reviewItem}>
+                    <p>Valoración: {review.rating}</p>
+                    <p>Comentario: {review.comment}</p>
+                </li>
+                ))}
+            </ul>
+            </div>
+            <Footer className={styles.Footer}/>
+        </div>
         );
     }
-
-
+  
   export default Reviews;

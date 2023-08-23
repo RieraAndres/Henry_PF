@@ -38,8 +38,8 @@ function Detail() {
                     ) : (
                         <Col md={5} className={styles.ColIzq}>
                             <div className={styles.contenido} >
-                                <h1>{mascota.name}</h1>
-                                <h4>EDAD:  {mascota.age} años</h4>
+                                <h1>{mascota.name/*.toUpperCase()*/}</h1>
+                                <h4>EDAD:  {mascota.age}</h4>
                                 <h4>GENERO:  {mascota.gender}</h4>
                                 <h4>UBICACIÓN: {mascota.location} <a href={`https://www.google.com/maps/place/${mascota.location}`} target="_blank" rel="noopener noreferrer"><img src={GoolgeMaps} alt="Google Maps" style={{ width: '25px' }} /></a></h4>
                                 <h4>TAMAÑO: {mascota.size}</h4>
@@ -62,6 +62,11 @@ function Detail() {
 
                             )}
                             
+                        </div>
+                    </Col>
+                    <Col>
+                        <div>
+                            {/* <UpdateAndDelete mascota={id} /> */}
                         </div>
                     </Col>
                 </Row>      

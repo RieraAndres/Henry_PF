@@ -4,41 +4,28 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import Logo from "../../Assets/Logo/logo_PF_full.png"
 
 const Footer = () => {
-  const LoggedUser = useSelector(state=>state.userData)
   return (
     <Navbar className={styles.footerContainer}>
-      <div className={styles.contenido}>
-      <div className={styles.imgContainer}>
-        <Navbar.Brand >
+      <Container className={styles.container} >
+        <Navbar.Brand href="/inicio">
           <Image
             className={styles.imagen}
-            src={Logo}
+            src="https://media.discordapp.net/attachments/1133816321407205511/1135650208680788111/logo_PF_4_1.png?width=467&height=467"
             rounded
           />
         </Navbar.Brand>
-      </div> 
-      <div className={styles.link}>
-      <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
         <Nav className={`${styles.letras} flex-column`}>
-              <NavLink to={"/inicio"} style={{color:"black", textDecoration:"none"}}>INICIO</NavLink>
-              <NavLink to={"/info"} style={{color:"black", textDecoration:"none"}}>¿Cómo adopto?</NavLink>
-              <NavLink to={"/donations"} style={{color:"black", textDecoration:"none"}}>Dona</NavLink>
-              <NavLink to={`/profile/${LoggedUser.id}`} style={{color:"black", textDecoration:"none"}}>Perfil</NavLink>
-              <NavLink to={"/about"} style={{color:"black", textDecoration:"none"}}>Quienes somos</NavLink>
-              <NavLink to={"/reviews"} style={{color:"black", textDecoration:"none"}}>Reseñas</NavLink>
-
+              <Nav.Link href="/inicio">INICIO</Nav.Link>
+              <Nav.Link href="/info">¿Cómo adopto?</Nav.Link>
+              <Nav.Link href="/donations">Dona</Nav.Link>
+              <Nav.Link href="/profile">Perfil</Nav.Link>
             </Nav>
         </Navbar.Collapse>
-      </div>
-      </div>
-    
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-       
+      </Container>
       <Nav className={`${styles.centrado}`}><p className={`${styles.p} ms-auto me-auto`}>Copyright © 2023 PATITAS-SIN-HOGAR. Todos los derechos reservados.</p></Nav>
     </Navbar>
   );

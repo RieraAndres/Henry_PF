@@ -10,11 +10,11 @@ module.exports = (sequelize) => {
 			unique: true,
 			primaryKey: true,
 		},
-		/*idFacebook:{
+		idFacebook:{
 			type:DataTypes.BIGINT,
 			unique:true,
 			allowNull:true,
-		},*/
+		},
 		name: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -53,11 +53,6 @@ module.exports = (sequelize) => {
 		typeUser: {
 			type: DataTypes.ENUM('Adopter', 'Admin'),
 			defaultValue: 'Adopter',
-			allowNull: true,
-		},
-		image: {  // Agrego atributo para la imagen del perfil del usuario
-			type: DataTypes.STRING,
-			defaultValue: 'https://static.vecteezy.com/system/resources/thumbnails/018/765/757/small_2x/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg',
 			allowNull: true,
 		},
 		/*donante: {
