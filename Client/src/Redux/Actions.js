@@ -329,14 +329,11 @@ export function postDonationAndMercadoPago(
       const mp_status = urlParams.get("mp_status");
 
       if (mp_payment_id && mp_status) {
-        const resMpago = await axios.post(
-          `http://localhost:3001/donations/success`,
-          {
-            donationId: donate.id,
-            mp_payment_id,
-            mp_status,
-          }
-        );
+        const resMpago = await axios.post(`/donations/success`, {
+          donationId: donate.id,
+          mp_payment_id,
+          mp_status,
+        });
 
         dispatch({
           type: POST_DONATION_SUCCESS,

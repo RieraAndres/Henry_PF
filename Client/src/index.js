@@ -12,13 +12,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import axios from "axios";
 
- axios.defaults.baseURL = "http://localhost:3001";
+//  axios.defaults.baseURL = "http://localhost:3001";
 
-<<<<<<< HEAD
 axios.defaults.baseURL = "https://henrypf-production.up.railway.app/";
-=======
-//axios.defaults.baseURL = "henrypf-production.up.railway.app";
->>>>>>> develop
 
 ReactDOM.render(
   <Provider store={store}>
