@@ -25,6 +25,10 @@ export const USER_LOGIN_FAILURE = "USER_LOGIN_FAILURE";
 export const LOGIN_USER_GOOGLE = "LOGIN_USER_GOOGLE";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const USER_UPDATE = "USER_UPDATE";
+
+export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD"; 
+export const GET_MY_PETS = "GET_MY_PETS";
+
 export const CREATE_USER_PASSWORD = "CREATE_USER_PASSWORD";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const DELETE_USER = "DELETE_USER";
@@ -37,6 +41,7 @@ export const GET_ALL_DONATIONS = "GET_ALL_DONATIONS";
 export const GET_REVIEWS = "GET_REVIEWS";
 export const CREATE_REVIEW = "CREATE_REVIEW";
 export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
+
 
 export function getPets() {
   return async function (dispatch) {
@@ -439,12 +444,22 @@ export function createUserPassword(
   };
 }
 
+
+export function getMyPets(id){
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`/mascotas/mispublicaciones/${id}`);
+      console.log(response.data);
+      return dispatch({
+        type: "GET_MY_PETS",
+
 export function getAllUsers() {
   return async function (dispatch) {
     try {
       const response = await axios.get("/usuario/users");
       return dispatch({
         type: GET_ALL_USERS,
+
         payload: response.data,
       });
     } catch (error) {
@@ -452,6 +467,8 @@ export function getAllUsers() {
     }
   };
 }
+
+
 
 export function deleteUser(id) {
   return async function (dispatch) {
@@ -558,6 +575,7 @@ export function clearAlerts() {
     type: CLEAR_ALERTS_STATE,
   };
 }
+
 
 export function clearAux() {
   //para limpiar AuxState al desmontar el detail

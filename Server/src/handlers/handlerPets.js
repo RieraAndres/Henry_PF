@@ -5,7 +5,9 @@ const getIdPet = require('../controllers/crudPets/getIdPet')
 const filters = require('../controllers/filterController/filters.js');
 const modifyPets = require('../controllers/crudPets/putPets.js'); 
 const {logicDeletePets, enableOrDisablePet} = require('../controllers/crudPets/logicDeletePets.js');
+const getMyPets = require('../controllers/crudPets/getMyPets')
 const deletePets = require('../controllers/crudPets/deletePetsDB.js');
+const { query } = require('express');
 
 
 const handlerAllPets = async(req, res) => {
@@ -102,4 +104,16 @@ const handlerDeletePets = async (req, res) => {
     }
 }
 
-module.exports = {handlerAllPets, handlerPostPet, handlerIdPet, handlerPutPets, handlerLogicDeletePets, handlerDeletePets, handlerEnableOrDisablePet}
+const handlerMyPost = async(req, res) =>{
+    const {user_id} = req.query;
+    const id = req.params.id;
+    try {
+        const myPets = await getMyPets(user_id, id)
+        return res.status(200).json(myPets);
+    } catch (error) {
+        console.error('Ocurrió un error al eliminar esta mascota');
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+module.exports = {handlerAllPets, handlerPostPet, handlerIdPet, handlerPutPets, handlerLogicDeletePets, handlerDeletePets, handlerEnableOrDisablePet, handlerMyPost}
