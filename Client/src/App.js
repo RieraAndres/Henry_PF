@@ -21,6 +21,7 @@ import { useEffect } from "react"; // Asegúrate de importar useEffect
 
 function App() {
   const navigate = useNavigate();
+  const isAdmin = useSelector((state) => state.userData.typeUser);
   const LoggedUser = useSelector((state) => state.userLogedIn);
   useEffect(() => {
     if (LoggedUser === false) {
@@ -52,7 +53,7 @@ function App() {
             />
             <Route path="/donations" element={<Donaciones />} />
             <Route path="/adopt" element={<DarAdopt />} />
-            {LoggedUser && LoggedUser.typeUser === "Admin" ? (
+            {LoggedUser && isAdmin === "Admin" ? (
               <>
                 <Route path="/admindashboard" element={<Dashboard />} />
                 <Route
