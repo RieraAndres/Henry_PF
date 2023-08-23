@@ -47,9 +47,9 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Fecha de Nac.</th>
-                        <th>Direccion</th>
+                        <th>Dirección</th>
                         <th>Email</th>
-                        <th>Telefono</th>
+                        <th>Teléfono</th>
                         <th>Tipo usuario</th>
                         <th>Creado en</th>
                         <th>ACTION</th>

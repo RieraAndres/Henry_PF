@@ -13,9 +13,9 @@ function ReviewsTable({ reviews }) {
             <th>#</th>
             <th>ID Review</th>
             <th>userName</th>
-            <th>Puntuacion</th>
+            <th>Puntuación</th>
             <th>Comentario</th>
-            <th>Fecha Creacion</th>
+            <th>Fecha Creación</th>
           </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@ function ReviewsTable({ reviews }) {
         </tbody>
         <thead>
           <tr>
-            <th>PUNTUACION PROMEDIO</th>
+            <th>PUNTUACIÓN PROMEDIO</th>
             <th>{promedioPuntuacion}</th>
           </tr>
         </thead>
