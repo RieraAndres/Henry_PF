@@ -8,7 +8,7 @@ mercadopago.configure({
 
 const donationsPays = async (req, res) => {
 	try{
-		const { nameDonante, email, numberPhone, amount, receiver, description, mp_preference_id, mp_payment_id, mp_status  } = req.body;
+		const { nameDonante, numberPhone, amount, receiver, description, mp_preference_id, mp_payment_id, mp_status  } = req.body;
 		
 		const preference = await mercadopago.preferences.create({
 			items: [
@@ -21,7 +21,8 @@ const donationsPays = async (req, res) => {
 			],
 			back_urls: {
 				success: "http://localhost:3000/donations",
-				failure: "http://localhost:3000/donations",
+				failure: "http://localhost:3000/donations/failure",
+				webhook: "http://localhost:3000/donations/webhook",
 			},
 			auto_return: "approved",
 		});
@@ -30,14 +31,12 @@ const donationsPays = async (req, res) => {
 
 		let userDonante = await User.findOne({
       where: {
-        email,
         numberPhone,
       },
     });
 
 		const donate = await Donacion.create({
 			nameDonante,
-			email,
 			numberPhone,
 			amount: parseFloat(amount),
 			receiver,
