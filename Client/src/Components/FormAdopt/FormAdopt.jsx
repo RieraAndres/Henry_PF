@@ -109,7 +109,7 @@ const FormAdopt = ({petId}) => {
     if (!nameUser) {
       newErrors.nameUser = "El nombre es obligatorio";
     } else if (!nameRegex.test(nameUser)) {
-      newErrors.nameUser = "El nombre no es válido";
+      newErrors.nameUser = 'El nombre no es válido';
     }
 
     if (!numberPhone) {
