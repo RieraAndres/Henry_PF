@@ -15,7 +15,7 @@ function DonationsTable({donations}) {
                         <th>ID Donante</th>
                         <th>Cantidad donada</th>
                         <th>Beneficiado</th>
-                        <th>Descripcion</th>
+                        <th>Descripción</th>
                       </tr>
                     </thead>
                     <tbody>

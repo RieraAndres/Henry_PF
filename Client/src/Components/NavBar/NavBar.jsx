@@ -70,13 +70,13 @@ function NavBar() {
                       Perfil
                     </NavLink>
                     <NavLink to={'/about'} className="dropdown-item"  activeClassName="active">
-                      Quienes somos
+                      Quiénes somos
                     </NavLink>
                     <NavLink to={'/donations'} className="dropdown-item"  activeClassName="active">
                       Donaciones
                     </NavLink>
                     <NavLink to={'/info'} className="dropdown-item"  activeClassName="active">
-                     ¿Como adoptar?
+                     ¿Cómo adoptar?
                     </NavLink>
                     {LoggedData.typeUser === "Admin" && 
                     <NavLink to={'/admindashboard'} className="dropdown-item" activeClassName="active">Dashboard</NavLink>
