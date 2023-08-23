@@ -9,6 +9,7 @@ const FormAdopt = ({petId}) => {
   
   const [formData, setFormData] = useState({
     nameUser: "",
+
     numberPhone: user.numberPhone || '',
     email: user.email || '',
     addressAdoption:"",
@@ -108,7 +109,7 @@ const FormAdopt = ({petId}) => {
 
     if (!nameUser) {
       newErrors.nameUser = "El nombre es obligatorio";
-    } else if (!nameUserRegex.test(nameUser)) {
+    } else if (!nameRegex.test(nameUser)) {
       newErrors.nameUser = "El nombre no es válido";
     }
 
@@ -178,19 +179,20 @@ const FormAdopt = ({petId}) => {
   };
 
   return (
-    <div classnameUser={styles.createDog}>
-      <div classnameUser={styles.container}>
-        <div classnameUser={styles.createDogContainer}>
-          <form classnameUser={styles.form} onSubmit={handleSubmit}>
-            {/* nameUser */}
-            <div classnameUser={styles.sectionInputCG}>
-              <label classnameUser={styles.label} htmlFor="nameUser">
+    <div className={styles.createDog}>
+      <div className={styles.container}>
+        <div className={styles.createDogContainer}>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            {/* Name */}
+            <div className={styles.sectionInputCG}>
+              <label className={styles.label} htmlFor="nameUser">
+
                 {/* Nombre Completo: */}
               </label>
               <input
                 type="text"
-                classnameUser={styles.input}
-                nameUser="nameUser"
+                className={styles.input}
+                name="nameUser"
                 required
                 autoComplete="off"
                 placeholder="Nombre completo"
@@ -198,7 +200,7 @@ const FormAdopt = ({petId}) => {
                 onChange={handleChange}
               />
               {errors.nameUser && (
-                <p classnameUser={styles.errorText}>{errors.nameUser}</p>
+                <p className={styles.errorText}>{errors.nameUser}</p>
               )}
             </div>
 
