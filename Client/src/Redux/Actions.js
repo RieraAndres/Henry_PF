@@ -38,6 +38,7 @@ export const GET_ALL_DONATIONS = "GET_ALL_DONATIONS";
 export const GET_REVIEWS = "GET_REVIEWS";
 export const CREATE_REVIEW = "CREATE_REVIEW";
 export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
+export const USER_UPDATE_FAILURE = "USER_UPDATE_FAILURE";
 
 export function getPets() {
   return async function (dispatch) {
@@ -248,7 +249,7 @@ export function logInUser(userName, password) {
       if (response.status === 200) {
         const responseData = response.data;
         localStorage.setItem("authUser", JSON.stringify(responseData)); //guarda el token en aplicación-storage
-        localStorage.setItem("userLogedIn", "true")
+        localStorage.setItem("userLogedIn", "true");
         dispatch(dispatch(loginUserSuccess(response.data.userData)));
         window.alert("TE LOGUEASTE CON EXITO");
       }
@@ -260,11 +261,11 @@ export function logInUser(userName, password) {
         type: GET_USER_DATA,
         payload: userResponse.data,
       });
-      return { success: true}
+      return { success: true };
     } catch (error) {
       if (error.response && error.response.status === 400) {
         window.alert(error.response.data.error);
-      } 
+      }
       return { success: false }; // Indica que el inicio de sesión falló
     }
   };
@@ -273,7 +274,7 @@ export function logInUser(userName, password) {
 export function logOutUser() {
   localStorage.removeItem("authUser"); //al cerrar la sesion elimina su almacenamiento
   localStorage.setItem("userLogedIn", "false");
-    return {
+  return {
     type: USER_LOGOUT,
   };
 }
@@ -295,14 +296,14 @@ export function loginUserGoogle(email, name, lastName) {
       const response = await axios.get(
         `/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
       );
-      localStorage.setItem("userLogedIn", "true")
+      localStorage.setItem("userLogedIn", "true");
       dispatch({
         type: LOGIN_USER_GOOGLE,
         payload: response.data,
       });
       return { success: true };
     } catch (error) {
-      return { success: false}
+      return { success: false };
       // return error.message;
     }
   };
@@ -394,15 +395,18 @@ export function updateUser(
         userNewPassword,
       });
       if (response.status === 200) {
-        alert("Usuario editado con exito");
         return dispatch({
           type: USER_UPDATE,
           payload: response.data,
+          alert: "Usuario editado con exito",
         });
       }
     } catch (error) {
       if (error.response && error.response.status === 500) {
-        window.alert(error.response.data.error);
+        return dispatch({
+          type: USER_UPDATE_FAILURE,
+          payload: error.response.data.error,
+        });
       } else {
         window.alert(error.message);
       }
@@ -425,10 +429,10 @@ export function createUserPassword(
         createdEmail,
       });
       if (response.status === 200) {
-        alert("Cambios aplicados");
         return dispatch({
           type: CREATE_USER_PASSWORD,
           payload: response.data,
+          alert: "Cambios Aplicados",
         });
       }
     } catch (error) {

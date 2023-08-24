@@ -36,6 +36,7 @@ import {
   GET_REVIEWS,
   CREATE_REVIEW,
   GET_USER_REVIEWS,
+  USER_UPDATE_FAILURE,
 } from "./Actions";
 const userLogedIn = localStorage.getItem("userLogedIn") === "false";
 let initialState = {
@@ -54,7 +55,7 @@ let initialState = {
   allReviews: [],
   allDonations: [],
   createReview: {},
-  UserReviews:[],
+  UserReviews: [],
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -228,7 +229,6 @@ export default function rootReducer(state = initialState, action) {
         userLogedIn: true,
         userData: action.payload,
       };
-
     case USER_LOGOUT:
       return {
         ...state,
@@ -239,11 +239,18 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         userData: action.payload,
+        alerts: action.alert,
+      };
+    case USER_UPDATE_FAILURE:
+      return {
+        ...state,
+        alerts: action.payload,
       };
     case CREATE_USER_PASSWORD: {
       return {
         ...state,
         userData: action.payload,
+        alerts: action.alert,
       };
     }
 
@@ -308,13 +315,13 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         createReview: action.payload,
-      }
+      };
     case GET_USER_REVIEWS:
       return {
         ...state,
         UserReviews: action.payload,
       };
-    
+
     default:
       return {
         ...state,
