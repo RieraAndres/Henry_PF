@@ -246,6 +246,7 @@ function Donaciones () {
 
       <Footer/>
     </div>
+    </div>
   )
 }
 
