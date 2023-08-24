@@ -452,7 +452,6 @@ export function getMyPets(id) {
   return async function (dispatch) {
     try {
       const response = await axios.get(`/mascotas/mispublicaciones/${id}`);
-      console.log(response.data);
       return dispatch({
         type: "GET_MY_PETS",
         payload: response.data,
