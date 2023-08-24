@@ -14,7 +14,6 @@ import styles from "./Review.module.css"
 function Reviews() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userData);
-  console.log(user)
   const [UserReviewsLocal, setUserReviewsLocal] = useState([]);
   const allReviews = useSelector((state) => state.allReviews);
   const [rating, setRating] = useState("");

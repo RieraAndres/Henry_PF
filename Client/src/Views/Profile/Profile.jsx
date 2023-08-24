@@ -18,7 +18,6 @@ function ProfileUser(){
     const [isPhotoSelected, setIsPhotoSelected] = useState(false);
 
     const alert = useSelector(state=>state.alerts)
-    console.log(alert);
     
     useEffect(() => {
       if (alert) {

@@ -9,7 +9,6 @@ import styles from "./RegisterForm.module.css";
 
 function RegisterForm() {
   const alert = useSelector(state=>state.alerts)
-  console.log(alert);
 
   useEffect(() => {
     if (alert) {
