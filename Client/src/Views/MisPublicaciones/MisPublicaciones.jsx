@@ -111,7 +111,7 @@ function MisPublicaciones() {
   return (
     <div className={styles.fondo}>
       <NavBar />
-      <h2>Mis Publicaciones</h2>
+      <h3>Mis Publicaciones</h3>
       <div className={styles.cardContainer}>
       <h3>Habilitados</h3>
       <div className={styles.carousel}>

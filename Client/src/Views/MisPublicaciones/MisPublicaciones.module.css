@@ -1,25 +1,34 @@
 .fondo {
-    background-image: url("../../Assets/Fondos/only\ patitas.png");
-    background-position-x: left, right;
-    
+    background-image: url("../../Assets/Fondos/only patitas.png");
   }
   
+  .fondo h3 {
+    font-size: 30px;
+    text-align: left;
+    margin-left: 20px;
+    margin-bottom: 50px;
+  }
+
   /* Estilos para el contenedor de las cards */
   .cardContainer {
       display: inline-block;
       width: 100%;
       position: relative;
-      padding: 20px;
-      margin-top: 150px;
+      padding: 70px;
+      padding-top: 5%;
+    }
+    .cardContainer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 70px;
+      padding-top: 5%;
     }
     
     .card {
       display: inline-flex;
       width: 100%;
       position: relative;
-      overflow-x: auto;
-      flex-wrap: nowrap; /* Evita que las cards se colapsen en una sola línea */
-  
   }
   
   .carousel{
@@ -27,16 +36,16 @@
   }
     
     /* Estilos para cada card */
-    .carouselSlide {
-      flex: 0 0 250px; /* Tamaño fijo para cada card */
-      background-color: #f2f2f2;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      text-align: center;
-      transition: transform 1s ease-in-out; /* Añadido para la transición de movimiento */
-      margin-right: 10px; /* Espacio entre las cards */
-    }
+  .carouselSlide {
+    flex: 0 0 250px; /* Tamaño fijo para cada card */
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 1s ease-in-out; /* Añadido para la transición de movimiento */
+    margin-right: 30px; /* Espacio mayor entre las cards (ajuste según sus preferencias) */
+  }
     
     /* Estilos para la imagen en cada card */
     .carouselSlide .imgMisPublicaciones {
@@ -95,11 +104,6 @@
     /* Consultas de medios para adaptabilidad */
   
     /* Estilos para el formato de PC web */
-  @media (min-width: 1024px) {
-      .cardContainer {
-        width: 2090px;
-      }
-    }
     @media (max-width: 768px) {
       .cardContainer {
         margin-top: 100px;
