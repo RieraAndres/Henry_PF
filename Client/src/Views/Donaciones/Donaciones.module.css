@@ -5,7 +5,10 @@
     align-items: center;
 
 }
-
+.contenido{
+    padding-top: 10%;
+    margin-left: 40%;
+}
 .form {
     background-color: #f8ccf2af;
     margin-left: 25%;
