@@ -6,6 +6,8 @@ import styles from '../../../Components/PostPetForm/UpdateAndDelete/UpdateAndDel
 import miniPerroImage from "../AssetsForm/miniGato.jpg";
 import miniGatoImage from "../AssetsForm/miniGato.jpg";
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UpdatePetForm = ({ petData }) => {
 
@@ -328,15 +330,18 @@ useEffect(() => {
     try {
       dispatch(updatePet(petData.id, updatedFields));
       setFormSubmitted(true);
-      alert("Mascota actualizada exitosamente");
+      toast.success("Mascota actualizada exitosamente", {
+        position: "top-center",
+        autoClose: 2000,
+        onClose:()=>{
+          navigate("/home")
+        }
+      });
 
       // Redirige a la página de inicio después de una actualización exitosa
-      navigate("/home");
     } catch (error) {
       console.log("Error updating pet:", error); // Add this line
-    } finally {
-      // Rest of your code
-    }
+    } 
   } else {
     // setFormSuccess(false);
   }
@@ -637,7 +642,7 @@ const handleCancel = () => {
               <div className={styles.emailPrew}>{formData.email}</div>
               <div className={styles.decript}>{formData.description}</div>
               <div className={styles.prewUbi}>{formData.location}</div>
-
+              <ToastContainer />
             </section>
           </div>
           </div>
