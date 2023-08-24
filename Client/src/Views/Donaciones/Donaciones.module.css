@@ -5,12 +5,11 @@
     align-items: center;
 
 }
-.contenido{
-    padding-top: 10%;
-}
+
 .form {
     background-color: #f8ccf2af;
-    max-width: 900px;
+    margin-left: 25%;
+    max-width: 50%;
     padding: 10px;
     margin: 20 auto;
     border-radius: 8px;
