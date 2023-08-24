@@ -38,6 +38,7 @@ export const GET_ALL_DONATIONS = "GET_ALL_DONATIONS";
 export const GET_REVIEWS = "GET_REVIEWS";
 export const CREATE_REVIEW = "CREATE_REVIEW";
 export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
+export const USER_UPDATE_FAILURE = "USER_UPDATE_FAILURE";
 
 export function getPets() {
   return async function (dispatch) {
@@ -170,16 +171,16 @@ export function postUser(user) {
       // Si el servidor devuelve un código de estado 201 (creado), muestra el mensaje de éxito
       if (response.status === 201) {
         dispatch({
-          type: POST_USER_SUCCESS, //para setear userCreated en true y redireccionar a la view login
+          type: POST_USER_SUCCESS,
+          alert: response.data.message, //para setear userCreated en true y redireccionar a la view login
         });
-        window.alert(response.data.message); // Accedemos al mensaje en response.data
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {
         dispatch({
-          type: POST_USER_FAILURE, // para setear userCreated en false y mantenerme en la view de registro
+          type: POST_USER_FAILURE,
+          alert: error.response.data.error, // para setear userCreated en false y mantenerme en la view de registro
         });
-        window.alert(error.response.data.error); // Muestra el mensaje personalizado del servidor en caso de un error 409
       } else {
         window.alert(error.message);
       }
@@ -248,8 +249,8 @@ export function logInUser(userName, password) {
       if (response.status === 200) {
         const responseData = response.data;
         localStorage.setItem("authUser", JSON.stringify(responseData)); //guarda el token en aplicación-storage
+        localStorage.setItem("userLogedIn", "true");
         dispatch(dispatch(loginUserSuccess(response.data.userData)));
-        window.alert("TE LOGUEASTE CON EXITO");
       }
       // Ahora, obtenemos los datos del usuario logueado utilizando la ruta userData
       const userResponse = await axios.get(
@@ -258,20 +259,24 @@ export function logInUser(userName, password) {
       dispatch({
         type: GET_USER_DATA,
         payload: userResponse.data,
+        alert: "Te logueaste con exito",
       });
-      console.log(userResponse);
+      return { success: true };
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        window.alert(error.response.data.error);
-      } else {
-        window.alert(error.message);
+        dispatch({
+          type: GET_USER_DATA,
+          alert: error.response.data.error,
+        });
       }
+      return { success: false }; // Indica que el inicio de sesión falló
     }
   };
 }
 
 export function logOutUser() {
   localStorage.removeItem("authUser"); //al cerrar la sesion elimina su almacenamiento
+  localStorage.setItem("userLogedIn", "false");
   return {
     type: USER_LOGOUT,
   };
@@ -294,12 +299,15 @@ export function loginUserGoogle(email, name, lastName) {
       const response = await axios.get(
         `/usuario/loginGoogle?email=${email}&name=${name}&lastName=${lastName}&userName=${userNameWithRandomNumber}`
       );
-      return dispatch({
+      localStorage.setItem("userLogedIn", "true");
+      dispatch({
         type: LOGIN_USER_GOOGLE,
         payload: response.data,
       });
+      return { success: true };
     } catch (error) {
-      return error.message;
+      return { success: false };
+      // return error.message;
     }
   };
 }
@@ -318,9 +326,9 @@ export function postDonationAndMercadoPago(
       dispatch({
         type: POST_DONATION,
         payload: donate,
+        alert: "Serás redirigido a Mercado Pago",
       });
 
-      window.alert("Serás redirigido a Mercado Pago");
       window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference_id=${preferenceId}`;
 
       // Esperar el retorno de Mercado Pago y obtener mp_payment_id y mp_status
@@ -387,15 +395,18 @@ export function updateUser(
         userNewPassword,
       });
       if (response.status === 200) {
-        alert("Usuario editado con exito");
         return dispatch({
           type: USER_UPDATE,
           payload: response.data,
+          alert: "Usuario editado con exito",
         });
       }
     } catch (error) {
       if (error.response && error.response.status === 500) {
-        window.alert(error.response.data.error);
+        return dispatch({
+          type: USER_UPDATE_FAILURE,
+          payload: error.response.data.error,
+        });
       } else {
         window.alert(error.message);
       }
@@ -418,10 +429,10 @@ export function createUserPassword(
         createdEmail,
       });
       if (response.status === 200) {
-        alert("Cambios aplicados");
         return dispatch({
           type: CREATE_USER_PASSWORD,
           payload: response.data,
+          alert: "Cambios Aplicados",
         });
       }
     } catch (error) {
@@ -438,7 +449,6 @@ export function getMyPets(id) {
   return async function (dispatch) {
     try {
       const response = await axios.get(`/mascotas/mispublicaciones/${id}`);
-      console.log(response.data);
       return dispatch({
         type: "GET_MY_PETS",
         payload: response.data,

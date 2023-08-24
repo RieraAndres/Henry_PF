@@ -36,8 +36,9 @@ import {
   GET_REVIEWS,
   CREATE_REVIEW,
   GET_USER_REVIEWS,
+  USER_UPDATE_FAILURE,
 } from "./Actions";
-
+const userLogedIn = localStorage.getItem("userLogedIn") === "false";
 let initialState = {
   allPets: [],
   petsCopy: [],
@@ -47,14 +48,14 @@ let initialState = {
   userCreated: false,
   orden: { orden_age: "", orden_name: "" },
   userData: {},
-  userLogedIn: null,
+  userLogedIn: userLogedIn,
   donations: [],
   allUsers: [],
   alerts: "",
   allReviews: [],
   allDonations: [],
   createReview: {},
-  UserReviews:[],
+  UserReviews: [],
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -177,11 +178,13 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         userCreated: true, //al ser creado con exito seteo en true el estado
+        alerts: action.alert,
       };
     case POST_USER_FAILURE:
       return {
         ...state, // al haber error seteo en false el estado
         userCreated: false,
+        alerts: action.alert,
       };
 
     case POST_DONATION_SUCCESS:
@@ -198,6 +201,7 @@ export default function rootReducer(state = initialState, action) {
         donationCreated: true,
         error: null,
         donations: action.payload,
+        alerts: action.alert,
       };
 
     case POST_DONATION_FAILURE:
@@ -220,6 +224,7 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         userLogedIn: true,
         userData: action.payload,
+        alerts: action.alert,
       };
 
     case LOGIN_USER_GOOGLE:
@@ -228,7 +233,6 @@ export default function rootReducer(state = initialState, action) {
         userLogedIn: true,
         userData: action.payload,
       };
-
     case USER_LOGOUT:
       return {
         ...state,
@@ -239,11 +243,18 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         userData: action.payload,
+        alerts: action.alert,
+      };
+    case USER_UPDATE_FAILURE:
+      return {
+        ...state,
+        alerts: action.payload,
       };
     case CREATE_USER_PASSWORD: {
       return {
         ...state,
         userData: action.payload,
+        alerts: action.alert,
       };
     }
 
@@ -308,13 +319,13 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         createReview: action.payload,
-      }
+      };
     case GET_USER_REVIEWS:
       return {
         ...state,
         UserReviews: action.payload,
       };
-    
+
     default:
       return {
         ...state,

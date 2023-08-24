@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import styles from '../Profile/ProfileUser.module.css';
 import NavBar from "../../Components/NavBar/NavBar";
 import Footer from "../../Components/Footer/Footer";
 import { NavLink } from "react-router-dom"
 import { useSelector,useDispatch } from 'react-redux';
-import { createUserPassword, updateUser } from '../../Redux/Actions';
+import { clearAlerts, createUserPassword, updateUser } from '../../Redux/Actions';
 import { validate } from './formValidator';
 import axios from 'axios';
-import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ProfileUser(){
 
@@ -15,6 +16,20 @@ function ProfileUser(){
     const [editPassword, setEditPassword] = useState(false);
     const [cloudinaryImage, setCloudinaryImage] = useState("");
     const [isPhotoSelected, setIsPhotoSelected] = useState(false);
+
+    const alert = useSelector(state=>state.alerts)
+    
+    useEffect(() => {
+      if (alert) {
+        toast.info(alert, {
+          position: "top-center",
+          autoClose: 2000,
+          onClose:()=>{
+            dispatch(clearAlerts())
+          }
+        });
+      }
+    }, [alert]);
 
     const [errors, setErrors] = useState({
       name:"",
@@ -104,10 +119,20 @@ function ProfileUser(){
     setIsEditing(false);
     if(userData.DBpassword && userData.userActualPassword && userData.userNewPassword){
       if(userData.userNewPassword !== userData.userNewPasswordToDispatch){
-        alert("Las contraseñas no coinciden")
+        toast.error("Las contraseñas no coinciden", {
+          position: "top-center",
+          autoClose: 3000, // Tiempo en milisegundos para cerrar automáticamente la notificación
+        });
       }else{
-        console.log(userData.image)
+        setIsEditing(true)
         dispatch(updateUser( user.email,userData.name,userData.lastName,userData.userName,userData.birthdate,userData.address,userData.numberPhone,userData.image,user.password,userData.userActualPassword,userData.userNewPassword))
+        const updatedUserData = {
+          ...userData,
+          userNewPassword: "",  // Setear a cadena vacía
+          userNewPasswordToDispatch: "",  // Setear a cadena vacía
+          userActualPassword: ""  // Setear a cadena vacía
+      };
+      setUserData(updatedUserData)
       }
     }else {
       dispatch(updateUser( user.email,userData.name,userData.lastName,userData.userName,userData.birthdate,userData.address,userData.numberPhone, userData.image))
@@ -122,9 +147,13 @@ function ProfileUser(){
   }
   const handleCreatePassword = (e)=>{
     if(userData.createdPassword !== userData.createdPasswordToDispatch){
-      alert("Las contraseñas no coinciden")
+      toast.error("Las contraseñas no coinciden", {
+        position: "top-center",
+        autoClose: 2000, // Tiempo en milisegundos para cerrar automáticamente la notificación
+      });
     } else if(!userData.email){
       dispatch(createUserPassword(userData.idFacebook,"",userData.createdPasswordToDispatch,userData.createdEmail))
+      
     }else if(!userData.idFacebook){
       dispatch(createUserPassword("",userData.email,userData.createdPasswordToDispatch))
     }
@@ -329,6 +358,7 @@ function ProfileUser(){
       <div>
         </div>
       </div>
+      {alert && (<ToastContainer />)}
       <Footer className={styles.Footer}/>
       </div>
       </div>

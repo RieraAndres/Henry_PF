@@ -18,39 +18,57 @@ import DashboardPerfil from "./Views/DashboardPerfil/DashboardPerfil";
 import { useSelector } from "react-redux";
 import Reviews from "./Views/Review/Review";
 
-
 function App() {
-  const LoggedUser = useSelector((state) => state.userData);
+  const LoggedUser = useSelector((state) => state.userLogedIn);
+  const isAdmin = useSelector((state) => state.userData);
+  console.log(isAdmin);
   console.log(LoggedUser);
+  // useEffect(() => {
+  //   if (LoggedUser === false) {
+  //     navigate("/"); // Redirigir a "/" si el usuario no está autenticado
+  //   }
+  // }, [LoggedUser, navigate]);
+  // console.log(LoggedUser);
+
   return (
     <div className="App">
       <Routes>
+        {LoggedUser === true && (
+          <>
+            <Route path="/" element={<Login />} />
+            <Route path="/registro" element={<Registro />} />
+            <Route path="/inicio" element={<Inicio />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/home/:id" element={<Detail />} />
+            <Route path="/info" element={<Info />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route
+              path="/profile/:id/mispublicaciones"
+              element={<MisPublicaciones />}
+            />
+            <Route
+              path="/profile/:id/mispublicaciones/editar/:id"
+              element={<EditPet />}
+            />
+            <Route path="/donations" element={<Donaciones />} />
+            <Route path="/adopt" element={<DarAdopt />} />
+            <Route path="/reviews" element={<Reviews />} />
+            {isAdmin && isAdmin.typeUser === "Admin" ? (
+              <>
+                <Route path="/admindashboard" element={<Dashboard />} />
+                <Route
+                  path="/admindashboard/:id"
+                  element={<DashboardPerfil />}
+                />
+              </>
+            ) : null}
+
+            <Route path="*" element={<ErrorPage />} />
+          </>
+        )}
         <Route path="/" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
-        <Route path="/inicio" element={<Inicio />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/home/:id" element={<Detail />} />
-        <Route path="/info" element={<Info />} />
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route
-          path="/profile/:id/mispublicaciones"
-          element={<MisPublicaciones />}
-        />
-        <Route
-          path="/profile/:id/mispublicaciones/editar/:id"
-          element={<EditPet />}
-        />
-        <Route path="/donations" element={<Donaciones />} />
-        <Route path="/adopt" element={<DarAdopt />} />
-        {LoggedUser && LoggedUser.typeUser === "Admin" ? (
-          <>
-            <Route path="/admindashboard" element={<Dashboard />} />
-            <Route path="/admindashboard/:id" element={<DashboardPerfil />} />
-          </>
-        ) : null}
-        <Route path="/reviews" element={<Reviews />} />
-        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
   );

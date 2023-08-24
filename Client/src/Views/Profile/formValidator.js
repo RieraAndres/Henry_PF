@@ -1,5 +1,4 @@
 export function validate(userData) {
-  console.log(userData);
   let errors = {};
   //valida creacion de mail
   if (userData.createdEmail.length) {
@@ -80,8 +79,14 @@ export function validate(userData) {
   if (!userData.image) {
     errors.image = "Por favor, inserte una imagen";
   } else {
-    const allowedTypes = ["image/jpeg", "image/png", "image/psd", "image/gif", "text"];
-    if(!allowedTypes.includes(userData.image.type)) {
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/psd",
+      "image/gif",
+      "text",
+    ];
+    if (!allowedTypes.includes(userData.image.type)) {
       errors.image = "El formato de imagen debe ser: .jpg, .png, .psd o .gif";
     }
   }

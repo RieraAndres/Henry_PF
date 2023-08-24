@@ -230,7 +230,7 @@ const handleDeleteUser = async (req, res) => {
     }
     const user = await deleteUser(id);
     if (user === 1) {
-      return res.status(200).json(`Usuario con ID:${id} eliminado`);
+      return res.status(200).json(`Usuario eliminado`);
     } else {
       return res.status(400).json("Eliminacion fallida");
     }

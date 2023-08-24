@@ -6,13 +6,14 @@ import {gapi} from 'gapi-script'
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./LoginForm.module.css";
 import { GoogleLogin } from '@react-oauth/google';
-import { logInUser, loginUserGoogle } from "../../Redux/Actions";
+import { logInUser,loginUserSuccess, loginUserGoogle, clearAlerts } from "../../Redux/Actions";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userLogedIn = useSelector(state=>state.userLogedIn)
   const userDataStorage = useSelector(state => state.userData)
   
 
@@ -55,12 +56,32 @@ function LoginForm() {
 
   function handleSubmit(e){ // al dar submit despachara la action de logInUser
     e.preventDefault();
-    dispatch(logInUser(user.userName,user.password))   
+
+    dispatch(logInUser(user.userName, user.password))
+    .then((result) => {
+      if (result.success) {
+        toast.success("Te logueaste con exito", {
+          position: "top-center",
+          autoClose: 1000,
+          onClose:()=>{
+            navigate("/inicio")
+            dispatch(clearAlerts())
+          }
+        });
+      } else {
+        // Muestra un mensaje de error al usuario en caso de inicio de sesión fallido
+        toast.error("Inicio de sesión fallido. Verifica tus credenciales.", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
+    })
+    .catch((error) => {
+      console.error("Error en el inicio de sesión:", error);
+    }); 
+
   }
-  
-  if(userLogedIn){ //si el usuario esta logueado que navegue a inicio
-    navigate("/inicio")
-  } 
+  const [isGoogleLogin, setIsGoogleLogin] = useState(false);
   useEffect(() => {
     // Verifica si el usuario ya está autenticado
     const authToken = localStorage.getItem("authUser");
@@ -75,6 +96,21 @@ function LoginForm() {
     const [, payload, ] = token.split(".");
     const decodedPayload = JSON.parse(atob(payload));
     dispatch(loginUserGoogle(decodedPayload.email,decodedPayload.given_name,decodedPayload.family_name))
+    .then((response) => {
+      if (response.success) {
+        toast.success("Te logueaste con exito", {
+          position: "top-center",
+          autoClose: 1000,
+          onClose:()=>{
+            navigate("/inicio")
+          }
+        });
+      } else {
+        throw Error('Ingrese usuario valido')
+      }
+    });
+    setIsGoogleLogin(true);
+  
   }
 
   const googleError = ()=>{
@@ -127,6 +163,7 @@ function LoginForm() {
           <GoogleLogin className={styles.google} type="standar" shape="pill" size="large" theme= "filled_blue" onSuccess={googleSuccess} onError={googleError}/>
         </div>
       </div>
+      <ToastContainer />
       </form> 
     </div>
   );

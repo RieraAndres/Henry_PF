@@ -6,6 +6,8 @@ import styles from '../../../Components/PostPetForm/UpdateAndDelete/UpdateAndDel
 import miniPerroImage from "../AssetsForm/miniGato.jpg";
 import miniGatoImage from "../AssetsForm/miniGato.jpg";
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UpdatePetForm = ({ petData }) => {
 
@@ -304,7 +306,6 @@ useEffect(() => {
   const handleUpdate = async (e) => {
     e.preventDefault();
   
-    console.log("handleUpdate antes: ",isDisabled);
   if (isDisabled) {
     alert("Esta mascota está deshabilitada y no puede ser actualizada.");
     return;
@@ -329,29 +330,22 @@ useEffect(() => {
     try {
       dispatch(updatePet(petData.id, updatedFields));
       setFormSubmitted(true);
-      console.log("Pet updated successfully"); // Add this line
-      alert("Mascota actualizada exitosamente");
+      toast.success("Mascota actualizada exitosamente", {
+        position: "top-center",
+        autoClose: 2000,
+        onClose:()=>{
+          navigate("/home")
+        }
+      });
+
+      // Redirige a la página de inicio después de una actualización exitosa
     } catch (error) {
       console.log("Error updating pet:", error); // Add this line
-    } finally {
-      // Rest of your code
-    }
+    } 
   } else {
     // setFormSuccess(false);
   }
 };
-
-// const handleDisable = async () => {
-//   try {
-//     await dispatch(disablePet(petData.id));
-//     setIsDisabled(true);
-//     console.log("Pet disabled successfully");
-//     alert("Mascota desactivada exitosamente");
-//     // Puedes realizar cualquier lógica adicional aquí después de cambiar el estado
-//   } catch (error) {
-//     console.log("Error disabling pet:", error);
-//   }
-// };
 
 const handleCancel = () => {
   // Regresar a la página de detalles
@@ -393,7 +387,7 @@ const handleCancel = () => {
               name="name"
               required
               autoComplete="off"
-              placeholder="Nombre completo"
+              placeholder="Nombre"
               value={formData.name}
               onChange={handleChange}
             />
@@ -570,7 +564,7 @@ const handleCancel = () => {
               } ${!isLocationValid ? styles.shakeAnimation : ""}`}
               name="location"
               autoComplete="off"
-              placeholder="Ubicación (Google Maps URL)"
+              placeholder="Ubicación"
               value={formData.location}
               onChange={handleLocationChange}
             />
@@ -606,22 +600,6 @@ const handleCancel = () => {
               <p className={styles.errorText}>{errors.description}</p>
             )}
           </div>
-              
-          {/* <button
-  className={`${styles.createBtn} ${
-    formSubmitted && !isFormValid ? styles.disabled : ""
-  }`}
-  type="submit"
-  disabled={formSubmitted && !isFormValid}
->
-{formSubmitted && !isFormValid ? "Verificando..." : "Actualizar Mascota"
-   }
-</button>
-
-{/* Agrega el botón de desactivar 
-<button onClick={handleDisable} className={styles.disableBtn}>
-        Desactivar Mascota
-      </button> */}
 <div className={styles.containerButton}>
 <button
   className={`${styles.createBtn} ${
@@ -664,10 +642,9 @@ const handleCancel = () => {
               <div className={styles.emailPrew}>{formData.email}</div>
               <div className={styles.decript}>{formData.description}</div>
               <div className={styles.prewUbi}>{formData.location}</div>
-
+              <ToastContainer />
             </section>
           </div>
-            {/* <h2>Vista Previa en Tiempo Real</h2> */}
           </div>
         </div>
     </div>
