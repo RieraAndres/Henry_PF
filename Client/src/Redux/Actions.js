@@ -171,16 +171,16 @@ export function postUser(user) {
       // Si el servidor devuelve un código de estado 201 (creado), muestra el mensaje de éxito
       if (response.status === 201) {
         dispatch({
-          type: POST_USER_SUCCESS, //para setear userCreated en true y redireccionar a la view login
+          type: POST_USER_SUCCESS,
+          alert: response.data.message, //para setear userCreated en true y redireccionar a la view login
         });
-        window.alert(response.data.message); // Accedemos al mensaje en response.data
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {
         dispatch({
-          type: POST_USER_FAILURE, // para setear userCreated en false y mantenerme en la view de registro
+          type: POST_USER_FAILURE,
+          alert: error.response.data.error, // para setear userCreated en false y mantenerme en la view de registro
         });
-        window.alert(error.response.data.error); // Muestra el mensaje personalizado del servidor en caso de un error 409
       } else {
         window.alert(error.message);
       }
@@ -251,7 +251,6 @@ export function logInUser(userName, password) {
         localStorage.setItem("authUser", JSON.stringify(responseData)); //guarda el token en aplicación-storage
         localStorage.setItem("userLogedIn", "true");
         dispatch(dispatch(loginUserSuccess(response.data.userData)));
-        window.alert("TE LOGUEASTE CON EXITO");
       }
       // Ahora, obtenemos los datos del usuario logueado utilizando la ruta userData
       const userResponse = await axios.get(
@@ -260,11 +259,15 @@ export function logInUser(userName, password) {
       dispatch({
         type: GET_USER_DATA,
         payload: userResponse.data,
+        alert: "Te logueaste con exito",
       });
       return { success: true };
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        window.alert(error.response.data.error);
+        dispatch({
+          type: GET_USER_DATA,
+          alert: error.response.data.error,
+        });
       }
       return { success: false }; // Indica que el inicio de sesión falló
     }

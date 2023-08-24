@@ -1,14 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Para readdressar a la ruta de inicio después del registro
-import { postUser } from "../../Redux/Actions";
+import { clearAlerts, postUser } from "../../Redux/Actions";
 import { useDispatch , useSelector } from "react-redux";
 import { validate } from "./formValidator";
-
-
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from "./RegisterForm.module.css";
 
 function RegisterForm() {
+  const alert = useSelector(state=>state.alerts)
+  console.log(alert);
+
+  useEffect(() => {
+    if (alert) {
+      toast.info(alert, {
+        position: "top-center",
+        autoClose: 2000,
+        onClose:()=>{
+          dispatch(clearAlerts())
+          if(alert === "Usuario creado con éxito"){
+            navigate("/")
+          }
+        }
+      });
+    }
+  }, [alert]);
+
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const userCreated = useSelector((state)=>state.userCreated) //para evaluar si debo navegar al login o no
@@ -48,9 +65,6 @@ function RegisterForm() {
     const formErrors = validate(user);
     if (Object.keys(formErrors).length === 0) {
       dispatch(postUser(user))
-      if(!userCreated){
-      navigate("/"); // Readdressamos a la ruta de inicio después del registro exitoso.
-      }
     } else {
       setErrors(formErrors);
     }
@@ -207,6 +221,7 @@ function RegisterForm() {
           <button type="button" onClick={handleSubmit}>
             Crear una cuenta
           </button>
+          {alert && (<ToastContainer />)}
         </div>
       </form>
     </div>

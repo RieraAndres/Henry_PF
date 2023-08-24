@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./LoginForm.module.css";
 import { GoogleLogin } from '@react-oauth/google';
 import { logInUser,loginUserSuccess, loginUserGoogle } from "../../Redux/Actions";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function LoginForm() {
@@ -58,10 +60,19 @@ function LoginForm() {
     dispatch(logInUser(user.userName, user.password))
     .then((result) => {
       if (result.success) {
-        navigate("/inicio"); // Redirige solo si el inicio de sesión fue exitoso
+        toast.success("Te logueaste con exito", {
+          position: "top-center",
+          autoClose: 1000,
+          onClose:()=>{
+            navigate("/inicio")
+          }
+        });
       } else {
         // Muestra un mensaje de error al usuario en caso de inicio de sesión fallido
-        window.alert("Inicio de sesión fallido. Verifica tus credenciales.");
+        toast.error("Inicio de sesión fallido. Verifica tus credenciales.", {
+          position: "top-center",
+          autoClose: 2000,
+        });
       }
     })
     .catch((error) => {
@@ -86,7 +97,13 @@ function LoginForm() {
     dispatch(loginUserGoogle(decodedPayload.email,decodedPayload.given_name,decodedPayload.family_name))
     .then((response) => {
       if (response.success) {
-        navigate("/inicio"); // Redirige al inicio si el inicio de sesión con Google fue exitoso
+        toast.success("Te logueaste con exito", {
+          position: "top-center",
+          autoClose: 1000,
+          onClose:()=>{
+            navigate("/inicio")
+          }
+        });
       } else {
         throw Error('Ingrese usuario valido')
       }
@@ -145,6 +162,7 @@ function LoginForm() {
           <GoogleLogin className={styles.google} type="standar" shape="pill" size="large" theme= "filled_blue" onSuccess={googleSuccess} onError={googleError}/>
         </div>
       </div>
+      <ToastContainer />
       </form> 
     </div>
   );

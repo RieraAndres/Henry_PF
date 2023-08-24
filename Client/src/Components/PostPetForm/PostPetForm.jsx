@@ -328,7 +328,7 @@ const PostPetForm = () => {
 
     console.log("Datos enviados:", formData);
     if (formIsValid) {
-      toast.info("Macota Creada Exitosamente", {
+      toast.success("Macota Creada Exitosamente", {
         position: "top-center",
         autoClose: 2000,
         onClose:()=>{
