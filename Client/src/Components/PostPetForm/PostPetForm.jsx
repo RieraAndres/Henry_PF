@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { postPet } from "../../Redux/Actions";
 import miniPerroImage from "./AssetsForm/miniPerro.jpg";
 import miniGatoImage from "./AssetsForm/miniGato.jpg";
+import { useNavigate } from "react-router-dom";
 // import { Image } from "cloudinary-react"; // Importar el componente Image de cloudinary-react
 import axios from "axios"; // Importar axios para realizar la solicitud HTTP
 
 const PostPetForm = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userData);
+  const [isLocationValid, setIsLocationValid] = useState(true);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -37,7 +40,7 @@ const PostPetForm = () => {
   const [isAgeModified, setIsAgeModified] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
   const [isPhotoSelected, setIsPhotoSelected] = useState(false);
-  const [isLocationValid, setIsLocationValid] = useState(true);
+  // const [isLocationValid, setIsLocationValid] = useState(true);
 
   const nameRegex = /^[a-zA-Z\s]+$/;
   const numberPhoneRegex = /^[0-9]+$/;
@@ -64,13 +67,50 @@ const PostPetForm = () => {
   const isValidGoogleMapsUrl = (url) => {
     return googleMapsUrlRegex.test(url);
   };
+  
 
-  const isValidLocation = (location) => {
-    return location.trim() !== ""; // Puedes agregar más validaciones si es necesario
+  const validAddressKeywords = [
+    "provincia", "provincia,","calle", "avenida", "plaza", "avenida", "ciudad", "pueblo", "estado",
+    "colonia", "número", "casa", "apartamento", "departamento", "av.","avn.", "av,"
+  ];
+
+  const isValidLocation = (locationValue) => {
+    const words = locationValue.toLowerCase().split(" ");
+    
+    if (words.length < 2) {
+      return false; // Al menos dos palabras clave requeridas
+    }
+    
+    // Comprueba si al menos una palabra clave válida está presente
+    const hasValidKeyword = words.some((word) =>
+      validAddressKeywords.includes(word)
+    );
+    if (!hasValidKeyword) {
+      return false;
+    }
+    
+    // Opcional: Comprueba si hay palabras inapropiadas
+    const inappropriateWords = ["Puto", "Carajo", "puto", "carajo", "sexo", "matar", "asadasdasd"]; // Agrega palabras inapropiadas aquí
+    const hasInappropriateWord = words.some((word) =>
+      inappropriateWords.includes(word)
+    );
+    if (hasInappropriateWord) {
+      return false;
+    }
+    
+    return true;
+  };
+
+  const validateLocation = (locationValue) => {
+    if (isValidLocation(locationValue)) {
+      setIsLocationValid(true);
+    } else {
+      setIsLocationValid(false);
+    }
   };
 
   const validateForm = () => {
-    const { name, numberPhone, email, description } = formData;
+    const { name, numberPhone, email, description, location  } = formData;
     const newErrors = {};
 
     if (!name) {
@@ -108,8 +148,8 @@ const PostPetForm = () => {
       newErrors.size = "Por favor, seleccione un tamaño";
     }
 
-    if (!isValidLocation(formData.location)) {
-      newErrors.location = "Por favor, ingrese una ubicación válida";
+    if (!isValidLocation(location)) { 
+      newErrors.location = "Por favor, escriba una ubicación válida";
       setIsLocationValid(false);
     } else {
       setIsLocationValid(true);
@@ -121,13 +161,13 @@ const PostPetForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const validateLocation = (locationValue) => {
-    if (isValidLocation(locationValue)) {
-      setIsLocationValid(true);
-    } else {
-      setIsLocationValid(false);
-    }
-  };
+  // const validateLocation = (locationValue) => {
+  //   if (isValidLocation(locationValue)) {
+  //     setIsLocationValid(true);
+  //   } else {
+  //     setIsLocationValid(false);
+  //   }
+  // };
 
   const validateField = (fieldName, value) => {
     switch (fieldName) {
@@ -194,7 +234,7 @@ const PostPetForm = () => {
       ...prevFormData,
       location: locationValue
     }));
-
+  
     if (locationValue.trim() !== "") {
       validateLocation(locationValue);
     } else {
@@ -225,6 +265,8 @@ const PostPetForm = () => {
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
+    console.log("Field name:", name);
+  console.log("Field value:", value);
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     setFormSubmitted(false);
 
@@ -251,10 +293,16 @@ const PostPetForm = () => {
     }
 
     if (name === "location") {
-      validateLocation(value);
+      console.log("Location value:", value);
+      if (value.trim() !== "") {
+        validateLocation(value);
+      } else {
+        setIsLocationValid(true);
+      }
     }
 
     const error = validateField(name, value);
+    console.log("Error:", error);
     setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
   };
 
@@ -285,6 +333,8 @@ const PostPetForm = () => {
       setIsAgeModified(false);
       setIsPhotoSelected(false);
       setFormSuccess(true);
+      // Redirigir al usuario a la página de inicio
+      navigate("/home");
     } else {
       setFormSubmitted(true);
       setFormSuccess(false);
@@ -472,6 +522,7 @@ const PostPetForm = () => {
               placeholder="Ingrese un email válido"
               value={formData.email}
               onChange={handleChange}
+              disabled
             />
             {errors.email && <p className={styles.errorText}>{errors.email}</p>}
           </div>
@@ -515,7 +566,7 @@ const PostPetForm = () => {
                 errors.description ? styles.errorBorder : ""
               } ${errors.description ? styles.shakeAnimation : ""}`}
               minLength="10"
-              maxLength="300"
+               maxLength="300"
               required
               autoComplete="off"
               placeholder="Cuéntanos sobre la mascota"
@@ -539,16 +590,16 @@ const PostPetForm = () => {
               name="location"
               required
               autoComplete="off"
-              placeholder="Ubicación"
+              placeholder="Dirección de Residencia"
               value={formData.location}
               onChange={handleLocationChange}
             />
             {/* Mensaje de error si la ubicación no es válida */}
-            {(!isLocationValid || (errors.location && !isLocationValid)) && (
-  <p className={styles.errorText}>
-    {errors.location || "La ubicación no es válida"}
-  </p>
-        )}
+            {!isLocationValid && (
+              <p className={styles.errorText}>
+                Por favor, escriba una ubicación válida
+              </p>
+            )}
 
           </div>
   
