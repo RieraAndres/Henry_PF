@@ -5,6 +5,8 @@ import { postPet } from "../../Redux/Actions";
 import miniPerroImage from "./AssetsForm/miniPerro.jpg";
 import miniGatoImage from "./AssetsForm/miniGato.jpg";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import { Image } from "cloudinary-react"; // Importar el componente Image de cloudinary-react
 import axios from "axios"; // Importar axios para realizar la solicitud HTTP
 
@@ -70,12 +72,24 @@ const PostPetForm = () => {
   
 
   const validAddressKeywords = [
-    "provincia", "provincia,","calle", "avenida", "plaza", "avenida", "ciudad", "pueblo", "estado",
-    "colonia", "número", "casa", "apartamento", "departamento", "av.","avn.", "av,"
+    "provincia", "provincia,", "calle", "avenida", "plaza", "avenida", "ciudad", "pueblo", "estado",
+    "colonia", "numero", "casa", "apartamento", "departamento", "av.","avn.", "av,",
+    "buenos","aires", "catamarca", "chaco", "chubut", "cordoba", "corrientes", "entre rios",
+    "formosa", "jujuy", "pampa", "rioja", "mendoza", "misiones", "neuquen", "rio" ,"negro",
+    "salta", "san" ,"juan", "luis", "santa" ,"cruz", "santa","fe", "santiago", "estero",
+    "tierra" ,"fuego", "tucuman", "Buenos","Aires", "Catamarca", "Chaco", "Chubut", "Cordoba", "Corrientes", "Entre Rios",
+    "Formosa", "Jujuy", "Pampa", "Rioja", "Mendoza", "Misiones", "Neuquen", "Rio" ,"Negro",
+    "Salta", "San" ,"Juan", "Luis", "Santa" ,"Cruz", "Santa","Fe", "Santiago", "Estero",
+    "Tierra" ,"Fuego", "Tucuman"
   ];
-
+  
+  const removeAccents = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+  
   const isValidLocation = (locationValue) => {
-    const words = locationValue.toLowerCase().split(" ");
+    const normalizedInput = removeAccents(locationValue.toLowerCase());
+    const words = normalizedInput.split(" ");
     
     if (words.length < 2) {
       return false; // Al menos dos palabras clave requeridas
@@ -90,7 +104,7 @@ const PostPetForm = () => {
     }
     
     // Opcional: Comprueba si hay palabras inapropiadas
-    const inappropriateWords = ["Puto", "Carajo", "puto", "carajo", "sexo", "matar", "asadasdasd"]; // Agrega palabras inapropiadas aquí
+    const inappropriateWords = ["puto", "carajo", "sexo", "matar", "asadasdasd"]; // Agrega palabras inapropiadas aquí
     const hasInappropriateWord = words.some((word) =>
       inappropriateWords.includes(word)
     );
@@ -100,6 +114,7 @@ const PostPetForm = () => {
     
     return true;
   };
+  
 
   const validateLocation = (locationValue) => {
     if (isValidLocation(locationValue)) {
@@ -313,8 +328,14 @@ const PostPetForm = () => {
 
     console.log("Datos enviados:", formData);
     if (formIsValid) {
+      toast.info("Macota Creada Exitosamente", {
+        position: "top-center",
+        autoClose: 2000,
+        onClose:()=>{
+          navigate("/inicio")
+        }
+      });
       dispatch(postPet(formData));
-      alert("Mascota creada exitosamente");
 
       setFormData({
         name: "",
@@ -334,7 +355,6 @@ const PostPetForm = () => {
       setIsPhotoSelected(false);
       setFormSuccess(true);
       // Redirigir al usuario a la página de inicio
-      navigate("/home");
     } else {
       setFormSubmitted(true);
       setFormSuccess(false);
@@ -582,6 +602,7 @@ const PostPetForm = () => {
             <label className={styles.label} htmlFor="location">
               {/* Ubicación: */}
             </label>
+            <ToastContainer />
             <input
               type="text"
               className={`${styles.input} ${
@@ -590,7 +611,7 @@ const PostPetForm = () => {
               name="location"
               required
               autoComplete="off"
-              placeholder="Dirección de Residencia"
+              placeholder="Dirección de Residencia:Incluya provincia"
               value={formData.location}
               onChange={handleLocationChange}
             />
