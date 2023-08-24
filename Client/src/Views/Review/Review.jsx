@@ -32,7 +32,7 @@ function Reviews() {
     if (!comment) {
       toast.error("Por favor, escribe un comentario antes de crear la reseña", {
         position: "top-center",
-        autoClose: 3000, // Tiempo en milisegundos para cerrar automáticamente la notificación
+        autoClose: 2000, // Tiempo en milisegundos para cerrar automáticamente la notificación
       });
       return;
     }
@@ -40,7 +40,7 @@ function Reviews() {
     if (!rating) {
       toast.error("Por favor, selecciona una valoración antes de crear la reseña.", {
         position: "top-center",
-        autoClose: 3000, // Tiempo en milisegundos para cerrar automáticamente la notificación
+        autoClose: 2000, // Tiempo en milisegundos para cerrar automáticamente la notificación
       });
       return;
     }
@@ -55,7 +55,14 @@ function Reviews() {
       UserReviewsLocal.push(reviewData);
       dispatch(getUserReviews(user.id));
       setComment("");
-      window.location.reload();
+      toast.success("Reseña creada exitosamente", {
+        position: "top-center",
+        autoClose: 1000,
+        onClose:()=>{
+          window.location.reload();
+        }
+      });
+      
     });
   };
 
