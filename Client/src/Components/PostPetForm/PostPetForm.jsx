@@ -590,7 +590,7 @@ const PostPetForm = () => {
               name="location"
               required
               autoComplete="off"
-              placeholder="Calle, Ciudad"
+              placeholder="Dirección de Residencia"
               value={formData.location}
               onChange={handleLocationChange}
             />
