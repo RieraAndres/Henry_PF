@@ -17,7 +17,6 @@ function NavBar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const LoggedData = useSelector(state=>state.userData)
-  console.log(LoggedData);
   
   // Aplica la clase de posición fija solo si estás en la página exacta "/home"
   const isHomePage = location.pathname === '/home';

@@ -1,43 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import { useDispatch,useSelector } from 'react-redux';
 import { changeUserType, clearAlerts, deleteUser } from '../../Redux/Actions';
-import { useState } from 'react';
-import Alert from 'react-bootstrap/Alert';
 import { NavLink } from 'react-router-dom';
 import styles from './UserTable.module.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function UserTable({ users, onUserDelete,onUpdateUser }) {
-  const alerts = useSelector(state=>state.alerts)
+  const alert = useSelector(state=>state.alerts)
   const dispatch = useDispatch()
-  const [showAlert, setShowAlert] = useState(false); // Estado para controlar la visibilidad de la alerta
+  console.log(alert);
   function handleDeleteUser(id) {
     dispatch(deleteUser(id));
     onUserDelete(id);
-    setShowAlert(true); // Mostrar la alerta al eliminar un usuario
-    setTimeout(() => {
-      setShowAlert(false);
-      dispatch(clearAlerts()); // Ocultar la alerta después de 3 segundos
-    }, 3000); // 3000 milisegundos = 3 segundos
   }
   
+
   function handleUpdateUser(id){
     dispatch(changeUserType(id));
     onUpdateUser(id)
-    setShowAlert(true);
-    setTimeout(() => {
-      setShowAlert(false);
-      dispatch(clearAlerts()); 
-    }, 2000); 
   }
 
-
+  useEffect(() => {
+    if (alert) {
+      toast.info(alert, {
+        position: "top-center",
+        autoClose: 2000,
+        onClose:()=>{
+          dispatch(clearAlerts())
+        }
+      });
+    }
+  }, [alert]);
     
   return (
-    <div>
-      {showAlert && 
-      <Alert key='success' variant='success' style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 9999 }}>{alerts}</Alert>
-      }
+    <div className="table-responsive">
+      {alert && (<ToastContainer />)}
       <Table bordered responsive>
                     <thead>
                       <tr>
@@ -54,7 +53,6 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
                         <th>Creado en</th>
                         <th>ACTION</th>
                       </tr>
-                      
                     </thead>
                     <tbody>
                       {users.map((user, index) => (
@@ -66,7 +64,7 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
                           <td>{user.lastName}</td>
                           <td>{user.birthdate}</td>
                           <td>{user.address}</td>
-                          <td>{user.email}</td>
+                          <td style={{maxWidth:"80%"}}>{user.email}</td>
                           <td>{user.numberPhone}</td>
                           <td>{user.typeUser}</td>
                           <td>{user.createdAt}</td>
@@ -78,7 +76,6 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
                         </tr>
                       ))}
                     </tbody>
-                    
                 </Table>
     </div>
   );
