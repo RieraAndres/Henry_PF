@@ -325,8 +325,6 @@ const PostPetForm = () => {
     e.preventDefault();
     let formIsValid = validateForm();
     setIsPhotoSelected(!!formData.imageUrl);
-
-    console.log("Datos enviados:", formData);
     if (formIsValid) {
       toast.success("Macota Creada Exitosamente", {
         position: "top-center",
