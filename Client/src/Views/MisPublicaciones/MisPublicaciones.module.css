@@ -1,119 +1,135 @@
 .fondo {
-    background-image: url("../../Assets/Fondos/only patitas.png");
-  }
+  background-image: url("../../Assets/Fondos/only\ patitas.png");
+  background-position-x: left, right;
   
-  .fondo h3 {
-    font-size: 30px;
-    text-align: left;
-    margin-left: 20px;
-    margin-bottom: 50px;
-  }
+}
 
-  /* Estilos para el contenedor de las cards */
-  .cardContainer {
-      display: inline-block;
-      width: 100%;
-      position: relative;
-      padding: 70px;
-      padding-top: 5%;
-    }
-    .cardContainer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      padding: 70px;
-      padding-top: 5%;
-    }
-    
-    .card {
-      display: inline-flex;
-      width: 100%;
-      position: relative;
+.fondo h3 {
+  margin-bottom: 20px;
+}
+
+/* Estilos para el contenedor de las cards */
+.cardContainer {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    padding: 20px;
+    margin-top: 150px;
   }
   
-  .carousel{
-      animation: carousel 20s linear infinite;
-  }
-    
-    /* Estilos para cada card */
+  .card {
+    display: inline-flex;
+    width: 100%;
+    position: relative;
+    overflow-x: auto;
+    flex-wrap: nowrap; /* Evita que las cards se colapsen en una sola línea */
+
+}
+
+.carousel{
+    animation: carousel 20s linear infinite;
+}
+  
+  /* Estilos para cada card */
   .carouselSlide {
     flex: 0 0 250px; /* Tamaño fijo para cada card */
     background-color: #f2f2f2;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 30px;
     text-align: center;
     transition: transform 1s ease-in-out; /* Añadido para la transición de movimiento */
-    margin-right: 30px; /* Espacio mayor entre las cards (ajuste según sus preferencias) */
+    margin-right: 10px; /* Espacio entre las cards */
   }
-    
-    /* Estilos para la imagen en cada card */
-    .carouselSlide .imgMisPublicaciones {
-      max-width: 100%;
-      height: 150px; /* Altura fija para las imágenes */
-      border-radius: 8px;
-      object-fit: cover;
-      object-position: center top; /* Alinea la imagen al centro superior */
-    }
-    
-    /* Estilos para los botones */
-    .carouselSlide .buttons {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      margin-top: 10px;
-    }
-    
-    /* Estilos para el botón de habilitar/deshabilitar */
-    .carouselSlide button {
-      padding: 8px 16px;
-      border: none;
-      background-color: #eeb3e7;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-      margin: 0 5px;
-    }
-    
-    /* Estilos para el botón de editar */
-    .carouselSlide .button {
-      padding: 8px 16px;
-      border: none;
-      background-color: #C8E6CA;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-      margin: 0 5px;
-    }
-    
-    /* Estilos para el botón de editar deshabilitado */
-    .carouselSlide .buttonDisabled {
-      background-color: #e3e1db;
-    }
-    
-    /* Estilos para el texto de status */
-    .carouselSlide p {
-      margin-top: 10px;
-    }
-    
-    /* Estilos para el enlace de editar */
-    .carouselSlide a {
-      text-decoration: none;
-    }
-    
-    /* Consultas de medios para adaptabilidad */
   
-    /* Estilos para el formato de PC web */
-    @media (max-width: 768px) {
-      .cardContainer {
-        margin-top: 100px;
-      }
-    
-      .card {
-        overflow-x: scroll;
-        scroll-snap-type: x mandatory;
-        gap: 10px;
-      }
+  /* Estilos para la imagen en cada card */
+  .carouselSlide .imgMisPublicaciones {
+    max-width: 100%;
+    height: 150px; /* Altura fija para las imágenes */
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: center top; /* Alinea la imagen al centro superior */
+  }
   
+  /* Estilos para los botones */
+  .carouselSlide .buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  /* Estilos para el botón de habilitar/deshabilitar */
+  .carouselSlide button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #eeb3e7;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  
+  /* Estilos para el botón de editar */
+  .carouselSlide .button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #C8E6CA;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  
+  /* Estilos para el botón de editar deshabilitado */
+  .carouselSlide .buttonDisabled {
+    background-color: #e3e1db;
+  }
+  
+  /* Estilos para el texto de status */
+  .carouselSlide p {
+    margin-top: 10px;
+  }
+  
+  /* Estilos para el enlace de editar */
+  .carouselSlide a {
+    text-decoration: none;
+  }
+  
+  /* Consultas de medios para adaptabilidad */
+
+  /* Estilos para el formato de PC web */
+@media (min-width: 1024px) {
+    .cardContainer {
+      width: 2090px;
+    }
+  }
+  @media (max-width: 768px) {
+    .cardContainer {
+      margin-top: 100px;
+      padding: 10px; /* Adjust padding for smaller screens */
+      display: block; /* Switch to block layout on smaller screens */
     }
   
+    .card {
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      gap: 10px;
+    }
+
+  }
+
+  @media (min-width: 769px) {
+    .cardContainer {
+      width: 70%; /* Adjust container width for larger screens */
+      margin-top: 150px;
+      padding: 20px;
+      display: inline-block; /* Switch back to inline-block layout for larger screens */
+    }
+  
+    .carouselSlide {
+      flex: 0 0 calc(33.33% - 10px); /* Three cards in a row for larger screens */
+      max-width: calc(33.33% - 10px); /* Ensure cards don't get too wide on larger screens */
+      margin: 0 10px; /* Reset margin for spacing between cards */
+    }
+  }
