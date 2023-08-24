@@ -6,6 +6,8 @@ import NavBar from "../../Components/NavBar/NavBar";
 import Footer from "../../Components/Footer/Footer";
 import styles from "../../Views/Donaciones/Donaciones.module.css"
 import { postDonationAndMercadoPago } from '../../Redux/Actions.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Donaciones () {
   const dispatch = useDispatch();
@@ -107,7 +109,10 @@ function Donaciones () {
     console.log("Datos enviados:", donationData);
     if (formIsValid) {
       dispatch(postDonationAndMercadoPago(donationData));
-      alert("Formulario enviado exitosamente");
+      toast.success("Formulario enviado exitosamente", {
+        position: "top-center",
+        autoClose: 2000,
+      });
 
       setDonationData({
         nameDonante: "",
@@ -223,6 +228,7 @@ function Donaciones () {
             )}
           </>       
       </Form>
+      <ToastContainer />
       <Footer/>
     </div>
   )
