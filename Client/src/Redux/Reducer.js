@@ -201,6 +201,7 @@ export default function rootReducer(state = initialState, action) {
         donationCreated: true,
         error: null,
         donations: action.payload,
+        alerts: action.alert,
       };
 
     case POST_DONATION_FAILURE:

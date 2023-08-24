@@ -326,9 +326,9 @@ export function postDonationAndMercadoPago(
       dispatch({
         type: POST_DONATION,
         payload: donate,
+        alert: "Serás redirigido a Mercado Pago",
       });
 
-      window.alert("Serás redirigido a Mercado Pago");
       window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference_id=${preferenceId}`;
 
       // Esperar el retorno de Mercado Pago y obtener mp_payment_id y mp_status

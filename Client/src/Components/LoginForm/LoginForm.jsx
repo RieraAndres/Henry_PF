@@ -6,7 +6,7 @@ import {gapi} from 'gapi-script'
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./LoginForm.module.css";
 import { GoogleLogin } from '@react-oauth/google';
-import { logInUser,loginUserSuccess, loginUserGoogle } from "../../Redux/Actions";
+import { logInUser,loginUserSuccess, loginUserGoogle, clearAlerts } from "../../Redux/Actions";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -65,6 +65,7 @@ function LoginForm() {
           autoClose: 1000,
           onClose:()=>{
             navigate("/inicio")
+            dispatch(clearAlerts())
           }
         });
       } else {

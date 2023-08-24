@@ -5,13 +5,26 @@ import Form from 'react-bootstrap/Form';
 import NavBar from "../../Components/NavBar/NavBar";
 import Footer from "../../Components/Footer/Footer";
 import styles from "../../Views/Donaciones/Donaciones.module.css"
-import { postDonationAndMercadoPago } from '../../Redux/Actions.js';
+import { clearAlerts, postDonationAndMercadoPago } from '../../Redux/Actions.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Donaciones () {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userData);
+  const alert = useSelector(state=>state.alerts)
+  
+  useEffect(() => {
+    if (alert) {
+      toast.success(alert, {
+        position: "top-center",
+        autoClose: 2000,
+        onClose:()=>{
+          dispatch(clearAlerts())
+        }
+      });
+    }
+  }, [alert]);
 
   const [donationData, setDonationData] = useState({
     nameDonante: "",
@@ -228,7 +241,7 @@ function Donaciones () {
             )}
           </>       
       </Form>
-      <ToastContainer />
+      {alert && (<ToastContainer />)}
       <Footer/>
     </div>
   )
