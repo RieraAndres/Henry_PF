@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import About from "./Views/About/About";
 import Inicio from "./Views/Inicio/Inicio";
@@ -17,12 +17,12 @@ import Dashboard from "./Views/Dashboard/Dashboard";
 import DashboardPerfil from "./Views/DashboardPerfil/DashboardPerfil";
 import { useSelector } from "react-redux";
 import Reviews from "./Views/Review/Review";
-import { useEffect } from "react"; // Asegúrate de importar useEffect
 
 function App() {
-  const navigate = useNavigate();
-  // const isAdmin = useSelector((state) => state.userData.typeUser);
   const LoggedUser = useSelector((state) => state.userLogedIn);
+  const isAdmin = useSelector((state) => state.userData);
+  console.log(isAdmin);
+  console.log(LoggedUser);
   // useEffect(() => {
   //   if (LoggedUser === false) {
   //     navigate("/"); // Redirigir a "/" si el usuario no está autenticado
@@ -54,12 +54,15 @@ function App() {
             <Route path="/donations" element={<Donaciones />} />
             <Route path="/adopt" element={<DarAdopt />} />
             <Route path="/reviews" element={<Reviews />} />
-            {/* {LoggedUser && isAdmin === "Admin" ? ( */}
-            <>
-              <Route path="/admindashboard" element={<Dashboard />} />
-              <Route path="/admindashboard/:id" element={<DashboardPerfil />} />
-            </>
-            {/* ) : null} */}
+            {isAdmin && isAdmin.typeUser === "Admin" ? (
+              <>
+                <Route path="/admindashboard" element={<Dashboard />} />
+                <Route
+                  path="/admindashboard/:id"
+                  element={<DashboardPerfil />}
+                />
+              </>
+            ) : null}
 
             <Route path="*" element={<ErrorPage />} />
           </>
