@@ -12,9 +12,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import axios from "axios";
 
- axios.defaults.baseURL = "http://localhost:3001";
+//  axios.defaults.baseURL = "http://localhost:3001";
 
-//axios.defaults.baseURL = "henrypf-production.up.railway.app";
+axios.defaults.baseURL = "https://henrypf-production.up.railway.app/";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -27,7 +27,6 @@ ReactDOM.render(
     </PersistGate>
   </Provider>,
   document.getElementById("root")
-
 );
 
 // If you want to start measuring performance in your app, pass a function
