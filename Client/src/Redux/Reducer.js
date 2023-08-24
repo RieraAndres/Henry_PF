@@ -178,11 +178,13 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         userCreated: true, //al ser creado con exito seteo en true el estado
+        alerts: action.alert,
       };
     case POST_USER_FAILURE:
       return {
         ...state, // al haber error seteo en false el estado
         userCreated: false,
+        alerts: action.alert,
       };
 
     case POST_DONATION_SUCCESS:
@@ -221,6 +223,7 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         userLogedIn: true,
         userData: action.payload,
+        alerts: action.alert,
       };
 
     case LOGIN_USER_GOOGLE:
