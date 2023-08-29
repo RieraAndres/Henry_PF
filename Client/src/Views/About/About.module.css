@@ -1,6 +1,9 @@
 .Container {
-    background: url('../../Assets/Fondos/About.png');
-    background-size: cover;
+        background: url('../../Assets/Backgrounds/BackgroundInicio.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100%;
+        background-attachment: fixed;
 }
 .body {
 padding-top: 100px;
@@ -35,9 +38,11 @@ border-radius: 70px;
 /* Fondo responsive */
 @media screen and (max-width: 768px) {
 .Container {
-  background: url("../../Assets/Fondos/About.png");
-  background-size: cover;
-  background-repeat: no-repeat;
+  background: url('../../Assets/Backgrounds/BackgroundInicio.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100%;
+        background-attachment: fixed;
 }
 
 .presentar {
