@@ -8,17 +8,16 @@
 .contenido{
     padding-top: 10%;
 }
+
 .form {
     background-color: #f8ccf2af;
-    margin-left: 35%;
-    max-width: 50%;
+    max-width: 800px; /* Cambia esto al ancho máximo que desees */
     padding: 10px;
-    margin: 20 auto;
+    padding-left: 3%;
+    padding-right: 3%;
     border-radius: 8px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 110px;
-    padding-left: 5%;
-    padding-right: 5%;
+    margin: 0 auto; /* Esto centrará horizontalmente el formulario */
 }
 
 .form .btn{
@@ -44,16 +43,46 @@
 }
 
 .form .userData {
+    margin-top: 10px;
+    margin-bottom: 10px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    align-content: center;
     padding: 4px;
+    text-align: left;
 }
 
 .form label {
     font-weight: bold;
 }
 
+
+@media screen and (max-width:1000px) {
+    .contenido{
+        padding-top: 15%;
+    }
+
+    .form {
+        max-width: 600px;
+    }
+}
+
+@media screen and (max-width:750px) {
+    .contenido{
+        padding-top: 25%;
+    }
+
+    .form {
+        max-width: 400px;
+    }
+}
+
+@media screen and (max-width:450px) {
+    .contenido{
+        padding-top: 35%;
+    }
+
+    .form {
+        max-width: 280px;
+    }
+}

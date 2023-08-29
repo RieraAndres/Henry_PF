@@ -24,21 +24,21 @@ function Donaciones () {
         }
       });
     }
-  }, [alert]);
+  }, [alert , dispatch]);
 
   const [donationData, setDonationData] = useState({
-    nameDonante: "",
+    nameDonante: user.name +" "+ user.lastName,
+    email:user.email,
     numberPhone: user.numberPhone,
     description: "",
     receiver: "Patitas sin Hogar",
     amount: "",
   });
-
   const [errors, setErrors] = useState({});  
-  const [donationAmount, setDonationAmount] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
+  console.log(user);
 
   const nameRegex = /^[a-zA-Z\s]+$/;
 
@@ -98,12 +98,6 @@ function Donaciones () {
         break;
     }
     return "";
-  };
-
-  // Función para manejar el cambio en el input de monto personalizado
-  const handleAmountChange = (event) => {
-    const newValue = parseInt(event.target.value);
-    setDonationAmount(newValue || '');
   };
 
   const handleChange = async (e) => {

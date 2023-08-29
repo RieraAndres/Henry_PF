@@ -2,6 +2,8 @@
         background: url('../../Assets/Backgrounds/BackgroundInicio.png');
         background-repeat: no-repeat;
         background-size: cover;
+        width: 100%;
+        background-attachment: fixed;
 }
 .body{
     padding-top: 100px;
