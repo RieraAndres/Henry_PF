@@ -27,17 +27,18 @@ function Donaciones () {
   }, [alert , dispatch]);
 
   const [donationData, setDonationData] = useState({
-    nameDonante: "",
+    nameDonante: user.name +" "+ user.lastName,
+    email:user.email,
     numberPhone: user.numberPhone,
     description: "",
     receiver: "Patitas sin Hogar",
     amount: "",
   });
-
   const [errors, setErrors] = useState({});  
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
+  console.log(user);
 
   const nameRegex = /^[a-zA-Z\s]+$/;
 
