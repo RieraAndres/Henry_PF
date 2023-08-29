@@ -21,8 +21,6 @@ import Reviews from "./Views/Review/Review";
 function App() {
   const LoggedUser = useSelector((state) => state.userLogedIn);
   const isAdmin = useSelector((state) => state.userData);
-  console.log(isAdmin);
-  console.log(LoggedUser);
   // useEffect(() => {
   //   if (LoggedUser === false) {
   //     navigate("/"); // Redirigir a "/" si el usuario no está autenticado

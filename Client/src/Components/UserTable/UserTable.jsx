@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 function UserTable({ users, onUserDelete,onUpdateUser }) {
   const alert = useSelector(state=>state.alerts)
   const dispatch = useDispatch()
-  console.log(alert);
   function handleDeleteUser(id) {
     dispatch(deleteUser(id));
     onUserDelete(id);
@@ -32,7 +31,7 @@ function UserTable({ users, onUserDelete,onUpdateUser }) {
         }
       });
     }
-  }, [alert]);
+  }, [alert, dispatch]);
     
   return (
     <div className="table-responsive">

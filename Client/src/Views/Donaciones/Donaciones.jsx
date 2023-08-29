@@ -24,7 +24,7 @@ function Donaciones () {
         }
       });
     }
-  }, [alert]);
+  }, [alert , dispatch]);
 
   const [donationData, setDonationData] = useState({
     nameDonante: "",
@@ -35,7 +35,6 @@ function Donaciones () {
   });
 
   const [errors, setErrors] = useState({});  
-  const [donationAmount, setDonationAmount] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
@@ -98,12 +97,6 @@ function Donaciones () {
         break;
     }
     return "";
-  };
-
-  // Función para manejar el cambio en el input de monto personalizado
-  const handleAmountChange = (event) => {
-    const newValue = parseInt(event.target.value);
-    setDonationAmount(newValue || '');
   };
 
   const handleChange = async (e) => {
@@ -245,6 +238,7 @@ function Donaciones () {
       {alert && (<ToastContainer />)}
 
       <Footer/>
+    </div>
     </div>
   )
 }
